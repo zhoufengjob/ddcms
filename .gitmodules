@@ -1,3 +1,6 @@
 [submodule "jboot"]
 	path = jboot
 	url = https://gitee.com/fuhai/jboot.git
+[submodule "jbootdemo"]
+	path = jbootdemo
+	url = https://gitee.com/fuhai/jbootdemo.git
