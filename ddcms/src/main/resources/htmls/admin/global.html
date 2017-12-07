@@ -1,0 +1,33 @@
+#include("include/_layout.html")
+#@layout()
+
+###--------CSS引用区域--------
+#define css()
+#include("include/_css.html")
+#end
+
+###--------JS 引用区域--------
+#define js()
+#include("include/_js.html")
+#end
+
+###--------顶部导航区域--------
+#define topNav()
+#include("include/_topNav.html")
+#end
+
+###--------内容主体区域--------
+#define main(contentTemplate)
+###当前动态模板路径:#(mainTP)
+#render(contentTemplate)  ###这里是动态模板,通过Controller传递而来
+#end
+
+###--------底部固定区域--------
+#define foot()
+#include("include/_foot.html")
+#end
+
+###--------左边菜单区域--------
+#define leftMenu()
+#include("include/_leftMenu.html")
+#end

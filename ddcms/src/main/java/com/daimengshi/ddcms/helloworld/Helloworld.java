@@ -61,7 +61,8 @@ public class Helloworld extends JbootController {
 
 //        renderText(Jboot.me().getCache().get("ceshi", "test").toString());
 
-        setAttr("asd", "asdasd");
+        setAttr("title", "你好");
+        setAttr("test", "测试");
         setAttr("config", config);
         renderTemplate("/htmls/test.html");
 

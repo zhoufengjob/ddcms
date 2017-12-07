@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+#define layout()
+#--
+公用布局框架
+--#
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    #@css?()
+    <title>呆萌狮内容管理 - #(title)</title>
+</head>
+
+<body class="layui-layout-body">
+
+<div class="layui-layout layui-layout-admin">
+    #@topNav()
+    #@leftMenu()
+    <div class="layui-body">
+        <!-- 内容主体区域 -->
+        <div style="padding: 15px;">
+            #@main(mainTP)
+        </div>
+    </div>
+
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        #@foot()
+    </div>
+</div>
+#@js?()
+</body>
+</html>
+#end
