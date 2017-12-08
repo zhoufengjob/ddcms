@@ -15,17 +15,17 @@ public abstract class BaseDmsUser<M extends BaseDmsUser<M>> extends JbootModel<M
 
 
     @Override
-	public String addAction() {
+    public String addAction() {
         return ACTION_ADD;
     }
 
     @Override
-	public String deleteAction() {
+    public String deleteAction() {
         return ACTION_DELETE;
     }
 
     @Override
-	public String updateAction() {
+    public String updateAction() {
         return ACTION_UPDATE;
     }
 
