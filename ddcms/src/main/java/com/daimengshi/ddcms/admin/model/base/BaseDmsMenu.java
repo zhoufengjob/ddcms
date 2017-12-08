@@ -78,4 +78,20 @@ public abstract class BaseDmsMenu<M extends BaseDmsMenu<M>> extends JbootModel<M
 		return getStr("type_id");
 	}
 
+	public void setIsOpen(java.lang.String isOpen) {
+		set("is_open", isOpen);
+	}
+	
+	public java.lang.String getIsOpen() {
+		return getStr("is_open");
+	}
+
+	public void setDesc(java.lang.String desc) {
+		set("desc", desc);
+	}
+	
+	public java.lang.String getDesc() {
+		return getStr("desc");
+	}
+
 }

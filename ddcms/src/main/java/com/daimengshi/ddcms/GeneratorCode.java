@@ -5,6 +5,7 @@ import io.jboot.codegen.service.JbootServiceGenerator;
 
 /**
  * Created by zhoufeng on 2017/12/6.
+ * 代码生成
  */
 public class GeneratorCode {
     public static void main(String[] args) {

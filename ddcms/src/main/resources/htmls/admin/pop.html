@@ -15,17 +15,6 @@
 #define main(contentTemplate)
 <!--region 导入layui.js-->
 <script src="/static/libs/layui/layui.js"></script>
-<!--endregion-->
-<blockquote class="layui-elem-quote layui-text">
-    注意事项:
-    <br/>
-    * 必填
-</blockquote>
-
-<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-    <legend>#(formTitle == null ? "表单":formTitle)</legend>
-</fieldset>
-
 ###当前动态模板路径:#(mainTP)
 #render(contentTemplate)  ###这里是动态模板,通过Controller传递而来
 #end
