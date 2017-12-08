@@ -28,7 +28,7 @@ import java.util.Map;
  */
 @RequestMapping("/admin/menu")
 public class AdminMenuController extends JbootController {
-    Log log = LogFactory.get();
+    private static final Log log = LogFactory.get();
     @Inject
     private DmsMenuServiceImpl menuService;
     @Inject
