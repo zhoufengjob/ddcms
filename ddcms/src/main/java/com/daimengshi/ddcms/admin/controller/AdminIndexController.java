@@ -2,10 +2,10 @@ package com.daimengshi.ddcms.admin.controller;
 
 import com.daimengshi.ddcms.admin.model.DmsMenu;
 import com.daimengshi.ddcms.admin.service.impl.DmsMenuServiceImpl;
+import com.xiaoleilu.hutool.log.Log;
+import com.xiaoleilu.hutool.log.LogFactory;
 import io.jboot.web.controller.JbootController;
 import io.jboot.web.controller.annotation.RequestMapping;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -16,8 +16,7 @@ import java.util.List;
  */
 @RequestMapping("/admin")
 public class AdminIndexController extends JbootController {
-    private final static Logger logger = LoggerFactory.getLogger(AdminIndexController.class);
-
+    Log log = LogFactory.get();
     @Inject
     private DmsMenuServiceImpl menuService;
 

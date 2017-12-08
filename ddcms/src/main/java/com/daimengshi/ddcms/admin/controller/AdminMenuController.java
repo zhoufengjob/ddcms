@@ -9,11 +9,12 @@ import com.daimengshi.ddcms.pub.*;
 import com.jfinal.kit.HttpKit;
 import com.jfinal.plugin.activerecord.Page;
 import com.xiaoleilu.hutool.date.DateUtil;
+import com.xiaoleilu.hutool.log.Log;
+import com.xiaoleilu.hutool.log.LogFactory;
 import com.xiaoleilu.hutool.util.StrUtil;
 import io.jboot.web.controller.JbootController;
 import io.jboot.web.controller.annotation.RequestMapping;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.slf4j.event.Level;
 
 import javax.inject.Inject;
 import java.text.SimpleDateFormat;
@@ -27,8 +28,7 @@ import java.util.Map;
  */
 @RequestMapping("/admin/menu")
 public class AdminMenuController extends JbootController {
-    private final static Logger logger = LoggerFactory.getLogger(AdminMenuController.class);
-
+    Log log = LogFactory.get();
     @Inject
     private DmsMenuServiceImpl menuService;
     @Inject
@@ -79,6 +79,8 @@ public class AdminMenuController extends JbootController {
      */
     public void addMenu() {
         String json = HttpKit.readData(getRequest());
+        log.info(json, Level.INFO);
+
         DmsMenu menu = JSON.parseObject(json,DmsMenu.class);
 
         menu.setCreateTime(DateUtil.date());
