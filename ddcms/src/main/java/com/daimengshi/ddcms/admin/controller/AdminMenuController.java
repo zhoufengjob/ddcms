@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.daimengshi.ddcms.admin.model.DmsMenu;
 import com.daimengshi.ddcms.admin.service.impl.DmsMenuServiceImpl;
 import com.daimengshi.ddcms.admin.service.impl.DmsMenuTypeServiceImpl;
+import com.daimengshi.ddcms.pub.ResponseData;
 import com.daimengshi.ddcms.pub.TableDataRequest;
 import com.daimengshi.ddcms.pub.TableDate;
 import com.daimengshi.ddcms.pub.TablePage;
@@ -61,9 +62,44 @@ public class AdminMenuController extends JbootController {
         TablePage tablePage = pageFind();
         renderJson(tablePage);
 
-//        ResponseData.ok().putDataValue(this, "menus", menusPage);
-//        paginate(int pageNumber, int pageSize, String select, String sqlExceptSelect, Object... paras)
-//        其中的参数含义分别为：当前页的页号、每页数据条数、sql语句的select部分、sql语句除了select以外的部分、查询参数。绝大多数情况下使用这个API即可。以下是使用示例：
+    }
+
+    /**
+     * 添加菜单
+     */
+    public void add() {
+        setAttr("formTitle", "添加菜单");
+        setAttr("mainTP", "/htmls/admin/menu/add.html");
+        //调用通用模板
+        renderTemplate("/htmls/admin/pop.html");
+    }
+
+
+    /**
+     * 添加菜单
+     */
+    public void addMenu() {
+        //获取所有请求参数
+        Map<String, String[]> reqParas = getParaMap();
+        DmsMenu menu =  getBean(DmsMenu.class,"");
+        menu.setCreateTime(DateUtil.date());
+        menuService.save(menu);
+        renderJson(ResponseData.ok());
+    }
+
+
+    /**
+     * 删除菜单
+     */
+    public void deleteMenu() {
+        String id = getPara("id", "");
+
+        if (StrUtil.isEmpty(id)) {
+            renderJson(ResponseData.apiError("id不能为空"));
+        }
+
+        menuService.deleteById(id);
+        renderJson(ResponseData.ok());
     }
 
     /**

@@ -1,0 +1,78 @@
+
+
+<form class="layui-form">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">菜单名</label>
+        <div class="layui-input-inline">
+            <input name="name" lay-verify="required" placeholder="请输入菜单名" autocomplete="off" class="layui-input"
+                   type="text" value="">
+        </div>
+        <div class="layui-form-mid layui-word-aux">* 请务必填写菜单名</div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">菜单URL</label>
+        <div class="layui-input-inline">
+            <input name="url" lay-verify="required" placeholder="请输入菜单URL" autocomplete="off" class="layui-input"
+                   type="text" value="">
+        </div>
+        <div class="layui-form-mid layui-word-aux">* 请务必填菜单URL</div>
+    </div>
+
+
+    <div class="layui-form-item" style="text-align: center">
+        <button class="layui-btn" lay-submit="" lay-filter="sendForm">立即提交</button>
+    </div>
+</form>
+
+
+
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    layui.use(['form', 'layedit', 'laydate'], function () {
+        var form = layui.form
+            , layer = layui.layer
+            , layedit = layui.layedit
+            , laydate = layui.laydate;
+
+        //注意：parent 是 JS 自带的全局对象，可用于操作父页面
+        var parentIndex = parent.layer.getFrameIndex(window.name); //获取窗口索引
+
+        laydate.render({
+            elem: '#date1'
+        });
+
+
+        //监听提交
+        form.on('submit(sendForm)', function (data) {
+
+            console.log(JSON.stringify(data.field));
+            layui.$.ajax({
+                type: "post",
+                url: '/admin/menu/addMenu',
+                data: data.field,
+                success: function (data) {
+
+                    if (200 === data.code) {
+
+                        //给父页面刷新
+                        parent.layui.table.reload('table');
+                        parent.layer.close(parentIndex);
+                        parent.layer.msg('添加成功');
+
+                    }
+
+                    console.log(data);
+                },
+                error: function (data, textStatus, errorThrown) {
+                    layer.msg("添加失败");
+                    console.log(data);
+                }
+            });
+
+            return false;
+        });
+
+
+    });
+</script>

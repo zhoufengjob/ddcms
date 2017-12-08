@@ -8,22 +8,4 @@ import com.daimengshi.ddcms.admin.model.base.BaseDmsMenu;
  */
 @Table(tableName = "dms_menu", primaryKey = "id")
 public class DmsMenu extends BaseDmsMenu<DmsMenu> {
-    private String superName;
-    private String typeName;
-
-    public String getSuperName() {
-        return superName;
-    }
-
-    public void setSuperName(String superName) {
-        this.superName = superName;
-    }
-
-    public String getTypeName() {
-        return typeName;
-    }
-
-    public void setTypeName(String typeName) {
-        this.typeName = typeName;
-    }
 }
