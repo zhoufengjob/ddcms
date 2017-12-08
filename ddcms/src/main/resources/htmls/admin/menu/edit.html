@@ -1,50 +1,82 @@
-<!--endregion-->
-<blockquote class="layui-elem-quote layui-text">
-    注意事项:
-    <br/>
-    * 必填
-</blockquote>
-
-
 <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-    <legend>#(formTitle == null ? "表单":formTitle)</legend>
+    <legend>#(menu.name)</legend>
 </fieldset>
 
-<form class="layui-form">
+<form class="layui-form layui-form-pane" action="">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">ID</label>
+        <div class="layui-input-block">
+            <input name="id" disabled lay-verify="required" value="#(menu.id)" placeholder="请输入" autocomplete="off"
+                   class="layui-input" type="text">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">创建时间</label>
+        <div class="layui-input-inline">
+            <input name="create_time" lay-verify="required" disabled
+                   value="#date(menu.create_time,'yyyy-MM-dd HH:mm:ss')" placeholder="请输入" autocomplete="off"
+                   class="layui-input" type="text">
+        </div>
+        <div class="layui-form-mid layui-word-aux">请务必填写菜单地址(相对路径)</div>
+    </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">菜单名</label>
         <div class="layui-input-inline">
-            <input name="name" lay-verify="required" placeholder="请输入菜单名" autocomplete="off" class="layui-input"
-                   type="text" value="">
+            <input name="name" lay-verify="required" value="#(menu.name)" placeholder="请输入" autocomplete="off"
+                   class="layui-input" type="text">
         </div>
         <div class="layui-form-mid layui-word-aux">请务必填写菜单名</div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">菜单URL</label>
         <div class="layui-input-inline">
-            <input name="url" placeholder="请输入菜单URL" autocomplete="off" class="layui-input"
-                   type="text" value="">
+            <input name="url" value="#(menu.url)" placeholder="请输入" autocomplete="off"
+                   class="layui-input" type="text">
         </div>
-        <div class="layui-form-mid layui-word-aux">请填写菜单URL(可选)</div>
+        <div class="layui-form-mid layui-word-aux">请填写菜单Url</div>
     </div>
+
     <div class="layui-form-item">
         <label class="layui-form-label">上级菜单</label>
         <div class="layui-input-inline">
             <select name="super_id">
+
+                ###首先找到当前父类并且赋值并且当前不是父类(解决已选部分不重复)
                 #for(m:menuList)
+                #if(m.id == menu.super_id)
                 <option value="#(m.id)">#(m.name)</option>
                 #end
+                #end
+
+
+                #for(m:menuList)
+                #if( m.id != menu.super_id && ("".equals(m.super_id) || null == m.super_id))
+                <option value="#(m.id)">#(m.name)</option>
+                #end
+                #end
+
             </select>
         </div>
-        <div class="layui-form-mid layui-word-aux">不选择则为顶级</div>
+        <div class="layui-form-mid layui-word-aux">目前只显示二级菜单</div>
     </div>
+
     <div class="layui-form-item">
         <label class="layui-form-label">菜单类型</label>
         <div class="layui-input-inline">
             <select name="type_id" lay-verify="required">
                 #for(type:menuTypeList)
+                #if(type.id == menu.type_id)
                 <option value="#(type.id)">#(type.name)</option>
+                #end
+                #end
+
+                #for(type:menuTypeList)
+                #if(type.id != menu.type_id)
+                <option value="#(type.id)">#(type.name)</option>
+                #end
                 #end
 
             </select>
@@ -55,32 +87,34 @@
     <div class="layui-form-item">
         <label class="layui-form-label">是否启用</label>
         <div class="layui-input-block">
+            #if("on".equals(menu.is_open))
             <input name="is_open" type="checkbox" name="switch" lay-skin="switch" lay-text="启用|禁用" checked>
+            #else
+            <input name="isOpen" type="checkbox" name="switch" lay-skin="switch" lay-text="启用|禁用">
+            #end
+
         </div>
     </div>
     <div class="layui-form-item layui-form-text">
         <label class="layui-form-label">备注</label>
         <div class="layui-input-block">
-            <textarea name="desc" placeholder="请输入备注内容(可选)" class="layui-textarea"></textarea>
+            <textarea name="desc" placeholder="请输入内容" class="layui-textarea">#(menu.desc)</textarea>
         </div>
     </div>
 
     <div class="layui-form-item" style="text-align: center">
-        <button class="layui-btn" lay-submit="" lay-filter="sendForm">立即提交</button>
+        <button class="layui-btn" lay-submit="" lay-filter="sendForm">确定修改</button>
     </div>
+
 </form>
 
 <script>
-    layui.use(['element', 'form', 'layedit', 'laydate'], function () {
-        var element = layui.element;
+    //Demo
+    layui.use('form', function () {
         var form = layui.form;
-        var layer = layui.layer;
-        var layedit = layui.layedit;
-        var laydate = layui.laydate;
 
         //注意：parent 是 JS 自带的全局对象，可用于操作父页面
         var parentIndex = parent.layer.getFrameIndex(window.name); //获取窗口索引
-
 
         //监听提交
         form.on('submit(sendForm)', function (data) {
@@ -89,7 +123,7 @@
             layui.$.ajax({
                 type: "post",
                 contentType: "application/json;charset=utf-8", // 因为上面是JSON数据
-                url: '/admin/menu/addMenu',
+                url: '/admin/menu/editdMenu',
                 data: JSON.stringify(data.field),
                 success: function (data) {
 
@@ -98,7 +132,7 @@
                         //给父页面刷新
                         parent.layui.table.reload('table');
                         parent.layer.close(parentIndex);
-                        parent.layer.msg('添加成功');
+                        parent.layer.msg('修改成功');
 
                     }
 
@@ -112,7 +146,7 @@
 
             return false;
         });
-
-
     });
 </script>
+
+

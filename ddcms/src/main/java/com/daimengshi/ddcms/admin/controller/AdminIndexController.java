@@ -17,6 +17,7 @@ import java.util.List;
 @RequestMapping("/admin")
 public class AdminIndexController extends JbootController {
     private static final Log log = LogFactory.get();
+
     @Inject
     private DmsMenuServiceImpl menuService;
 

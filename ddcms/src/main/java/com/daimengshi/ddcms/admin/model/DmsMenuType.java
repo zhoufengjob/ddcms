@@ -8,5 +8,5 @@ import com.daimengshi.ddcms.admin.model.base.BaseDmsMenuType;
  */
 @Table(tableName = "dms_menu_type", primaryKey = "id")
 public class DmsMenuType extends BaseDmsMenuType<DmsMenuType> {
-	
+    public static final DmsMenuType dao = new DmsMenuType();
 }

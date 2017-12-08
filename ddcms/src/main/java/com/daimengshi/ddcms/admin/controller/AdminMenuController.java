@@ -3,6 +3,7 @@ package com.daimengshi.ddcms.admin.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.daimengshi.ddcms.admin.model.DmsMenu;
+import com.daimengshi.ddcms.admin.model.DmsMenuType;
 import com.daimengshi.ddcms.admin.service.impl.DmsMenuServiceImpl;
 import com.daimengshi.ddcms.admin.service.impl.DmsMenuTypeServiceImpl;
 import com.daimengshi.ddcms.pub.*;
@@ -67,8 +68,47 @@ public class AdminMenuController extends JbootController {
      * 添加菜单
      */
     public void add() {
+        List<DmsMenu> menuList = menuService.findAll();
+        List<DmsMenuType> menuTypeList = menuTypeService.findAll();
+
+        DmsMenu superMenu = new DmsMenu();
+        superMenu.setId("");
+        superMenu.setName("顶级");
+        superMenu.setSuperId("");
+        menuList.add(0, superMenu);
+
+        setAttr("menuList", menuList);
+        setAttr("menuTypeList", menuTypeList);
+
+
         setAttr("formTitle", "添加菜单");
         setAttr("mainTP", "/htmls/admin/menu/add.html");
+        //调用通用模板
+        renderTemplate("/htmls/admin/pop.html");
+    }
+
+    /**
+     * 查看详情
+     */
+    public void edit() {
+        String id = getPara("id");
+        DmsMenu menu = menuService.findById(id);
+
+        List<DmsMenu> menuList = menuService.findAll();
+        List<DmsMenuType> menuTypeList = menuTypeService.findAll();
+
+        DmsMenu superMenu = new DmsMenu();
+        superMenu.setId("");
+        superMenu.setName("顶级");
+        menuList.add(0, superMenu);
+        menuList.remove(menu);
+
+        setAttr("menu", menu);
+        setAttr("menuList", menuList);
+        setAttr("menuTypeList", menuTypeList);
+
+        setAttr("formTitle", "查看菜单详情");
+        setAttr("mainTP", "/htmls/admin/menu/edit.html");
         //调用通用模板
         renderTemplate("/htmls/admin/pop.html");
     }
@@ -81,17 +121,40 @@ public class AdminMenuController extends JbootController {
         String json = HttpKit.readData(getRequest());
         log.info(json, Level.INFO);
 
-        DmsMenu menu = JSON.parseObject(json,DmsMenu.class);
+        DmsMenu menu = JSON.parseObject(json, DmsMenu.class);
+
+        if (StrUtil.isEmpty(menu.getIsOpen())) {
+            menu.setIsOpen("off");
+        }
 
         menu.setCreateTime(DateUtil.date());
         menuService.save(menu);
         renderJson(ResponseData.ok());
     }
 
+    /**
+     * 编辑菜单
+     */
+    public void editdMenu() {
+        String json = HttpKit.readData(getRequest());
+        log.info("\n" + json);
+        DmsMenu menu = JSON.parseObject(json, DmsMenu.class);
+
+        if (StrUtil.isEmpty(menu.getIsOpen())) {
+            menu.setIsOpen("off");
+        }
+
+        menuService.update(menu);
+
+        renderJson(ResponseData.ok());
+
+    }
+
 
     /**
      * 删除菜单
      */
+
     public void deleteMenu() {
         String id = getPara("id", "");
 
@@ -112,7 +175,7 @@ public class AdminMenuController extends JbootController {
         TableCheckStatus mTableCheckStatus = JSON.parseObject(json, TableCheckStatus.class);
 
         for (Object obj : mTableCheckStatus.getData()) {
-            DmsMenu menu = JSONObject.parseObject(obj.toString(),DmsMenu.class);
+            DmsMenu menu = JSONObject.parseObject(obj.toString(), DmsMenu.class);
             menuService.delete(menu);
         }
 
@@ -156,8 +219,8 @@ public class AdminMenuController extends JbootController {
 
         //分页查询
         menusPage = menuService.DAO.paginate(page, size,
-                "select *", "from dms_menu WHERE dms_menu.`name` LIKE ? AND dms_menu.create_time BETWEEN ? AND ? ",
-                "%" + searchKey + "%", dateStartStr, dateEndStr);
+                "select *", "from dms_menu WHERE dms_menu.`name` LIKE ? OR dms_menu.url LIKE ? AND dms_menu.create_time BETWEEN ? AND ? ORDER BY dms_menu.serial_num",
+                "%" + searchKey + "%", "%" + searchKey + "%", dateStartStr, dateEndStr);
 
 
         //返回转换格式
