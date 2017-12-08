@@ -49,8 +49,9 @@
             console.log(JSON.stringify(data.field));
             layui.$.ajax({
                 type: "post",
+                contentType: "application/json;charset=utf-8", // 因为上面是JSON数据
                 url: '/admin/menu/addMenu',
-                data: data.field,
+                data: JSON.stringify(data.field),
                 success: function (data) {
 
                     if (200 === data.code) {

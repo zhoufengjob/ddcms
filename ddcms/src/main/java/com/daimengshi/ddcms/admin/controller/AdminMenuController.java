@@ -1,13 +1,12 @@
 package com.daimengshi.ddcms.admin.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.daimengshi.ddcms.admin.model.DmsMenu;
 import com.daimengshi.ddcms.admin.service.impl.DmsMenuServiceImpl;
 import com.daimengshi.ddcms.admin.service.impl.DmsMenuTypeServiceImpl;
-import com.daimengshi.ddcms.pub.ResponseData;
-import com.daimengshi.ddcms.pub.TableDataRequest;
-import com.daimengshi.ddcms.pub.TableDate;
-import com.daimengshi.ddcms.pub.TablePage;
+import com.daimengshi.ddcms.pub.*;
+import com.jfinal.kit.HttpKit;
 import com.jfinal.plugin.activerecord.Page;
 import com.xiaoleilu.hutool.date.DateUtil;
 import com.xiaoleilu.hutool.util.StrUtil;
@@ -79,9 +78,9 @@ public class AdminMenuController extends JbootController {
      * 添加菜单
      */
     public void addMenu() {
-        //获取所有请求参数
-        Map<String, String[]> reqParas = getParaMap();
-        DmsMenu menu =  getBean(DmsMenu.class,"");
+        String json = HttpKit.readData(getRequest());
+        DmsMenu menu = JSON.parseObject(json,DmsMenu.class);
+
         menu.setCreateTime(DateUtil.date());
         menuService.save(menu);
         renderJson(ResponseData.ok());
@@ -99,6 +98,22 @@ public class AdminMenuController extends JbootController {
         }
 
         menuService.deleteById(id);
+        renderJson(ResponseData.ok());
+    }
+
+    /**
+     * 多选删除
+     */
+    public void deleteMenus() {
+        //获取所有请求参数
+        String json = HttpKit.readData(getRequest());
+        TableCheckStatus mTableCheckStatus = JSON.parseObject(json, TableCheckStatus.class);
+
+        for (Object obj : mTableCheckStatus.getData()) {
+            DmsMenu menu = JSONObject.parseObject(obj.toString(),DmsMenu.class);
+            menuService.delete(menu);
+        }
+
         renderJson(ResponseData.ok());
     }
 
