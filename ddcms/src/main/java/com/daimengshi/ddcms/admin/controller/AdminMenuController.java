@@ -88,7 +88,7 @@ public class AdminMenuController extends JbootController {
     }
 
     /**
-     * 查看详情
+     * 查看详情和编辑
      */
     public void edit() {
         String id = getPara("id");
