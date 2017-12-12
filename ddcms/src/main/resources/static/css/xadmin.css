@@ -1,5 +1,5 @@
 @charset "utf-8";
-@import url(../lib/layui/css/layui.css);
+@import url(../libs/layui/css/layui.css);
 *{
 	margin: 0px;
 	padding: 0px;
@@ -129,15 +129,16 @@ body{
     line-height: 39px;
     height: 39px;
     overflow: hidden;
+	margin-bottom: 20px;
 }
 xblock{
     display: block;
     margin-bottom: 10px;
-    padding: 5px;
+    /*padding: 5px;*/
     line-height: 22px;
     /* border-left: 5px solid #009688; */
-    border-radius: 0 2px 2px 0;
-    background-color: #f2f2f2;
+    /*border-radius: 0 2px 2px 0;*/
+    /*background-color: #f2f2f2;*/
 }
 .x-right{
   float: right;

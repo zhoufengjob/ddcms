@@ -1,11 +1,27 @@
 <!--region hrml模板-->
-<div class="x-body">
+<div class="tableBox">
 
-<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief" style="margin-top: -10px">
-        <!--region 菜单列表-->
 
-        <div class="layui-anim layui-anim-upbit layui-box">
-            <div class="tableBox">
+    <div class="x-body">
+        <div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="">首页</a>
+        <a href="">演示</a>
+        <a>
+          <cite>导航元素</cite></a>
+      </span>
+            <button class="layui-btn layui-btn-sm layui-btn-primary" data-type="ref"
+                    style="line-height:1.6em;margin-top:3px;float:right"><i
+                    class="layui-icon">&#x1002;</i>刷新
+            </button>
+
+        </div>
+
+
+        <xblock>
+
+            <div class="layui-row">
+
                 <div class="layui-btn-group">
                     <button class="layui-btn layui-btn-primary" data-type="add"><i class="layui-icon">&#xe61f;</i>添加
                     </button>
@@ -16,7 +32,7 @@
                 <div class="layui-inline" style="width: 180px">
                     <input class="layui-input" id="datePop" placeholder="时间范围搜索" type="text">
                 </div>
-                <div class="layui-inline layui-layout-right">
+                <div class="layui-inline x-right">
                     <div class="layui-inline">
                         <input class="layui-input" placeholder="关键字搜索" name="id" id="searchReload"
                                autocomplete="off">
@@ -26,15 +42,18 @@
                             class="layui-icon">&#xe615;</i>搜索
                     </button>
                 </div>
-
             </div>
+            <!--<button class="layui-btn" onclick="x_admin_show('添加用户','./admin-add.html')"><i class="layui-icon"></i>添加</button>-->
+        </xblock>
 
 
-            <table class="layui-hide" id="table" lay-filter="lf_table"></table>
-        </div>
+        <!--region 菜单列表-->
+        <table class="layui-hide" id="table" lay-filter="lf_table"></table>
+
         <!--endregion-->
+    </div>
 </div>
-</div>
+
 <!--endregion-->
 
 
@@ -191,6 +210,10 @@
                         searchKey: searchReload.val()
                     }
                 });
+            },
+            ref: function () {
+                //刷新当前子页面
+                location.reload();
             }
         };
 
