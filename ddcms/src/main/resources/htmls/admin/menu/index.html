@@ -1,47 +1,39 @@
 <!--region hrml模板-->
-
+<div class="x-body">
 
 <div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief" style="margin-top: -10px">
-    <ul class="layui-tab-title">
-        <li class="layui-this">菜单管理</li>
-        <li>父级管理</li>
-    </ul>
-    <div class="layui-tab-content" style="height: 100px;">
-        <div class="layui-tab-item layui-show">
-            <!--region 菜单列表-->
+        <!--region 菜单列表-->
 
-            <div class="layui-anim layui-anim-upbit layui-box">
-                <div class="tableBox">
-                    <div class="layui-btn-group">
-                        <button class="layui-btn layui-btn-primary" data-type="add"><i class="layui-icon">&#xe61f;</i>添加
-                        </button>
-                        <button class="layui-btn layui-btn-primary" data-type="delete"><i
-                                class="layui-icon">&#xe640;</i>删除
-                        </button>
-                    </div>
-                    <div class="layui-inline" style="width: 180px">
-                        <input class="layui-input" id="datePop" placeholder="时间范围搜索" type="text">
-                    </div>
-                    <div class="layui-inline layui-layout-right">
-                        <div class="layui-inline">
-                            <input class="layui-input" placeholder="关键字搜索" name="id" id="searchReload"
-                                   autocomplete="off">
-                        </div>
-
-                        <button class="layui-btn layui-btn-primary" data-type="search"><i
-                                class="layui-icon">&#xe615;</i>搜索
-                        </button>
+        <div class="layui-anim layui-anim-upbit layui-box">
+            <div class="tableBox">
+                <div class="layui-btn-group">
+                    <button class="layui-btn layui-btn-primary" data-type="add"><i class="layui-icon">&#xe61f;</i>添加
+                    </button>
+                    <button class="layui-btn layui-btn-primary" data-type="delete"><i
+                            class="layui-icon">&#xe640;</i>删除
+                    </button>
+                </div>
+                <div class="layui-inline" style="width: 180px">
+                    <input class="layui-input" id="datePop" placeholder="时间范围搜索" type="text">
+                </div>
+                <div class="layui-inline layui-layout-right">
+                    <div class="layui-inline">
+                        <input class="layui-input" placeholder="关键字搜索" name="id" id="searchReload"
+                               autocomplete="off">
                     </div>
 
+                    <button class="layui-btn layui-btn-primary" data-type="search"><i
+                            class="layui-icon">&#xe615;</i>搜索
+                    </button>
                 </div>
 
-
-                <table class="layui-hide" id="table" lay-filter="lf_table"></table>
             </div>
-            <!--endregion-->
+
+
+            <table class="layui-hide" id="table" lay-filter="lf_table"></table>
         </div>
-        <div class="layui-tab-item">2</div>
-    </div>
+        <!--endregion-->
+</div>
 </div>
 <!--endregion-->
 
@@ -54,6 +46,7 @@
         var layer = layui.layer;
         var laydate = layui.laydate;
         var util = layui.util;
+
 
         //region 数据表格渲染
         table.render({
@@ -73,7 +66,7 @@
                 {type: 'checkbox'},
 //                {field: 'id', title: 'ID'},
                 {field: 'serial_num', title: '排序号', sort: true, edit: 'text'},
-                {field: 'name', title: '菜单名', sort: true, edit: 'text'},
+                {field: 'name', title: '菜单名称', sort: true, edit: 'text'},
                 {field: 'url', title: 'URL地址', sort: true, edit: 'text'},
                 {field: 'create_time', title: '创建时间', sort: true, templet: '#dateformat'},
                 {fixed: 'right', title: '操作', align: 'center', width: 200, toolbar: '#tableBar'} //这里的toolbar值是模板元素的选择器
@@ -176,7 +169,7 @@
                 layer.open({
                     type: 2,
                     title: '添加菜单',
-                    area: ['900px', '600px'],
+                    area: ['700px', '450px'],
                     fixed: false, //不固定
                     maxmin: true,
                     anim: 0,//0-6的动画形式，-1不开启

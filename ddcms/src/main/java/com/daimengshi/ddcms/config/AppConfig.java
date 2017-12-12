@@ -1,6 +1,5 @@
 package com.daimengshi.ddcms.config;
 
-import com.daimengshi.ddcms.pub.interceptor.GlobalInterceptor;
 import com.google.inject.Binder;
 import com.jfinal.config.Constants;
 import com.jfinal.config.Interceptors;
@@ -45,7 +44,7 @@ public class AppConfig extends JbootAppListenerBase {
     @Override
     public void onInterceptorConfig(Interceptors interceptors) {
         super.onInterceptorConfig(interceptors);
-        interceptors.addGlobalActionInterceptor(new GlobalInterceptor());
+//        interceptors.addGlobalActionInterceptor(new GlobalInterceptor());
     }
 
     @Override

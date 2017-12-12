@@ -19,8 +19,6 @@
 ###--------内容主体区域--------
 #define main(contentTemplate)
 ###当前动态模板路径:#(mainTP)
-<!--region 导入layui.js-->
-<script src="/static/libs/layui/layui.js"></script>
 <!--endregion-->
 #render(contentTemplate)  ###这里是动态模板,通过Controller传递而来
 #end
@@ -33,4 +31,8 @@
 ###--------左边菜单区域--------
 #define leftMenu()
 #include("include/_leftMenu.html")
+#end
+###--------右边主体区域--------
+#define rightContent()
+#include("include/_rightContent.html")
 #end

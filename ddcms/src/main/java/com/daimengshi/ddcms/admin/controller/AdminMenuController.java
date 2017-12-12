@@ -46,7 +46,10 @@ public class AdminMenuController extends JbootController {
         setAttr("mainTP", "/htmls/admin/menu/index.html");
 
         //调用通用模板
-        renderTemplate("/htmls/admin/global.html");
+//        renderTemplate("/htmls/admin/global.html");
+        //调用通用模板
+        renderTemplate("/htmls/admin/pop.html");
+
     }
 
 
@@ -61,7 +64,6 @@ public class AdminMenuController extends JbootController {
 
         TablePage tablePage = pageFind();
         renderJson(tablePage);
-
     }
 
     /**

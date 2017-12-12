@@ -22,7 +22,7 @@ public class AdminIndexController extends JbootController {
     private DmsMenuServiceImpl menuService;
 
     /**
-     * 仪表盘
+     * 主页
      */
     public void index() {
 //        DmsMenu menu = new DmsMenu();
@@ -37,12 +37,23 @@ public class AdminIndexController extends JbootController {
         setAttr("menus", menus);
 
 
-        setAttr("title", "仪表盘");
-        setAttr("mainTP", "/htmls/admin/index/index.html");
+        setAttr("title", "后台主页");
+//        setAttr("mainTP", "/htmls/admin/index/index.html");
 
         //调用通用模板
-//        renderTemplate("/htmls/admin/global.html");
-        renderJson(menus);
+        renderTemplate("/htmls/admin/global.html");
+//        renderJson(menus);
+    }
 
+
+    /**
+     * 主页
+     */
+    public void main() {
+
+        setAttr("title", "仪表盘");
+        setAttr("mainTP", "/htmls/admin/index/index.html");
+        //调用通用模板
+        renderTemplate("/htmls/admin/pop.html");
     }
 }

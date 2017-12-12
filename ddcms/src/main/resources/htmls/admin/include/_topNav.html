@@ -1,33 +1,38 @@
 #--
 公用导航
 --#
-<div class="layui-header">
-    <div class="layui-logo">呆萌狮内容管理</div>
-    <!-- 头部区域（可配合layui已有的水平导航） -->
-    <ul class="layui-nav layui-layout-left">
-        <li class="layui-nav-item"><a href="">控制台</a></li>
-        <li class="layui-nav-item"><a href="">商品管理</a></li>
-        <li class="layui-nav-item"><a href="">用户</a></li>
+<!-- 顶部开始 -->
+<div class="container">
+    <div class="logo"><a href="./index.html">呆萌狮内容管理</a></div>
+    <div class="left_open">
+        <i title="展开左侧栏" class="iconfont">&#xe699;</i>
+    </div>
+    <ul class="layui-nav left fast-add" lay-filter="">
         <li class="layui-nav-item">
-            <a href="javascript:;">其它系统</a>
-            <dl class="layui-nav-child">
-                <dd><a href="">邮件管理</a></dd>
-                <dd><a href="">消息管理</a></dd>
-                <dd><a href="">授权管理</a></dd>
+            <a href="javascript:;">+新增</a>
+            <dl class="layui-nav-child"> <!-- 二级菜单 -->
+                <dd><a onclick="x_admin_show('资讯','http://www.baidu.com')"><i class="iconfont">&#xe6a2;</i>资讯</a></dd>
+                <dd><a onclick="x_admin_show('图片','http://www.baidu.com')"><i class="iconfont">&#xe6a8;</i>图片</a></dd>
+                <dd><a onclick="x_admin_show('用户','http://www.baidu.com')"><i class="iconfont">&#xe6b8;</i>用户</a></dd>
             </dl>
         </li>
     </ul>
-    <ul class="layui-nav layui-layout-right">
+    <ul class="layui-nav right" lay-filter="">
         <li class="layui-nav-item">
+
             <a href="javascript:;">
-                <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
-                洛熙
+            <img src="http://t.cn/RCzsdCq" class="layui-nav-img">
+            洛熙
             </a>
-            <dl class="layui-nav-child">
-                <dd><a href="">基本资料</a></dd>
-                <dd><a href="">安全设置</a></dd>
+
+            <dl class="layui-nav-child"> <!-- 二级菜单 -->
+                <dd><a onclick="x_admin_show('个人信息','http://www.baidu.com')">个人信息</a></dd>
+                <dd><a onclick="x_admin_show('切换帐号','http://www.baidu.com')">切换帐号</a></dd>
+                <dd><a href="./login.html">退出</a></dd>
             </dl>
         </li>
-        <li class="layui-nav-item"><a href="">退了</a></li>
+        <li class="layui-nav-item to-index"><a href="/">前台首页</a></li>
     </ul>
+
 </div>
+<!-- 顶部结束 -->
