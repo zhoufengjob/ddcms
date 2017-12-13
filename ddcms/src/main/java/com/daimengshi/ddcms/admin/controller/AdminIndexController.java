@@ -1,53 +1,55 @@
 package com.daimengshi.ddcms.admin.controller;
 
-import com.daimengshi.ddcms.admin.model.DmsMenu;
-import com.daimengshi.ddcms.admin.service.impl.DmsMenuServiceImpl;
+import ch.qos.logback.core.util.SystemInfo;
+import com.daimengshi.ddcms.admin.interceptor.AdminInterceptor;
+import com.jfinal.aop.Before;
 import com.xiaoleilu.hutool.log.Log;
 import com.xiaoleilu.hutool.log.LogFactory;
 import io.jboot.web.controller.JbootController;
 import io.jboot.web.controller.annotation.RequestMapping;
 
-import javax.inject.Inject;
-import java.util.List;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 /**
  * Created by zhoufeng on 2017/12/6.
  * 后台主页
  */
+@Before(AdminInterceptor.class) //拦截器,获取菜单和系统配置
 @RequestMapping("/admin")
 public class AdminIndexController extends JbootController {
     private static final Log log = LogFactory.get();
+    // 当前实例
+    private static SystemInfo currentSystem = null;
+    private InetAddress localHost = null;
 
-    @Inject
-    private DmsMenuServiceImpl menuService;
+
+    public static SystemInfo getInstance() {
+        if (currentSystem == null)
+            currentSystem = new SystemInfo();
+        return currentSystem;
+    }
 
     /**
-     * 主页
+     * 后台主页
      */
     public void index() {
-//        DmsMenu menu = new DmsMenu();
-//        menu.setName("仪表盘");
-//        menu.setCreateTime(new Date());
-//        menu.setTypeId("1");
-//        menu.setUrl("/admin");
-//        menuService.save(menu);
-
-        //获取菜单列表
-        List<DmsMenu> menus = menuService.findAll();
-        setAttr("menus", menus);
-
+        try {
+            localHost = InetAddress.getLocalHost();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        }
 
         setAttr("title", "后台主页");
 //        setAttr("mainTP", "/htmls/admin/index/index.html");
-
         //调用通用模板
         renderTemplate("/htmls/admin/global.html");
-//        renderJson(menus);
+//        renderJson(sysInfos);
     }
 
 
     /**
-     * 主页
+     * 仪表盘
      */
     public void main() {
 
