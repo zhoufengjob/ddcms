@@ -45,15 +45,10 @@
             <select name="super_id">
 
                 ###首先找到当前父类并且赋值并且当前不是父类(解决已选部分不重复)
-                #for(m:menuList)
-                #if(m.id == menu.super_id)
-                <option value="#(m.id)">#(m.name)</option>
-                #end
-                #end
-
+                <option value="#(superMenu.id)">#(superMenu.name)</option>
 
                 #for(m:menuList)
-                #if( m.id != menu.super_id && ("".equals(m.super_id) || null == m.super_id))
+                #if( m.id != superMenu.id && 0 == m.super_id &&m.id != menu.id )
                 <option value="#(m.id)">#(m.name)</option>
                 #end
                 #end

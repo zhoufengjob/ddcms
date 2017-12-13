@@ -2,6 +2,7 @@ package com.daimengshi.ddcms.admin.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.daimengshi.ddcms.admin.interceptor.AdminInterceptor;
 import com.daimengshi.ddcms.admin.model.DmsMenu;
 import com.daimengshi.ddcms.admin.model.DmsMenuType;
 import com.daimengshi.ddcms.admin.service.impl.DmsMenuServiceImpl;
@@ -74,9 +75,9 @@ public class AdminMenuController extends JbootController {
         List<DmsMenuType> menuTypeList = menuTypeService.findAll();
 
         DmsMenu superMenu = new DmsMenu();
-        superMenu.setId("");
+        superMenu.setId(0);
         superMenu.setName("顶级");
-        superMenu.setSuperId("");
+        superMenu.setSuperId(0);
         menuList.add(0, superMenu);
 
         setAttr("menuList", menuList);
@@ -98,14 +99,21 @@ public class AdminMenuController extends JbootController {
 
         List<DmsMenu> menuList = menuService.findAll();
         List<DmsMenuType> menuTypeList = menuTypeService.findAll();
+        DmsMenu superMenu = menu.getSuperDmsMenu();
 
-        DmsMenu superMenu = new DmsMenu();
-        superMenu.setId("");
-        superMenu.setName("顶级");
-        menuList.add(0, superMenu);
-        menuList.remove(menu);
+        DmsMenu defaultMenu = new DmsMenu();
+        defaultMenu.setId(0);
+        defaultMenu.setName("顶级");
+        defaultMenu.setSerialNum(0);
+        defaultMenu.setSuperId(0);
+        menuList.add(0, defaultMenu);
+
+        if (superMenu == null) {
+            superMenu = defaultMenu;
+        }
 
         setAttr("menu", menu);
+        setAttr("superMenu", superMenu);
         setAttr("menuList", menuList);
         setAttr("menuTypeList", menuTypeList);
 
@@ -131,6 +139,7 @@ public class AdminMenuController extends JbootController {
 
         menu.setCreateTime(DateUtil.date());
         menuService.save(menu);
+        AdminInterceptor.menus = null;
         renderJson(ResponseData.ok());
     }
 
@@ -147,7 +156,7 @@ public class AdminMenuController extends JbootController {
         }
 
         menuService.update(menu);
-
+        AdminInterceptor.menus = null;
         renderJson(ResponseData.ok());
 
     }
@@ -163,8 +172,8 @@ public class AdminMenuController extends JbootController {
         if (StrUtil.isEmpty(id)) {
             renderJson(ResponseData.apiError("id不能为空"));
         }
-
         menuService.deleteById(id);
+        AdminInterceptor.menus = null;
         renderJson(ResponseData.ok());
     }
 
@@ -180,7 +189,7 @@ public class AdminMenuController extends JbootController {
             DmsMenu menu = JSONObject.parseObject(obj.toString(), DmsMenu.class);
             menuService.delete(menu);
         }
-
+        AdminInterceptor.menus = null;
         renderJson(ResponseData.ok());
     }
 

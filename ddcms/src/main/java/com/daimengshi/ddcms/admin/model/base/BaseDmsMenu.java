@@ -30,12 +30,12 @@ public abstract class BaseDmsMenu<M extends BaseDmsMenu<M>> extends JbootModel<M
     }
 
 
-	public void setId(java.lang.String id) {
+	public void setId(java.lang.Integer id) {
 		set("id", id);
 	}
 	
-	public java.lang.String getId() {
-		return getStr("id");
+	public java.lang.Integer getId() {
+		return getInt("id");
 	}
 
 	public void setName(java.lang.String name) {
@@ -62,12 +62,12 @@ public abstract class BaseDmsMenu<M extends BaseDmsMenu<M>> extends JbootModel<M
 		return get("create_time");
 	}
 
-	public void setSuperId(java.lang.String superId) {
+	public void setSuperId(java.lang.Integer superId) {
 		set("super_id", superId);
 	}
 	
-	public java.lang.String getSuperId() {
-		return getStr("super_id");
+	public java.lang.Integer getSuperId() {
+		return getInt("super_id");
 	}
 
 	public void setTypeId(java.lang.String typeId) {

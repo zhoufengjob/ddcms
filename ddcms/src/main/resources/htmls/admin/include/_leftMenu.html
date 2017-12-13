@@ -8,7 +8,7 @@
         <ul id="nav">
 
             #for(menu:menus)
-            #if("1".equals(menu.type_id) && "".equals(menu.super_id) && "on".equals(menu.is_open))
+            #if("1".equals(menu.type_id) && 0 == menu.super_id && "on".equals(menu.is_open))
             <li>
                 <a class="" href="#(menu.url == '' ? 'javascript:;':menu.url)">
                     <i class="iconfont">&#xe6b8;</i>

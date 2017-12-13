@@ -1,26 +1,35 @@
 <!--region hrml模板-->
 <div class="tableBox">
 
+    <div class="x-nav">
+        <div style="line-height:1.6em;margin-top:3px;float:left">
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend>#(title)</legend>
+            </fieldset>
+        </div>
+
+        <div class="layui-btn-group" style="line-height:1.6em;margin-top:3px;float:right">
+            <button class="layui-btn layui-btn-sm layui-btn-primary">
+                <i class="layui-icon">&#xe61f;</i>
+                二维码
+            </button>
+            <button class="layui-btn layui-btn-sm layui-btn-primary">
+                <i class="layui-icon">&#xe640;</i>
+                分享
+            </button>
+            <button class="layui-btn layui-btn-sm layui-btn-primary" data-type="ref">
+                <i class="layui-icon">&#x1002;</i>
+                刷新
+            </button>
+        </div>
+    </div>
 
     <div class="x-body">
-        <div class="x-nav">
-      <span class="layui-breadcrumb">
-        <a href="">首页</a>
-        <a href="">演示</a>
-        <a>
-          <cite>导航元素</cite></a>
-      </span>
-            <button class="layui-btn layui-btn-sm layui-btn-primary" data-type="ref"
-                    style="line-height:1.6em;margin-top:3px;float:right"><i
-                    class="layui-icon">&#x1002;</i>刷新
-            </button>
-
-        </div>
 
 
         <xblock>
 
-            <div class="layui-row">
+            <div class="x-nav">
 
                 <div class="layui-btn-group">
                     <button class="layui-btn layui-btn-primary" data-type="add"><i class="layui-icon">&#xe61f;</i>添加
@@ -303,8 +312,8 @@
 
 <!--region 绑定列工具条-->
 <script type="text/html" id="tableBar">
-    <button class="layui-btn layui-btn-radius layui-btn-xs layui-btn-primary" lay-event="edit">&nbsp;编辑&nbsp;</button>
-    <button class="layui-btn layui-btn-radius layui-btn-danger layui-btn-xs" lay-event="del">&nbsp;删除&nbsp;</button>
+    <button class="layui-btn  layui-btn-xs layui-btn-primary" lay-event="edit">&nbsp;编辑&nbsp;</button>
+    <button class="layui-btn  layui-btn-danger layui-btn-xs" lay-event="del">&nbsp;删除&nbsp;</button>
 </script>
 <!--endregion-->
 

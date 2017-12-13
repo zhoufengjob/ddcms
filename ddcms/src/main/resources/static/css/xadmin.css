@@ -119,13 +119,13 @@ body{
     width: 100%;
 }
 .x-body{
-	padding: 20px;
+	padding: 0px;
 }
 .x-nav{
-    padding: 0 20px;
+    padding: 0 0px;
     position: relative;
     z-index: 99;
-    border-bottom: 1px solid #e5e5e5;
+    /*border-bottom: 1px solid #e5e5e5;*/
     line-height: 39px;
     height: 39px;
     overflow: hidden;

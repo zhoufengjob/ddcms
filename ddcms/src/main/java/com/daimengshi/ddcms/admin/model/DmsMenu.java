@@ -14,6 +14,7 @@ public class DmsMenu extends BaseDmsMenu<DmsMenu> {
 
     /**
      * 获取菜单类型
+     *
      * @return
      */
     public DmsMenuType getMenuType() {
@@ -23,12 +24,21 @@ public class DmsMenu extends BaseDmsMenu<DmsMenu> {
 
     /**
      * 获取子菜单
+     *
      * @return
      */
     public List<DmsMenu> getSubDmsMenu() {
         return DmsMenu.dao.find("select * from dms_menu where dms_menu.super_id=?", getStr("id"));
     }
 
+    /**
+     * 获取父类
+     *
+     * @return
+     */
+    public DmsMenu getSuperDmsMenu() {
+        return DmsMenu.dao.findFirst("select * from dms_menu where dms_menu.id=?", getStr("super_id"));
+    }
 
 
 }

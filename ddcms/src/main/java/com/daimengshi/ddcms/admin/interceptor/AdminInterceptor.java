@@ -29,24 +29,32 @@ public class AdminInterceptor implements Interceptor {
     @Inject
     private DmsMenuServiceImpl menuService;
 
+    public static Map<String, DmsConfig> configMap;
+
+    public static List<DmsMenu> menus;
+
     @Override
     public void intercept(Invocation inv) {
-        //获取站点配置
-        List<DmsConfig> dmsConfigs = configService.findAll();
-        Map<String, DmsConfig> configMap = new HashMap<>();
-        for (DmsConfig config : dmsConfigs) {
-            configMap.put(config.getKey(),config);
-        }
-        inv.getController().setAttr("configMap", configMap);
-
 
         //获取本机环境信息
         List<SysInfo> sysInfos = Tools.getSysInfos();
         inv.getController().setAttr("sysInfos", sysInfos);
 
+        if (configMap == null) {
+            //获取站点配置
+            List<DmsConfig> dmsConfigs = configService.findAll();
+            configMap = new HashMap<>();
+            for (DmsConfig config : dmsConfigs) {
+                configMap.put(config.getKey(), config);
+            }
+        }
 
-        //获取菜单列表
-        List<DmsMenu> menus = menuService.findAll();
+        inv.getController().setAttr("configMap", configMap);
+
+        if (menus == null) {
+            //获取菜单列表
+            menus = menuService.findAll();
+        }
         inv.getController().setAttr("menus", menus);
 
         inv.invoke();
