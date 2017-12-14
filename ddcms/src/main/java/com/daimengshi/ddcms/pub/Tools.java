@@ -28,6 +28,7 @@ public class Tools {
             sysInfos.add(new SysInfo("Java的运行环境供应商：", sysProperty.getProperty("java.vendor")));
             sysInfos.add(new SysInfo("Java供应商的URL：", sysProperty.getProperty("java.vendor.url")));
             sysInfos.add(new SysInfo("Java的安装路径：", sysProperty.getProperty("java.home")));
+
         }
         return sysInfos;
     }
