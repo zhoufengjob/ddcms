@@ -1,7 +1,8 @@
 package com.daimengshi.ddcms.admin.model;
 
-import io.jboot.db.annotation.Table;
 import com.daimengshi.ddcms.admin.model.base.BaseDmsMenu;
+import com.jfinal.plugin.activerecord.Db;
+import io.jboot.db.annotation.Table;
 
 import java.util.List;
 
@@ -18,9 +19,8 @@ public class DmsMenu extends BaseDmsMenu<DmsMenu> {
      * @return
      */
     public DmsMenuType getMenuType() {
-        return DmsMenuType.dao.findFirst("select * from dms_menu_type where dms_menu_type.id=?", getStr("type_id"));
+        return DmsMenuType.dao.findFirst(Db.getSql("menu.getMenuType"), getStr("type_id"));
     }
-
 
     /**
      * 获取子菜单
@@ -28,7 +28,7 @@ public class DmsMenu extends BaseDmsMenu<DmsMenu> {
      * @return
      */
     public List<DmsMenu> getSubDmsMenu() {
-        return DmsMenu.dao.find("select * from dms_menu where dms_menu.super_id=?", getStr("id"));
+        return DmsMenu.dao.find(Db.getSql("menu.getSubDmsMenu"), getStr("id"));
     }
 
     /**

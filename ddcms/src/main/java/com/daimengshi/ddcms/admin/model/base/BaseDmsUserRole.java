@@ -38,20 +38,20 @@ public abstract class BaseDmsUserRole<M extends BaseDmsUserRole<M>> extends Jboo
 		return getStr("uid");
 	}
 
-	public void setRid(java.lang.String rid) {
+	public void setRid(java.lang.Integer rid) {
 		set("rid", rid);
 	}
 	
-	public java.lang.String getRid() {
-		return getStr("rid");
+	public java.lang.Integer getRid() {
+		return getInt("rid");
 	}
 
-	public void setId(java.lang.String id) {
+	public void setId(java.lang.Integer id) {
 		set("id", id);
 	}
 	
-	public java.lang.String getId() {
-		return getStr("id");
+	public java.lang.Integer getId() {
+		return getInt("id");
 	}
 
 	public void setCreateTime(java.util.Date createTime) {

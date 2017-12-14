@@ -8,5 +8,6 @@ import com.daimengshi.ddcms.admin.model.base.BaseDmsPermission;
  */
 @Table(tableName = "dms_permission", primaryKey = "id")
 public class DmsPermission extends BaseDmsPermission<DmsPermission> {
-	
+    public static final DmsPermission dao = new DmsPermission();
+
 }

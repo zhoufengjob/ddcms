@@ -30,20 +30,20 @@ public abstract class BaseDmsPermission<M extends BaseDmsPermission<M>> extends 
     }
 
 
-	public void setId(java.lang.String id) {
+	public void setId(java.lang.Integer id) {
 		set("id", id);
 	}
 	
-	public java.lang.String getId() {
-		return getStr("id");
+	public java.lang.Integer getId() {
+		return getInt("id");
 	}
 
-	public void setMid(java.lang.String mid) {
-		set("mid", mid);
+	public void setKey(java.lang.String key) {
+		set("key", key);
 	}
 	
-	public java.lang.String getMid() {
-		return getStr("mid");
+	public java.lang.String getKey() {
+		return getStr("key");
 	}
 
 	public void setCreateTime(java.util.Date createTime) {

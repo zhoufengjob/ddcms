@@ -9,7 +9,10 @@ import com.daimengshi.ddcms.admin.service.impl.DmsMenuServiceImpl;
 import com.daimengshi.ddcms.admin.service.impl.DmsMenuTypeServiceImpl;
 import com.daimengshi.ddcms.pub.*;
 import com.jfinal.kit.HttpKit;
+import com.jfinal.kit.Kv;
+import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
+import com.jfinal.plugin.activerecord.SqlPara;
 import com.xiaoleilu.hutool.date.DateUtil;
 import com.xiaoleilu.hutool.log.Log;
 import com.xiaoleilu.hutool.log.LogFactory;
@@ -96,6 +99,9 @@ public class AdminMenuController extends JbootController {
     public void edit() {
         String id = getPara("id");
         DmsMenu menu = menuService.DAO.findByIdWithoutCache(id);
+        DmsMenuType menuType = menu.getMenuType();
+
+        List<DmsMenu> subMenus = menu.getSubDmsMenu();
 
         log.info(menu.toJson());
 
@@ -230,10 +236,17 @@ public class AdminMenuController extends JbootController {
             dateEndStr = DateUtil.now();
         }
 
+        Kv paras = Kv.by("searchKey", "%" + searchKey + "%")
+                .set("dateStartStr", dateStartStr)
+                .set("dateEndStr", dateEndStr);
+
+        SqlPara sqlPara = Db.getSqlPara("menu.getPage", paras);
+
         //分页查询
-        menusPage = menuService.DAO.paginate(page, size,
-                "select *", "from dms_menu WHERE (dms_menu.`name` LIKE ? OR dms_menu.url LIKE ?) AND dms_menu.create_time BETWEEN ? AND ? ",
-                "%" + searchKey + "%", "%" + searchKey + "%", dateStartStr, dateEndStr);
+        menusPage = menuService.DAO.paginate(page, size, sqlPara);
+//        menusPage = menuService.DAO.paginate(page, size,
+//                "select *", "from dms_menu WHERE (dms_menu.`name` LIKE ? OR dms_menu.url LIKE ?) AND dms_menu.create_time BETWEEN ? AND ? ",
+//                "%" + searchKey + "%", "%" + searchKey + "%", dateStartStr, dateEndStr);
 
 
         //返回转换格式

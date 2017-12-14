@@ -5,3 +5,7 @@
 #namespace("user")
   #include("user/index.sql");
 #end
+
+#namespace("menu")
+  #include("menu/index.sql");
+#end

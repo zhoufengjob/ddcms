@@ -11,6 +11,7 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresRoles;
+import org.apache.shiro.authz.annotation.RequiresUser;
 import org.apache.shiro.config.IniSecurityManagerFactory;
 import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.subject.Subject;
@@ -30,11 +31,6 @@ public class AdminLoginController extends JbootController {
      * 后台主页
      */
     public void index() {
-
-
-
-
-
         //1、获取SecurityManager工厂，此处使用Ini配置文件初始化SecurityManager
         Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:shiro.ini");
 //        //2、得到SecurityManager实例 并绑定给SecurityUtils
@@ -55,21 +51,55 @@ public class AdminLoginController extends JbootController {
             return;
         }
         //6、退出
-        subject.logout();
+//        subject.logout();
         log.info(token.getUsername() + "登出成功");
 
 
         renderJson(ResponseData.ok());
     }
 
-
     /**
      * 测试
      */
     @RequiresRoles("admin")
-    public void test() {
+    public void logout() {
 
     }
 
+
+    /**
+     * 测试
+     */
+    @RequiresUser
+    public void test() {
+        Subject subject = SecurityUtils.getSubject();
+        if (subject.isPermitted("user:view")) {
+            //有权限
+            renderText("有权限");
+        } else {
+            //无权限
+            renderText("无权限");
+
+        }
+    }
+
+
+//    public String updateAdminUserPassword() {
+        // 从shiro的session中取activeUser
+//        Subject subject = SecurityUtils.getSubject();
+//        // 取身份信息
+//        TAdminUser adminUser = (TAdminUser) subject.getPrincipal();
+//        // 生成salt,随机生成
+//        SecureRandomNumberGenerator secureRandomNumberGenerator = new SecureRandomNumberGenerator();
+//        String salt = secureRandomNumberGenerator.nextBytes().toHex();
+//        Md5Hash md5 = new Md5Hash(newPassword, salt, 6);
+//        String newMd5Password = md5.toHex();
+//        // 设置新密码
+//        adminUser.setPassword(newMd5Password);
+//        // 设置盐
+//        adminUser.setSalt(salt);
+//        adminUserService.updateAdminUserPassword(adminUser);
+//        return newPassword;
+//    }
 
 }

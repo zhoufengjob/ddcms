@@ -1,21 +1,34 @@
 package com.daimengshi.ddcms.pub.shiro;
 
+import com.daimengshi.ddcms.admin.model.DmsPermission;
+import com.daimengshi.ddcms.admin.model.DmsRole;
+import com.daimengshi.ddcms.admin.model.DmsRolePermission;
 import com.daimengshi.ddcms.admin.model.DmsUser;
 import com.daimengshi.ddcms.admin.service.impl.DmsUserServiceImpl;
 import com.jfinal.aop.Duang;
+import com.xiaoleilu.hutool.log.Log;
+import com.xiaoleilu.hutool.log.LogFactory;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by zhoufeng on 2017/12/14.
+ * 自定义 Shiro 配置
  */
 public class CustomRealm extends AuthorizingRealm {
-
+    private static final Log log = LogFactory.get();
     final String realmName = "customRealm";
 
-    DmsUserServiceImpl userService  = Duang.duang(DmsUserServiceImpl.class);
+    DmsUserServiceImpl userService = Duang.duang(DmsUserServiceImpl.class);
 
 
     @Override
@@ -32,7 +45,12 @@ public class CustomRealm extends AuthorizingRealm {
 
     //用于认证
     @Override
-    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
+    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) throws AuthenticationException {
+
+        UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
+        log.info("验证当前Subject时获取到token为:" + ReflectionToStringBuilder.toString(token, ToStringStyle.MULTI_LINE_STYLE));
+        log.info("getUsername:" + token.getUsername());
+
 
         // 第一步从token中取出用户发送过来的身份信息
         String username = (String) token.getPrincipal();  //得到用户名
@@ -43,10 +61,10 @@ public class CustomRealm extends AuthorizingRealm {
         //第二步根据用户输入的帐号从数据库查询
         //...
 
-        if(!username.equals(user.getAccount())) {
+        if (!username.equals(user.getAccount())) {
             throw new UnknownAccountException(); //如果用户名错误
         }
-        if(!password.equals(user.getPassword())) {
+        if (!password.equals(user.getPassword())) {
             throw new IncorrectCredentialsException(); //如果密码错误
         }
 
@@ -61,6 +79,46 @@ public class CustomRealm extends AuthorizingRealm {
     //用于授权
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        return null;
+        // 从 principals获取主身份信息
+        // 将getPrimaryPrincipal方法返回值转为真实身份类型（在上边的doGetAuthenticationInfo认证通过填充到SimpleAuthenticationInfo中身份类型），
+        String username = (String) principals.getPrimaryPrincipal();                //得到用户名
+        DmsUser user = userService.getUserByAccount(username);
+
+        // 根据身份信息获取权限信息
+        // 从数据库获取到权限数据
+        List<DmsRole> roles = user.getUserRoles();                                  //得到所有角色
+        List<DmsPermission> permissions = new ArrayList<>();
+        for (DmsRole role : roles) {
+            for (DmsRolePermission rolePermission : role.getRolePermissions()) {    //得到所有角色中的角色权限
+                permissions.addAll(rolePermission.getUserRolePermissions());    //获取所有角色权限对象
+            }
+        }
+
+        List<String> roleStrList = new ArrayList<>();
+        List<String> permissionStrList = new ArrayList<>();
+
+        //授权角色
+        for (DmsRole role : roles) {
+            permissionStrList.add(role.getKey());
+        }
+        //授权权限
+        for (DmsPermission permission : permissions) {
+            permissionStrList.add(permission.getKey());
+        }
+
+        // 查到权限数据，返回授权信息(要包括 上边的permissions)
+        SimpleAuthorizationInfo simpleAuthorizationInfo = new SimpleAuthorizationInfo();
+        // 将上边查询到授权信息填充到simpleAuthorizationInfo对象中
+        simpleAuthorizationInfo.addRoles(roleStrList);
+        simpleAuthorizationInfo.addStringPermissions(permissionStrList);
+
+
+        return simpleAuthorizationInfo;
+    }
+
+    // 清除缓存
+    public void clearCached() {
+        PrincipalCollection principals = SecurityUtils.getSubject().getPrincipals();
+        super.clearCache(principals);
     }
 }

@@ -30,12 +30,12 @@ public abstract class BaseDmsRole<M extends BaseDmsRole<M>> extends JbootModel<M
     }
 
 
-	public void setId(java.lang.String id) {
+	public void setId(java.lang.Integer id) {
 		set("id", id);
 	}
 	
-	public java.lang.String getId() {
-		return getStr("id");
+	public java.lang.Integer getId() {
+		return getInt("id");
 	}
 
 	public void setName(java.lang.String name) {
@@ -68,6 +68,14 @@ public abstract class BaseDmsRole<M extends BaseDmsRole<M>> extends JbootModel<M
 	
 	public java.lang.String getDescribe() {
 		return getStr("describe");
+	}
+
+	public void setKey(java.lang.String key) {
+		set("key", key);
+	}
+	
+	public java.lang.String getKey() {
+		return getStr("key");
 	}
 
 }
