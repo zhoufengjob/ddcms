@@ -33,8 +33,9 @@
         <div class="layui-input-inline">
             <select name="super_id">
                 #for(m:menuList)
+                #if( 0 == m.super_id)
                 <option value="#(m.id)">#(m.name)</option>
-                #end
+                #end                #end
             </select>
         </div>
         <div class="layui-form-mid layui-word-aux">不选择则为顶级</div>
