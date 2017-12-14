@@ -37,7 +37,7 @@ public class DmsMenu extends BaseDmsMenu<DmsMenu> {
      * @return
      */
     public DmsMenu getSuperDmsMenu() {
-        return DmsMenu.dao.findFirst("select * from dms_menu where dms_menu.id=?", getStr("super_id"));
+        return DmsMenu.dao.findByIdWithoutCache(getStr("super_id"));
     }
 
 

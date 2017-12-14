@@ -40,22 +40,22 @@ public class AdminInterceptor implements Interceptor {
         List<SysInfo> sysInfos = Tools.getSysInfos();
         inv.getController().setAttr("sysInfos", sysInfos);
 
-        //获取站点配置
         if (configMap == null) {
+            //获取站点配置
             List<DmsConfig> dmsConfigs = configService.findAll();
             configMap = new HashMap<>();
             for (DmsConfig config : dmsConfigs) {
                 configMap.put(config.getKey(), config);
             }
         }
+
         inv.getController().setAttr("configMap", configMap);
 
-        //获取菜单列表
         if (menus == null) {
+            //获取菜单列表
             menus = menuService.findAll();
         }
         inv.getController().setAttr("menus", menus);
-
 
         inv.invoke();
     }

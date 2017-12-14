@@ -8,5 +8,6 @@ import com.daimengshi.ddcms.admin.model.base.BaseDmsUser;
  */
 @Table(tableName = "dms_user", primaryKey = "id")
 public class DmsUser extends BaseDmsUser<DmsUser> {
-	
+    public static final DmsUser dao = new DmsUser();
+
 }

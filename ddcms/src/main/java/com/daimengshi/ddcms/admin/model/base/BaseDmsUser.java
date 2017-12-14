@@ -78,12 +78,36 @@ public abstract class BaseDmsUser<M extends BaseDmsUser<M>> extends JbootModel<M
 		return getStr("password");
 	}
 
-	public void setAccounts(java.lang.String accounts) {
-		set("accounts", accounts);
+	public void setAccount(java.lang.String account) {
+		set("account", account);
 	}
 	
-	public java.lang.String getAccounts() {
-		return getStr("accounts");
+	public java.lang.String getAccount() {
+		return getStr("account");
+	}
+
+	public void setNikeName(java.lang.String nikeName) {
+		set("nike_name", nikeName);
+	}
+	
+	public java.lang.String getNikeName() {
+		return getStr("nike_name");
+	}
+
+	public void setPoint(java.lang.Integer point) {
+		set("point", point);
+	}
+	
+	public java.lang.Integer getPoint() {
+		return getInt("point");
+	}
+
+	public void setEmail(java.lang.String email) {
+		set("email", email);
+	}
+	
+	public java.lang.String getEmail() {
+		return getStr("email");
 	}
 
 }

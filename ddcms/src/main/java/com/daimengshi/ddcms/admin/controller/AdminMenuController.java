@@ -95,7 +95,9 @@ public class AdminMenuController extends JbootController {
      */
     public void edit() {
         String id = getPara("id");
-        DmsMenu menu = menuService.findById(id);
+        DmsMenu menu = menuService.DAO.findByIdWithoutCache(id);
+
+        log.info(menu.toJson());
 
         List<DmsMenu> menuList = menuService.findAll();
         List<DmsMenuType> menuTypeList = menuTypeService.findAll();
@@ -230,7 +232,7 @@ public class AdminMenuController extends JbootController {
 
         //分页查询
         menusPage = menuService.DAO.paginate(page, size,
-                "select *", "from dms_menu WHERE dms_menu.`name` LIKE ? OR dms_menu.url LIKE ? AND dms_menu.create_time BETWEEN ? AND ? ORDER BY dms_menu.serial_num",
+                "select *", "from dms_menu WHERE (dms_menu.`name` LIKE ? OR dms_menu.url LIKE ?) AND dms_menu.create_time BETWEEN ? AND ? ",
                 "%" + searchKey + "%", "%" + searchKey + "%", dateStartStr, dateEndStr);
 
 

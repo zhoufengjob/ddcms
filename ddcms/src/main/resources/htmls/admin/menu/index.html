@@ -267,7 +267,7 @@
                 layer.open({
                     type: 2,
                     title: '编辑' + obj.data.name,
-                    area: ['700px', '550px'],
+                    area: ['700px', '500px'],
                     fixed: false, //不固定
                     maxmin: true,
                     anim: 0,//0-6的动画形式，-1不开启
@@ -319,5 +319,5 @@
 
 <!--日期模板-->
 <script type="text/html" id="dateformat">
-    <div>{{ layui.util.timeAgo(d.create_time) }}</div>
+    <div>{{ d.create_time }}</div>
 </script>

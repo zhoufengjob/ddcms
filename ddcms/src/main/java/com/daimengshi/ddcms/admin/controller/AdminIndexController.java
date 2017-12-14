@@ -27,7 +27,6 @@ public class AdminIndexController extends JbootController {
      */
     public void index() {
 
-
         setAttr("title", "后台主页");
 //        setAttr("mainTP", "/htmls/admin/index/index.html");
         //调用通用模板

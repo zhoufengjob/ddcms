@@ -62,4 +62,12 @@ public abstract class BaseDmsArticle<M extends BaseDmsArticle<M>> extends JbootM
 		return get("create_time");
 	}
 
+	public void setUid(java.lang.String uid) {
+		set("uid", uid);
+	}
+	
+	public java.lang.String getUid() {
+		return getStr("uid");
+	}
+
 }

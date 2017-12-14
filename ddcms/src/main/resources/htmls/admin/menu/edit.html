@@ -82,10 +82,11 @@
     <div class="layui-form-item">
         <label class="layui-form-label">是否启用</label>
         <div class="layui-input-block">
+
             #if("on".equals(menu.is_open))
             <input name="is_open" type="checkbox" name="switch" lay-skin="switch" lay-text="启用|禁用" checked>
             #else
-            <input name="isOpen" type="checkbox" name="switch" lay-skin="switch" lay-text="启用|禁用">
+            <input name="is_open" type="checkbox" name="switch" lay-skin="switch" lay-text="启用|禁用">
             #end
 
         </div>
