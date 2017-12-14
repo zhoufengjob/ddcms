@@ -43,7 +43,7 @@ public class AdminMenuController extends JbootController {
         //获取菜单列表
         List<DmsMenu> menus = menuService.findAll();
         setAttr("menus", menus);
-        setAttr("title", "菜单管理");
+        setAttr("title", "菜单列表");
         setAttr("mainTP", "/htmls/admin/menu/index.html");
 
         //调用通用模板

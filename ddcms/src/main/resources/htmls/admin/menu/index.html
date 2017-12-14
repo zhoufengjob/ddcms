@@ -2,7 +2,7 @@
 <div class="tableBox">
 
     <div class="x-nav">
-        <div style="line-height:1.6em;margin-top:3px;float:left">
+        <div style="margin-bottom:20px;float:left">
             <fieldset class="layui-elem-field layui-field-title">
                 <legend>#(title)</legend>
             </fieldset>
@@ -97,7 +97,7 @@
                 {field: 'name', title: '菜单名称', sort: true, edit: 'text'},
                 {field: 'url', title: 'URL地址', sort: true, edit: 'text'},
                 {field: 'create_time', title: '创建时间', sort: true, templet: '#dateformat'},
-                {fixed: 'right', title: '操作', align: 'center', width: 200, toolbar: '#tableBar'} //这里的toolbar值是模板元素的选择器
+                { title: '操作', align: 'center', width: 200, toolbar: '#tableBar'} //这里的toolbar值是模板元素的选择器
             ]],
             //回调
             done: function (res, curr, count) {

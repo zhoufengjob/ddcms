@@ -4,7 +4,12 @@ $(function () {
     function() {
         layer = layui.layer;
         element = layui.element;
+
+
+        tab.tabAdd("仪表盘","/admin/main",4);
+        tab.tabChange(4);
     });
+
 
     //触发事件
   var tab = {
@@ -28,6 +33,7 @@ $(function () {
           element.tabChange('xbs_tab', id); //切换到：用户管理
         }
       };
+
 
 
     tableCheck = {
@@ -55,7 +61,7 @@ $(function () {
             });
             return arr;
         }
-    }
+    };
 
     //开启表格多选
     tableCheck.init();
@@ -85,6 +91,7 @@ $(function () {
     $('.layui-tab-close').click(function(event) {
         $('.layui-tab-title li').eq(0).find('i').remove();
     });
+
 
     //左侧菜单效果
     // $('#content').bind("click",function(event){
@@ -121,12 +128,13 @@ $(function () {
             tab.tabAdd(title,url,index+1);
             tab.tabChange(index+1);
         }
-        
+
         event.stopPropagation();
          
-    })
-    
-})
+    });
+
+
+});
 
 /*弹出层*/
 /*

@@ -24,9 +24,6 @@ public class Helloworld extends JbootController {
     private final static Logger logger = LoggerFactory.getLogger(Helloworld.class);
 
 
-    public static void main(String[] args) {
-        Jboot.run(args);
-    }
 
 
     @SwaggerAPI(description = "测试description描述", summary = "测试summary", operationId = "testOnly", params = {})
