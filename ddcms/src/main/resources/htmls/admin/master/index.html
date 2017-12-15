@@ -90,9 +90,21 @@
                 pageName: 'page' //页码的参数名称，默认：page
                 , limitName: 'size' //每页数据量的参数名，默认：limit
             },
-            cols: [[
+
+//                dms_user.name as uname,
+//            dms_user.email ,
+//            dms_user.nike_name ,
+//            dms_user.create_time,
+//            dms_role.name as rname
+
+        cols: [[
                 {type: 'checkbox'},
-                {field: 'name', title: '管理员', sort: true},
+                {field: 'account', title: '帐号', sort: true},
+                {field: 'phone', title: '手机', sort: true},
+                {field: 'uname', title: '姓名', sort: true},
+                {field: 'email', title: '邮箱', sort: true},
+                {field: 'nike_name', title: '昵称', sort: true},
+                {field: 'rname', title: '角色', sort: true},
                 {field: 'create_time', title: '创建时间', sort: true, templet: '#dateformat'},
                 { title: '操作', align: 'center', width: 200, toolbar: '#tableBar'} //这里的toolbar值是模板元素的选择器
             ]],

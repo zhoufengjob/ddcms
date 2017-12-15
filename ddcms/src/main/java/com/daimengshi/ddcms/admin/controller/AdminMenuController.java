@@ -137,6 +137,9 @@ public class AdminMenuController extends JbootController {
         if (StrUtil.isEmpty(menu.getIsOpen())) {
             menu.setIsOpen("off");
         }
+        if (StrUtil.isEmpty(menu.getUrl()) || "无".equals(menu.getUrl())) {
+            menu.setUrl(null);
+        }
 
         menu.setCreateTime(DateUtil.date());
         menuService.save(menu);
@@ -154,6 +157,10 @@ public class AdminMenuController extends JbootController {
 
         if (StrUtil.isEmpty(menu.getIsOpen())) {
             menu.setIsOpen("off");
+        }
+
+        if (StrUtil.isEmpty(menu.getUrl()) || "无".equals(menu.getUrl())) {
+            menu.setUrl(null);
         }
 
         menuService.update(menu);

@@ -54,4 +54,20 @@ public abstract class BaseDmsPermission<M extends BaseDmsPermission<M>> extends 
 		return get("create_time");
 	}
 
+	public void setName(java.lang.String name) {
+		set("name", name);
+	}
+	
+	public java.lang.String getName() {
+		return getStr("name");
+	}
+
+	public void setDescribe(java.lang.String describe) {
+		set("describe", describe);
+	}
+	
+	public java.lang.String getDescribe() {
+		return getStr("describe");
+	}
+
 }

@@ -17,3 +17,7 @@
 #namespace("role")
   #include("role/index.sql");
 #end
+
+#namespace("permission")
+  #include("permission/index.sql");
+#end
