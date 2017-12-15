@@ -9,10 +9,10 @@ import io.jboot.web.controller.annotation.RequestMapping;
 
 /**
  * Created by zhoufeng on 2017/12/14.
- * 管理员
+ * 角色管理
  */
-@RequestMapping("/admin/master")
-public class AdminMasterController extends JbootController {
+@RequestMapping("/admin/role")
+public class AdminRoleController extends JbootController {
     private static final Log log = LogFactory.get();
 
 
@@ -20,8 +20,8 @@ public class AdminMasterController extends JbootController {
      * 管理员列表
      */
     public void index() {
-        setAttr("title", "管理员列表");
-        setAttr("mainTP", "/htmls/admin/master/index.html");
+        setAttr("title", "角色列表");
+        setAttr("mainTP", "/htmls/admin/role/index.html");
         //调用通用模板
         renderTemplate("/htmls/admin/pop.html");
     }
@@ -30,7 +30,7 @@ public class AdminMasterController extends JbootController {
      * 获取管理员列表
      */
     public void list() {
-        TablePage tablePage = Tools.pageFind(this, "master.getPage");
+        TablePage tablePage = Tools.pageFind(this, "role.getPage");
         renderJson(tablePage);
     }
 

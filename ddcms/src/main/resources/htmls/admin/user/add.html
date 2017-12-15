@@ -1,0 +1,119 @@
+<!--endregion-->
+<blockquote class="layui-elem-quote layui-text">
+    注意事项:
+    <br/>
+    * 必填
+</blockquote>
+
+
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+    <legend>#(formTitle == null ? "表单":formTitle)</legend>
+</fieldset>
+
+<form class="layui-form">
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">菜单名</label>
+        <div class="layui-input-inline">
+            <input name="name" lay-verify="required" placeholder="请输入菜单名" autocomplete="off" class="layui-input"
+                   type="text" value="">
+        </div>
+        <div class="layui-form-mid layui-word-aux">请务必填写菜单名</div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">菜单URL</label>
+        <div class="layui-input-inline">
+            <input name="url" placeholder="请输入菜单URL" autocomplete="off" class="layui-input"
+                   type="text" value="">
+        </div>
+        <div class="layui-form-mid layui-word-aux">请填写菜单URL(可选)</div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">上级菜单</label>
+        <div class="layui-input-inline">
+            <select name="super_id">
+                #for(m:menuList)
+                #if( 0 == m.super_id)
+                <option value="#(m.id)">#(m.name)</option>
+                #end                #end
+            </select>
+        </div>
+        <div class="layui-form-mid layui-word-aux">不选择则为顶级</div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">菜单类型</label>
+        <div class="layui-input-inline">
+            <select name="type_id" lay-verify="required">
+                #for(type:menuTypeList)
+                <option value="#(type.id)">#(type.name)</option>
+                #end
+
+            </select>
+        </div>
+        <div class="layui-form-mid layui-word-aux">选择菜单类型</div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">是否启用</label>
+        <div class="layui-input-block">
+            <input name="is_open" type="checkbox" name="switch" lay-skin="switch" lay-text="启用|禁用" checked>
+        </div>
+    </div>
+    <div class="layui-form-item layui-form-text">
+        <label class="layui-form-label">备注</label>
+        <div class="layui-input-block">
+            <textarea name="desc" placeholder="请输入备注内容(可选)" class="layui-textarea"></textarea>
+        </div>
+    </div>
+
+    <div class="layui-form-item" style="text-align: center">
+        <button class="layui-btn" lay-submit="" lay-filter="sendForm">立即提交</button>
+    </div>
+</form>
+
+<script>
+    layui.use(['element', 'form', 'layedit', 'laydate'], function () {
+        var element = layui.element;
+        var form = layui.form;
+        var layer = layui.layer;
+        var layedit = layui.layedit;
+        var laydate = layui.laydate;
+
+        //注意：parent 是 JS 自带的全局对象，可用于操作父页面
+        var parentIndex = parent.layer.getFrameIndex(window.name); //获取窗口索引
+
+
+        //监听提交
+        form.on('submit(sendForm)', function (data) {
+
+            console.log(JSON.stringify(data.field));
+            layui.$.ajax({
+                type: "post",
+                contentType: "application/json;charset=utf-8", // 因为上面是JSON数据
+                url: '/admin/menu/addMenu',
+                data: JSON.stringify(data.field),
+                success: function (data) {
+
+                    if (200 === data.code) {
+
+                        //给父页面刷新
+                        parent.layui.table.reload('table');
+                        parent.layer.close(parentIndex);
+                        parent.layer.msg('添加成功');
+
+                    }
+
+                    console.log(data);
+                },
+                error: function (data, textStatus, errorThrown) {
+                    layer.msg("添加失败");
+                    console.log(data);
+                }
+            });
+
+            return false;
+        });
+
+
+    });
+</script>

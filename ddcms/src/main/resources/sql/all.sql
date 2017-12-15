@@ -9,3 +9,11 @@
 #namespace("menu")
   #include("menu/index.sql");
 #end
+
+#namespace("master")
+  #include("master/index.sql");
+#end
+
+#namespace("role")
+  #include("role/index.sql");
+#end

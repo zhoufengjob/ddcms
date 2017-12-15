@@ -9,10 +9,6 @@ import com.daimengshi.ddcms.admin.service.impl.DmsMenuServiceImpl;
 import com.daimengshi.ddcms.admin.service.impl.DmsMenuTypeServiceImpl;
 import com.daimengshi.ddcms.pub.*;
 import com.jfinal.kit.HttpKit;
-import com.jfinal.kit.Kv;
-import com.jfinal.plugin.activerecord.Db;
-import com.jfinal.plugin.activerecord.Page;
-import com.jfinal.plugin.activerecord.SqlPara;
 import com.xiaoleilu.hutool.date.DateUtil;
 import com.xiaoleilu.hutool.log.Log;
 import com.xiaoleilu.hutool.log.LogFactory;
@@ -22,8 +18,6 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import org.slf4j.event.Level;
 
 import javax.inject.Inject;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -53,7 +47,6 @@ public class AdminMenuController extends JbootController {
 //        renderTemplate("/htmls/admin/global.html");
         //调用通用模板
         renderTemplate("/htmls/admin/pop.html");
-
     }
 
 
@@ -66,7 +59,7 @@ public class AdminMenuController extends JbootController {
         //获取数据表格请求
         TableDataRequest tableDataRequest = getBean(TableDataRequest.class, "");
 
-        TablePage tablePage = pageFind();
+        TablePage tablePage = Tools.pageFind(this, "menu.getPage");
         renderJson(tablePage);
     }
 
@@ -201,55 +194,4 @@ public class AdminMenuController extends JbootController {
         renderJson(ResponseData.ok());
     }
 
-    /**
-     * 分页查询 返回layui 数据表格 格式数据
-     */
-    private TablePage pageFind() {
-        Page<DmsMenu> menusPage;
-
-        //分页
-        int size = getParaToInt("size", 10);            //每页返回条数
-        int page = getParaToInt("page", 1);             //第几页
-        //时间范围
-        String dateStartStr = getPara("dateStart", "");  //开始时间
-        String dateEndStr = getPara("dateEnd", "");      //结束时间
-        //搜素关键字
-        String searchKey = getPara("searchKey", "");      //结束时间
-        String dateValue = getPara("dateValue", "");      //时间范围值
-
-
-        if (StrUtil.isNotEmpty(dateValue)) {
-            TableDate tableDateStart = JSON.parseObject(dateStartStr, TableDate.class);
-            TableDate tableDateEnd = JSON.parseObject(dateEndStr, TableDate.class);
-            //转换成Date 对象
-            Date startDate = TableDate.toDate(tableDateStart);
-            Date endDate = TableDate.toDate(tableDateEnd);
-            //格式化
-            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-            dateStartStr = formatter.format(startDate);
-            dateEndStr = formatter.format(endDate);
-        }
-
-        //如果有日期 则查询日期范围内数据
-        if (StrUtil.isEmpty(dateValue)) {
-            //当前时间
-            dateEndStr = DateUtil.now();
-        }
-
-        Kv paras = Kv.by("searchKey", "%" + searchKey + "%")
-                .set("dateStartStr", dateStartStr)
-                .set("dateEndStr", dateEndStr);
-
-        SqlPara sqlPara = Db.getSqlPara("menu.getPage", paras);
-
-        //分页查询
-        menusPage = menuService.DAO.paginate(page, size, sqlPara);
-//        menusPage = menuService.DAO.paginate(page, size,
-//                "select *", "from dms_menu WHERE (dms_menu.`name` LIKE ? OR dms_menu.url LIKE ?) AND dms_menu.create_time BETWEEN ? AND ? ",
-//                "%" + searchKey + "%", "%" + searchKey + "%", dateStartStr, dateEndStr);
-
-
-        //返回转换格式
-        return TablePage.ok(menusPage);
-    }
 }
