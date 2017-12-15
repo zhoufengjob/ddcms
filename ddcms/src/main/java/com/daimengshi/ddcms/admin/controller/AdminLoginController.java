@@ -10,7 +10,6 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.config.IniSecurityManagerFactory;
 import org.apache.shiro.mgt.RealmSecurityManager;
 import org.apache.shiro.mgt.SecurityManager;
@@ -54,22 +53,20 @@ public class AdminLoginController extends JbootController {
             return;
         }
         //6、退出
-//        subject.logout();
         log.info(token.getUsername() + "登出成功");
 
         Session session = subject.getSession();
 
         renderJson(ResponseData.ok().putDataValue("session",session));
 
-
     }
 
     /**
      * 测试
      */
-    @RequiresRoles("admin")
     public void logout() {
-
+        Subject subject = SecurityUtils.getSubject();
+        subject.logout();
     }
 
 
@@ -78,12 +75,15 @@ public class AdminLoginController extends JbootController {
      */
     public void test() {
         Subject subject = SecurityUtils.getSubject();
+        Session session = subject.getSession();
+
         if (subject.isPermitted("admin:view")) {
             //有权限
-            renderText("有权限");
+            renderJson(ResponseData.ok().putDataValue("s", "有权限").putDataValue("session",session));
         } else {
+            subject.getSession();
             //无权限
-            renderText("无权限");
+            renderJson(ResponseData.ok().putDataValue("s", "无权限").putDataValue("session",session));
 
         }
     }
