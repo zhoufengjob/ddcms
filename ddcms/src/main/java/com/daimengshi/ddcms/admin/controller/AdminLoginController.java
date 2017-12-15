@@ -11,9 +11,10 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresRoles;
-import org.apache.shiro.authz.annotation.RequiresUser;
 import org.apache.shiro.config.IniSecurityManagerFactory;
+import org.apache.shiro.mgt.RealmSecurityManager;
 import org.apache.shiro.mgt.SecurityManager;
+import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.Factory;
 
@@ -34,7 +35,9 @@ public class AdminLoginController extends JbootController {
         //1、获取SecurityManager工厂，此处使用Ini配置文件初始化SecurityManager
         Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:shiro.ini");
 //        //2、得到SecurityManager实例 并绑定给SecurityUtils
-        SecurityManager securityManager = factory.getInstance();
+
+        RealmSecurityManager securityManager = (RealmSecurityManager) SecurityUtils.getSecurityManager();
+
         SecurityUtils.setSecurityManager(securityManager);
 //        //3、得到Subject及创建用户名/密码身份验证Token（即用户身份/凭证）
         Subject subject = SecurityUtils.getSubject();
@@ -54,8 +57,11 @@ public class AdminLoginController extends JbootController {
 //        subject.logout();
         log.info(token.getUsername() + "登出成功");
 
+        Session session = subject.getSession();
 
-        renderJson(ResponseData.ok());
+        renderJson(ResponseData.ok().putDataValue("session",session));
+
+
     }
 
     /**
@@ -70,10 +76,9 @@ public class AdminLoginController extends JbootController {
     /**
      * 测试
      */
-    @RequiresUser
     public void test() {
         Subject subject = SecurityUtils.getSubject();
-        if (subject.isPermitted("user:view")) {
+        if (subject.isPermitted("admin:view")) {
             //有权限
             renderText("有权限");
         } else {
@@ -85,7 +90,7 @@ public class AdminLoginController extends JbootController {
 
 
 //    public String updateAdminUserPassword() {
-        // 从shiro的session中取activeUser
+    // 从shiro的session中取activeUser
 //        Subject subject = SecurityUtils.getSubject();
 //        // 取身份信息
 //        TAdminUser adminUser = (TAdminUser) subject.getPrincipal();
