@@ -30,12 +30,12 @@ public abstract class BaseDmsMenuType<M extends BaseDmsMenuType<M>> extends Jboo
     }
 
 
-	public void setId(java.lang.String id) {
+	public void setId(java.lang.Integer id) {
 		set("id", id);
 	}
 	
-	public java.lang.String getId() {
-		return getStr("id");
+	public java.lang.Integer getId() {
+		return getInt("id");
 	}
 
 	public void setName(java.lang.String name) {

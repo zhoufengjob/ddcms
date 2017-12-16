@@ -62,4 +62,12 @@ public abstract class BaseDmsRolePermission<M extends BaseDmsRolePermission<M>> 
 		return get("create_time");
 	}
 
+	public void setIsOpen(java.lang.String isOpen) {
+		set("is_open", isOpen);
+	}
+	
+	public java.lang.String getIsOpen() {
+		return getStr("is_open");
+	}
+
 }

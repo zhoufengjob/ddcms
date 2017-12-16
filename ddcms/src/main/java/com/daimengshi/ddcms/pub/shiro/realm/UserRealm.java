@@ -56,7 +56,7 @@ public class UserRealm extends AuthorizingRealm {
         //第二步根据用户输入的帐号从数据库查询
         //...
 
-        if (!username.equals(user.getAccount())) {
+        if (!username.equals(user.getName())) {
             throw new UnknownAccountException(); //如果用户名错误
         }
         if (!password.equals(user.getPassword())) {

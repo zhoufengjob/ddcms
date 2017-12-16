@@ -66,7 +66,7 @@ public class AdminMenuController extends JbootController {
     /**
      * 添加菜单
      */
-    public void add() {
+    public void addView() {
         List<DmsMenu> menuList = menuService.findAll();
         List<DmsMenuType> menuTypeList = menuTypeService.findAll();
 
@@ -89,7 +89,7 @@ public class AdminMenuController extends JbootController {
     /**
      * 查看详情和编辑
      */
-    public void edit() {
+    public void editView() {
         String id = getPara("id");
         DmsMenu menu = menuService.DAO.findByIdWithoutCache(id);
         DmsMenuType menuType = menu.getMenuType();
@@ -128,7 +128,7 @@ public class AdminMenuController extends JbootController {
     /**
      * 添加菜单
      */
-    public void addMenu() {
+    public void add() {
         String json = HttpKit.readData(getRequest());
         log.info(json, Level.INFO);
 
@@ -150,7 +150,7 @@ public class AdminMenuController extends JbootController {
     /**
      * 编辑菜单
      */
-    public void editdMenu() {
+    public void edit() {
         String json = HttpKit.readData(getRequest());
         log.info("\n" + json);
         DmsMenu menu = JSON.parseObject(json, DmsMenu.class);
@@ -174,7 +174,7 @@ public class AdminMenuController extends JbootController {
      * 删除菜单
      */
 
-    public void deleteMenu() {
+    public void delete() {
         String id = getPara("id", "");
 
         if (StrUtil.isEmpty(id)) {
@@ -188,7 +188,7 @@ public class AdminMenuController extends JbootController {
     /**
      * 多选删除
      */
-    public void deleteMenus() {
+    public void deletes() {
         //获取所有请求参数
         String json = HttpKit.readData(getRequest());
         TableCheckStatus mTableCheckStatus = JSON.parseObject(json, TableCheckStatus.class);

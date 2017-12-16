@@ -1,3 +1,4 @@
+<!-- role  添加界面-->
 <!--endregion-->
 <blockquote class="layui-elem-quote layui-text">
     注意事项:
@@ -11,47 +12,24 @@
 </fieldset>
 
 <form class="layui-form">
-
     <div class="layui-form-item">
-        <label class="layui-form-label">菜单名</label>
+        <label class="layui-form-label">名称</label>
         <div class="layui-input-inline">
-            <input name="name" lay-verify="required" placeholder="请输入菜单名" autocomplete="off" class="layui-input"
+            <input name="name" lay-verify="required" placeholder="请输入名称" autocomplete="off" class="layui-input"
                    type="text" value="">
         </div>
-        <div class="layui-form-mid layui-word-aux">请务必填写菜单名</div>
+        <div class="layui-form-mid layui-word-aux">请务必填写名称</div>
     </div>
+
     <div class="layui-form-item">
-        <label class="layui-form-label">菜单URL</label>
+        <label class="layui-form-label">角色标识</label>
         <div class="layui-input-inline">
-            <input name="url" placeholder="请输入菜单URL" autocomplete="off" class="layui-input"
+            <input name="name" lay-verify="required" placeholder="请输入角色标识" autocomplete="off" class="layui-input"
                    type="text" value="">
         </div>
-        <div class="layui-form-mid layui-word-aux">请填写菜单URL(可选)</div>
+        <div class="layui-form-mid layui-word-aux">请务必填写角色标识</div>
     </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">上级菜单</label>
-        <div class="layui-input-inline">
-            <select name="super_id">
-                #for(m:menuList)
-                #if( 0 == m.super_id)
-                <option value="#(m.id)">#(m.name)</option>
-                #end                #end
-            </select>
-        </div>
-        <div class="layui-form-mid layui-word-aux">不选择则为顶级</div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">菜单类型</label>
-        <div class="layui-input-inline">
-            <select name="type_id" lay-verify="required">
-                #for(type:menuTypeList)
-                <option value="#(type.id)">#(type.name)</option>
-                #end
-
-            </select>
-        </div>
-        <div class="layui-form-mid layui-word-aux">选择菜单类型</div>
-    </div>
+    
 
     <div class="layui-form-item">
         <label class="layui-form-label">是否启用</label>
@@ -90,7 +68,7 @@
             layui.$.ajax({
                 type: "post",
                 contentType: "application/json;charset=utf-8", // 因为上面是JSON数据
-                url: '/admin/menu/addMenu',
+                url: '/admin/role/add',
                 data: JSON.stringify(data.field),
                 success: function (data) {
 

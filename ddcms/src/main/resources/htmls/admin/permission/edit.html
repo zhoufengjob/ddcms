@@ -1,5 +1,6 @@
+<!-- permission  编辑界面-->
 <fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
-    <legend>#(menu.name)</legend>
+    <legend>#(permission.name)</legend>
 </fieldset>
 
 <form class="layui-form layui-form-pane" action="">
@@ -7,7 +8,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">ID</label>
         <div class="layui-input-block">
-            <input name="id" disabled lay-verify="required" value="#(menu.id)" placeholder="请输入" autocomplete="off"
+            <input name="id" disabled lay-verify="required" value="#(permission.id)" placeholder="请输入" autocomplete="off"
                    class="layui-input" type="text">
         </div>
     </div>
@@ -16,73 +17,35 @@
         <label class="layui-form-label">创建时间</label>
         <div class="layui-input-inline">
             <input name="create_time" lay-verify="required" disabled
-                   value="#date(menu.create_time,'yyyy-MM-dd HH:mm:ss')" placeholder="请输入" autocomplete="off"
+                   value="#date(permission.create_time,'yyyy-MM-dd HH:mm:ss')" placeholder="请输入" autocomplete="off"
                    class="layui-input" type="text">
         </div>
         <div class="layui-form-mid layui-word-aux">请务必填写菜单地址(相对路径)</div>
     </div>
+    
 
     <div class="layui-form-item">
-        <label class="layui-form-label">菜单名</label>
+        <label class="layui-form-label">名称</label>
         <div class="layui-input-inline">
-            <input name="name" lay-verify="required" value="#(menu.name)" placeholder="请输入" autocomplete="off"
-                   class="layui-input" type="text">
+            <input name="name" lay-verify="required" placeholder="请输入名称" autocomplete="off" class="layui-input"
+                   type="text" value="#(permission.name)">
         </div>
-        <div class="layui-form-mid layui-word-aux">请务必填写菜单名</div>
-    </div>
-    <div class="layui-form-item">
-        <label class="layui-form-label">菜单URL</label>
-        <div class="layui-input-inline">
-            <input name="url" value="#(menu.url)" placeholder="请输入" autocomplete="off"
-                   class="layui-input" type="text">
-        </div>
-        <div class="layui-form-mid layui-word-aux">请填写菜单Url</div>
+        <div class="layui-form-mid layui-word-aux">请务必填写名称</div>
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label">上级菜单</label>
+        <label class="layui-form-label">权限标识</label>
         <div class="layui-input-inline">
-            <select name="super_id">
-
-                ###首先找到当前父类并且赋值并且当前不是父类(解决已选部分不重复)
-                <option value="#(superMenu.id)">#(superMenu.name)</option>
-
-                #for(m:menuList)
-                #if( m.id != superMenu.id && 0 == m.super_id &&m.id != menu.id )
-                <option value="#(m.id)">#(m.name)</option>
-                #end
-                #end
-
-            </select>
+            <input name="key" lay-verify="required" placeholder="请输入权限标识" autocomplete="off" class="layui-input"
+                   type="text" value="#(permission.key)">
         </div>
-        <div class="layui-form-mid layui-word-aux">目前只显示二级菜单</div>
-    </div>
-
-    <div class="layui-form-item">
-        <label class="layui-form-label">菜单类型</label>
-        <div class="layui-input-inline">
-            <select name="type_id" lay-verify="required">
-                #for(type:menuTypeList)
-                #if(type.id == menu.type_id)
-                <option value="#(type.id)">#(type.name)</option>
-                #end
-                #end
-
-                #for(type:menuTypeList)
-                #if(type.id != menu.type_id)
-                <option value="#(type.id)">#(type.name)</option>
-                #end
-                #end
-
-            </select>
-        </div>
-        <div class="layui-form-mid layui-word-aux">选择菜单类型</div>
+        <div class="layui-form-mid layui-word-aux">请务必填写权限标识</div>
     </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">是否启用</label>
         <div class="layui-input-block">
-            #if("on".equals(menu.is_open))
+            #if("on".equals(permission.is_open))
             <input name="is_open" type="checkbox" name="switch" lay-skin="switch" lay-text="启用|禁用" checked>
             #else
             <input name="is_open" type="checkbox" name="switch" lay-skin="switch" lay-text="启用|禁用">
@@ -93,7 +56,7 @@
     <div class="layui-form-item layui-form-text">
         <label class="layui-form-label">备注</label>
         <div class="layui-input-block">
-            <textarea name="desc" placeholder="请输入内容" class="layui-textarea">#(menu.desc)</textarea>
+            <textarea name="desc" placeholder="请输入内容" class="layui-textarea">#(permission.desc)</textarea>
         </div>
     </div>
 
@@ -118,7 +81,7 @@
             layui.$.ajax({
                 type: "post",
                 contentType: "application/json;charset=utf-8", // 因为上面是JSON数据
-                url: '/admin/menu/editdMenu',
+                url: '/admin/permission/edit',
                 data: JSON.stringify(data.field),
                 success: function (data) {
 
@@ -143,5 +106,6 @@
         });
     });
 </script>
+
 
 

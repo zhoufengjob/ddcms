@@ -13,45 +13,67 @@
 <form class="layui-form">
 
     <div class="layui-form-item">
-        <label class="layui-form-label">菜单名</label>
+        <label class="layui-form-label">用户名</label>
         <div class="layui-input-inline">
-            <input name="name" lay-verify="required" placeholder="请输入菜单名" autocomplete="off" class="layui-input"
+            <input name="name" lay-verify="required" placeholder="请输入用户名" autocomplete="off" class="layui-input"
                    type="text" value="">
         </div>
-        <div class="layui-form-mid layui-word-aux">请务必填写菜单名</div>
+        <div class="layui-form-mid layui-word-aux">请务必填写用户名</div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">菜单URL</label>
+        <label class="layui-form-label">昵称</label>
         <div class="layui-input-inline">
-            <input name="url" placeholder="请输入菜单URL" autocomplete="off" class="layui-input"
+            <input name="nike_name" placeholder="请输入昵称" autocomplete="off" class="layui-input"
                    type="text" value="">
         </div>
-        <div class="layui-form-mid layui-word-aux">请填写菜单URL(可选)</div>
+        <div class="layui-form-mid layui-word-aux">请填写昵称(可选)</div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">上级菜单</label>
+        <label class="layui-form-label">密码</label>
         <div class="layui-input-inline">
-            <select name="super_id">
-                #for(m:menuList)
-                #if( 0 == m.super_id)
-                <option value="#(m.id)">#(m.name)</option>
-                #end                #end
-            </select>
+            <input name="password" placeholder="请输入密码" autocomplete="off" class="layui-input"
+                   type="text" value="">
         </div>
-        <div class="layui-form-mid layui-word-aux">不选择则为顶级</div>
+        <div class="layui-form-mid layui-word-aux">请填写密码</div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">菜单类型</label>
+        <label class="layui-form-label">邮箱</label>
         <div class="layui-input-inline">
-            <select name="type_id" lay-verify="required">
-                #for(type:menuTypeList)
-                <option value="#(type.id)">#(type.name)</option>
-                #end
+            <input name="email" placeholder="请输入邮箱" autocomplete="off" class="layui-input"
+                   type="text" value="">
+        </div>
+        <div class="layui-form-mid layui-word-aux">请填写邮箱</div>
+    </div>
 
-            </select>
+    <div class="layui-form-item">
+        <label class="layui-form-label">积分</label>
+        <div class="layui-input-inline">
+            <input name="point" placeholder="请输入积分" autocomplete="off" class="layui-input"
+                   type="text" value="">
         </div>
-        <div class="layui-form-mid layui-word-aux">选择菜单类型</div>
+        <div class="layui-form-mid layui-word-aux">请填写积分</div>
     </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">手机</label>
+        <div class="layui-input-inline">
+            <input name="phone" placeholder="请输入手机" autocomplete="off" class="layui-input"
+                   type="text" value="">
+        </div>
+        <div class="layui-form-mid layui-word-aux">请填写手机</div>
+    </div>
+    <!--<div class="layui-form-item">-->
+        <!--<label class="layui-form-label">上级菜单</label>-->
+        <!--<div class="layui-input-inline">-->
+            <!--<select name="super_id">-->
+                <!--#for(m:menuList)-->
+                <!--#if( 0 == m.super_id)-->
+                <!--<option value="#(m.id)">#(m.name)</option>-->
+                <!--#end                #end-->
+            <!--</select>-->
+        <!--</div>-->
+        <!--<div class="layui-form-mid layui-word-aux">不选择则为顶级</div>-->
+    <!--</div>-->
 
     <div class="layui-form-item">
         <label class="layui-form-label">是否启用</label>
@@ -90,7 +112,7 @@
             layui.$.ajax({
                 type: "post",
                 contentType: "application/json;charset=utf-8", // 因为上面是JSON数据
-                url: '/admin/menu/addMenu',
+                url: '/admin/user/add',
                 data: JSON.stringify(data.field),
                 success: function (data) {
 

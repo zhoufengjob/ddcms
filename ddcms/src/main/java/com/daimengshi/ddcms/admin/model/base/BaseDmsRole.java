@@ -78,4 +78,12 @@ public abstract class BaseDmsRole<M extends BaseDmsRole<M>> extends JbootModel<M
 		return getStr("key");
 	}
 
+	public void setIsOpen(java.lang.String isOpen) {
+		set("is_open", isOpen);
+	}
+	
+	public java.lang.String getIsOpen() {
+		return getStr("is_open");
+	}
+
 }

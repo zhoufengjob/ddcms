@@ -1,4 +1,6 @@
-<!--region hrml模板-->
+<!-- permission  添加界面-->
+
+<!--region html模板-->
 <div class="tableBox">
 
     <div class="x-nav">
@@ -11,11 +13,11 @@
         <div class="layui-btn-group" style="line-height:1.6em;margin-top:3px;float:right">
             <button class="layui-btn layui-btn-sm layui-btn-primary">
                 <i class="layui-icon">&#xe61f;</i>
-                二维码
+                预留
             </button>
             <button class="layui-btn layui-btn-sm layui-btn-primary">
                 <i class="layui-icon">&#xe640;</i>
-                分享
+                预留
             </button>
             <button class="layui-btn layui-btn-sm layui-btn-primary" data-type="ref">
                 <i class="layui-icon">&#x1002;</i>
@@ -52,7 +54,6 @@
                     </button>
                 </div>
             </div>
-            <!--<button class="layui-btn" onclick="x_admin_show('添加用户','./admin-add.html')"><i class="layui-icon"></i>添加</button>-->
         </xblock>
 
 
@@ -127,7 +128,7 @@
             layui.$.ajax({
                 type: "post",
                 contentType: "application/json;charset=utf-8", // 因为上面是JSON数据
-                url: '/admin/permission/editdMenu',
+                url: '/admin/permission/edit',
                 data: JSON.stringify(data),
                 success: function (data) {
 
@@ -169,7 +170,7 @@
                     layui.$.ajax({
                         type: "post",
                         contentType: "application/json;charset=utf-8", // 因为上面是JSON数据
-                        url: '/admin/permission/deleteMenus',
+                        url: '/admin/permission/deletes',
                         data: JSON.stringify(checkStatus), //要用双引号!!
                         success: function (data) {
                             if (200 === data.code) {
@@ -194,12 +195,12 @@
                 //iframe层-父子操作
                 layer.open({
                     type: 2,
-                    title: '添加菜单',
+                    title: '添加',
                     area: ['700px', '450px'],
                     fixed: false, //不固定
                     maxmin: true,
                     anim: 0,//0-6的动画形式，-1不开启
-                    content: '/admin/user/add',
+                    content: '/admin/permission/addView',
                     shade: false,
                     shadeClose: true,
 //                    btn: ['确定', '取消'], //只是为了演示
@@ -249,7 +250,7 @@
                     //向服务端发送删除指令
                     layui.$.ajax({
                         type: "post",
-                        url: '/admin/user/deleteUser',
+                        url: '/admin/permission/delete',
                         data: data,
                         success: function (data) {
                             layer.msg('删除成功');
@@ -265,11 +266,11 @@
                 layer.open({
                     type: 2,
                     title: '编辑' + obj.data.name,
-                    area: ['500px', '550px'],
+                    area: ['700px', '450px'],
                     fixed: false, //不固定
                     maxmin: true,
                     anim: 0,//0-6的动画形式，-1不开启
-                    content: '/admin/user/edit?id=' + obj.data.id,
+                    content: '/admin/permission/editView?id=' + obj.data.id,
                     shade: false,
                     shadeClose: true,
 //                    btn: ['确定', '取消'], //只是为了演示

@@ -62,12 +62,20 @@ public abstract class BaseDmsPermission<M extends BaseDmsPermission<M>> extends 
 		return getStr("name");
 	}
 
-	public void setDescribe(java.lang.String describe) {
-		set("describe", describe);
+	public void setDesc(java.lang.String desc) {
+		set("desc", desc);
 	}
 	
-	public java.lang.String getDescribe() {
-		return getStr("describe");
+	public java.lang.String getDesc() {
+		return getStr("desc");
+	}
+
+	public void setIsOpen(java.lang.String isOpen) {
+		set("is_open", isOpen);
+	}
+	
+	public java.lang.String getIsOpen() {
+		return getStr("is_open");
 	}
 
 }

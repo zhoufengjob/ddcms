@@ -46,14 +46,6 @@ public abstract class BaseDmsUser<M extends BaseDmsUser<M>> extends JbootModel<M
 		return getStr("name");
 	}
 
-	public void setAge(java.lang.Integer age) {
-		set("age", age);
-	}
-	
-	public java.lang.Integer getAge() {
-		return getInt("age");
-	}
-
 	public void setCreateTime(java.util.Date createTime) {
 		set("create_time", createTime);
 	}
@@ -78,14 +70,6 @@ public abstract class BaseDmsUser<M extends BaseDmsUser<M>> extends JbootModel<M
 		return getStr("password");
 	}
 
-	public void setAccount(java.lang.String account) {
-		set("account", account);
-	}
-	
-	public java.lang.String getAccount() {
-		return getStr("account");
-	}
-
 	public void setNikeName(java.lang.String nikeName) {
 		set("nike_name", nikeName);
 	}
@@ -94,12 +78,12 @@ public abstract class BaseDmsUser<M extends BaseDmsUser<M>> extends JbootModel<M
 		return getStr("nike_name");
 	}
 
-	public void setPoint(java.lang.Integer point) {
+	public void setPoint(java.lang.Long point) {
 		set("point", point);
 	}
 	
-	public java.lang.Integer getPoint() {
-		return getInt("point");
+	public java.lang.Long getPoint() {
+		return getLong("point");
 	}
 
 	public void setEmail(java.lang.String email) {
@@ -108,6 +92,22 @@ public abstract class BaseDmsUser<M extends BaseDmsUser<M>> extends JbootModel<M
 	
 	public java.lang.String getEmail() {
 		return getStr("email");
+	}
+
+	public void setIsOpen(java.lang.String isOpen) {
+		set("is_open", isOpen);
+	}
+	
+	public java.lang.String getIsOpen() {
+		return getStr("is_open");
+	}
+
+	public void setDesc(java.lang.String desc) {
+		set("desc", desc);
+	}
+	
+	public java.lang.String getDesc() {
+		return getStr("desc");
 	}
 
 }

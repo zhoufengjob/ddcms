@@ -1,4 +1,6 @@
-<!--region hrml模板-->
+<!-- master  添加界面-->
+
+<!--region html模板-->
 <div class="tableBox">
 
     <div class="x-nav">
@@ -11,11 +13,11 @@
         <div class="layui-btn-group" style="line-height:1.6em;margin-top:3px;float:right">
             <button class="layui-btn layui-btn-sm layui-btn-primary">
                 <i class="layui-icon">&#xe61f;</i>
-                二维码
+                预留
             </button>
             <button class="layui-btn layui-btn-sm layui-btn-primary">
                 <i class="layui-icon">&#xe640;</i>
-                分享
+                预留
             </button>
             <button class="layui-btn layui-btn-sm layui-btn-primary" data-type="ref">
                 <i class="layui-icon">&#x1002;</i>
@@ -52,7 +54,6 @@
                     </button>
                 </div>
             </div>
-            <!--<button class="layui-btn" onclick="x_admin_show('添加用户','./admin-add.html')"><i class="layui-icon"></i>添加</button>-->
         </xblock>
 
 
@@ -90,20 +91,12 @@
                 pageName: 'page' //页码的参数名称，默认：page
                 , limitName: 'size' //每页数据量的参数名，默认：limit
             },
-
-//                dms_user.name as uname,
-//            dms_user.email ,
-//            dms_user.nike_name ,
-//            dms_user.create_time,
-//            dms_role.name as rname
-
-        cols: [[
+            cols: [[
                 {type: 'checkbox'},
-                {field: 'account', title: '帐号', sort: true},
-                {field: 'phone', title: '手机', sort: true},
-                {field: 'uname', title: '姓名', sort: true},
+                {field: 'uname', title: '用户名', sort: true},
                 {field: 'email', title: '邮箱', sort: true},
                 {field: 'nike_name', title: '昵称', sort: true},
+                {field: 'phone', title: '手机', sort: true},
                 {field: 'rname', title: '角色', sort: true},
                 {field: 'create_time', title: '创建时间', sort: true, templet: '#dateformat'},
                 { title: '操作', align: 'center', width: 200, toolbar: '#tableBar'} //这里的toolbar值是模板元素的选择器
@@ -138,7 +131,7 @@
             layui.$.ajax({
                 type: "post",
                 contentType: "application/json;charset=utf-8", // 因为上面是JSON数据
-                url: '/admin/menu/editdMenu',
+                url: '/admin/master/edit',
                 data: JSON.stringify(data),
                 success: function (data) {
 
@@ -180,7 +173,7 @@
                     layui.$.ajax({
                         type: "post",
                         contentType: "application/json;charset=utf-8", // 因为上面是JSON数据
-                        url: '/admin/menu/deleteMenus',
+                        url: '/admin/master/deletes',
                         data: JSON.stringify(checkStatus), //要用双引号!!
                         success: function (data) {
                             if (200 === data.code) {
@@ -205,12 +198,12 @@
                 //iframe层-父子操作
                 layer.open({
                     type: 2,
-                    title: '添加菜单',
+                    title: '添加',
                     area: ['700px', '450px'],
                     fixed: false, //不固定
                     maxmin: true,
                     anim: 0,//0-6的动画形式，-1不开启
-                    content: '/admin/menu/add',
+                    content: '/admin/master/addView',
                     shade: false,
                     shadeClose: true,
 //                    btn: ['确定', '取消'], //只是为了演示
@@ -260,7 +253,7 @@
                     //向服务端发送删除指令
                     layui.$.ajax({
                         type: "post",
-                        url: '/admin/menu/deleteMenu',
+                        url: '/admin/master/delete',
                         data: data,
                         success: function (data) {
                             layer.msg('删除成功');
@@ -276,11 +269,11 @@
                 layer.open({
                     type: 2,
                     title: '编辑' + obj.data.name,
-                    area: ['500px', '550px'],
+                    area: ['700px', '450px'],
                     fixed: false, //不固定
                     maxmin: true,
                     anim: 0,//0-6的动画形式，-1不开启
-                    content: '/admin/menu/edit?id=' + obj.data.id,
+                    content: '/admin/master/editView?id=' + obj.data.id,
                     shade: false,
                     shadeClose: true,
 //                    btn: ['确定', '取消'], //只是为了演示
