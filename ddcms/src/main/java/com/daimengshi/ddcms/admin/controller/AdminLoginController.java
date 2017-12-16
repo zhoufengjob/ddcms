@@ -1,8 +1,6 @@
 package com.daimengshi.ddcms.admin.controller;
 
-import com.daimengshi.ddcms.admin.interceptor.AdminInterceptor;
 import com.daimengshi.ddcms.pub.ResponseData;
-import com.jfinal.aop.Before;
 import com.xiaoleilu.hutool.log.Log;
 import com.xiaoleilu.hutool.log.LogFactory;
 import io.jboot.web.controller.JbootController;
@@ -17,11 +15,12 @@ import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.Factory;
 
+import java.util.Map;
+
 /**
  * Created by zhoufeng on 2017/12/6.
  * 登录
  */
-@Before(AdminInterceptor.class) //拦截器,获取菜单和系统配置
 @RequestMapping("/admin/login")
 public class AdminLoginController extends JbootController {
     private static final Log log = LogFactory.get();
@@ -31,16 +30,36 @@ public class AdminLoginController extends JbootController {
      * 后台主页
      */
     public void index() {
+
+        Subject subject = SecurityUtils.getSubject();
+        if (subject.isAuthenticated()) {
+            redirect("/admin");
+        } else {
+            renderTemplate("/htmls/admin/login/index.html");
+        }
+    }
+
+
+    /**
+     * 登录
+     */
+    public void login() {
+
+        Map<String, String[]> map = getParaMap();
+
+        String username = getPara("username");
+        String password = getPara("password");
+
         //1、获取SecurityManager工厂，此处使用Ini配置文件初始化SecurityManager
         Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:shiro.ini");
-//        //2、得到SecurityManager实例 并绑定给SecurityUtils
+        //2、得到SecurityManager实例 并绑定给SecurityUtils
 
         RealmSecurityManager securityManager = (RealmSecurityManager) SecurityUtils.getSecurityManager();
 
         SecurityUtils.setSecurityManager(securityManager);
-//        //3、得到Subject及创建用户名/密码身份验证Token（即用户身份/凭证）
+        //3、得到Subject及创建用户名/密码身份验证Token（即用户身份/凭证）
         Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken token = new UsernamePasswordToken("admin", "admin");
+        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
 
         try {
             //4、登录，即身份验证
@@ -49,24 +68,21 @@ public class AdminLoginController extends JbootController {
         } catch (AuthenticationException e) {
             //5、身份验证失败
             log.info(token.getUsername() + "登录失败--" + e);
-            renderJson(ResponseData.apiError("登录失败"));
+            renderJson(ResponseData.apiError("身份验证失败,请检查用户名或密码."));
             return;
         }
-        //6、退出
-        log.info(token.getUsername() + "登出成功");
 
-        Session session = subject.getSession();
-
-        renderJson(ResponseData.ok().putDataValue("session",session));
-
+        renderJson(ResponseData.ok());
     }
 
     /**
-     * 测试
+     * 退出
      */
     public void logout() {
         Subject subject = SecurityUtils.getSubject();
         subject.logout();
+        redirect(subject.isAuthenticated() ? "/admin" : "/admin/login");
+
     }
 
 
@@ -79,11 +95,11 @@ public class AdminLoginController extends JbootController {
 
         if (subject.isPermitted("admin:view")) {
             //有权限
-            renderJson(ResponseData.ok().putDataValue("s", "有权限").putDataValue("session",session));
+            renderJson(ResponseData.ok().putDataValue("s", "有权限").putDataValue("session", session));
         } else {
             subject.getSession();
             //无权限
-            renderJson(ResponseData.ok().putDataValue("s", "无权限").putDataValue("session",session));
+            renderJson(ResponseData.ok().putDataValue("s", "无权限").putDataValue("session", session));
 
         }
     }
