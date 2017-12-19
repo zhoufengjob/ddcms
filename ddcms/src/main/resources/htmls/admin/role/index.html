@@ -1,0 +1,322 @@
+<!-- role  添加界面-->
+
+<!--region html模板-->
+<div class="tableBox">
+
+    <div class="x-nav">
+        <div style="margin-bottom:20px;float:left">
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend>#(title)</legend>
+            </fieldset>
+        </div>
+
+        <div class="layui-btn-group" style="line-height:1.6em;margin-top:3px;float:right">
+            <button class="layui-btn layui-btn-sm layui-btn-primary">
+                <i class="layui-icon">&#xe61f;</i>
+                预留
+            </button>
+            <button class="layui-btn layui-btn-sm layui-btn-primary">
+                <i class="layui-icon">&#xe640;</i>
+                预留
+            </button>
+            <button class="layui-btn layui-btn-sm layui-btn-primary" data-type="ref">
+                <i class="layui-icon">&#x1002;</i>
+                刷新
+            </button>
+        </div>
+    </div>
+
+    <div class="x-body">
+
+
+        <xblock>
+
+            <div class="x-nav">
+
+                <div class="layui-btn-group">
+                    <button class="layui-btn layui-btn-primary" data-type="add"><i class="layui-icon">&#xe61f;</i>添加
+                    </button>
+                    <button class="layui-btn layui-btn-primary" data-type="delete"><i
+                            class="layui-icon">&#xe640;</i>删除
+                    </button>
+                </div>
+                <div class="layui-inline" style="width: 180px">
+                    <input class="layui-input" id="datePop" placeholder="时间范围搜索" type="text">
+                </div>
+                <div class="layui-inline x-right">
+                    <div class="layui-inline">
+                        <input class="layui-input" placeholder="关键字搜索" name="id" id="searchReload"
+                               autocomplete="off">
+                    </div>
+
+                    <button class="layui-btn layui-btn-primary" data-type="search"><i
+                            class="layui-icon">&#xe615;</i>搜索
+                    </button>
+                </div>
+            </div>
+        </xblock>
+
+
+        <!--region 菜单列表-->
+        <table class="layui-hide" id="table" lay-filter="lf_table"></table>
+
+        <!--endregion-->
+    </div>
+</div>
+
+<!--endregion-->
+
+
+<!--region 核心脚本-->
+<script>
+    layui.use(['element', 'table', 'layer', 'laydate', 'util'], function () {
+        var element = layui.element;
+        var table = layui.table;
+        var layer = layui.layer;
+        var laydate = layui.laydate;
+        var util = layui.util;
+
+
+        //region 数据表格渲染
+        table.render({
+            height: 'full-200',
+            elem: '#table',
+            url: '/admin/role/list',
+//            where: {dateStart: '', dateEnd: ''},//如果无需传递额外参数，可不加该参数
+            method: 'post', //如果无需自定义HTTP类型，可不加该参数
+            page: true,//开启分页
+            cellMinWidth: 80,//全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            response: {},
+            request: {
+                pageName: 'page' //页码的参数名称，默认：page
+                , limitName: 'size' //每页数据量的参数名，默认：limit
+            },
+            cols: [[
+                {type: 'checkbox'},
+                {field: 'name', title: '角色名', sort: true},
+                {field: 'key', title: '角色标识', sort: true},
+                {field: 'create_time', title: '创建时间', sort: true, templet: '#dateformat'},
+                { title: '操作', align: 'center', width: 200, toolbar: '#tableBar'} //这里的toolbar值是模板元素的选择器
+            ]],
+            //回调
+            done: function (res, curr, count) {
+                //如果是异步请求数据方式，res即为你接口返回的信息。
+                //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+                console.log(res);
+                //得到当前页码
+                console.log(curr);
+
+                //得到数据总量
+                console.log(count);
+                console.log(res.code);
+            }
+        });
+        //endregion
+
+        //region 监听表格复选框选择
+        table.on('checkbox(lf_table)', function (obj) {
+            console.log(obj)
+        });
+        //endregion
+
+        <!--<editor-fold desc="监听单元格编辑">-->
+        table.on('edit(lf_table)', function (obj) {
+            var value = obj.value //得到修改后的值
+                , data = obj.data //得到所在行所有键值
+                , field = obj.field; //得到字段
+
+            layui.$.ajax({
+                type: "post",
+                contentType: "application/json;charset=utf-8", // 因为上面是JSON数据
+                url: '/admin/role/edit',
+                data: JSON.stringify(data),
+                success: function (data) {
+
+                    if (200 === data.code) {
+                        layer.msg('修改成功');
+                    } else {
+                        layer.msg('修改失败:' + data.msg);
+                    }
+
+                    //页面刷新
+                    layui.table.reload('table');
+                    layer.close(parentIndex);
+
+                    console.log(data);
+                },
+                error: function (data, textStatus, errorThrown) {
+                    layer.msg("添加失败");
+                    console.log(data);
+                }
+            });
+
+
+        });
+        <!--endregion-->
+
+        //region 点击事件监听
+        var $ = layui.$, active = {
+            //获取选中数据 批量删除
+            delete: function () {
+                var checkStatus = table.checkStatus('table');
+
+                if (checkStatus.data.length === 0) {
+                    layer.msg('请勾选删除的项!');
+                    return;
+                }
+
+                layer.confirm('真的要删除这' + checkStatus.data.length + '条数据么?', function (index) {
+                    //向服务端发送删除指令
+                    layui.$.ajax({
+                        type: "post",
+                        contentType: "application/json;charset=utf-8", // 因为上面是JSON数据
+                        url: '/admin/role/deletes',
+                        data: JSON.stringify(checkStatus), //要用双引号!!
+                        success: function (data) {
+                            if (200 === data.code) {
+                                //执行重载
+                                table.reload('table');
+                                layer.msg('删除成功');
+                                layer.close(edit);
+
+                            } else {
+                                layer.alert('出错啦! 错误: ' + "<br/>" + data.msg);
+                            }
+                        },
+                        error: function (data, textStatus, errorThrown) {
+                            layer.msg('删除失败');
+                        }
+                    });
+                });
+
+
+            },
+            add: function () { //添加
+                //iframe层-父子操作
+                layer.open({
+                    type: 2,
+                    title: '添加',
+                    area: ['700px', '450px'],
+                    fixed: false, //不固定
+                    maxmin: true,
+                    anim: 0,//0-6的动画形式，-1不开启
+                    content: '/admin/role/addView',
+                    shade: false,
+                    shadeClose: true,
+//                    btn: ['确定', '取消'], //只是为了演示
+
+                });
+            },
+            search: function () {
+                var searchReload = $('#searchReload');
+                //执行重载
+                table.reload('table', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    }
+                    , where: {
+                        searchKey: searchReload.val()
+                    }
+                });
+            },
+            ref: function () {
+                //刷新当前子页面
+                location.reload();
+            }
+        };
+
+        $("#searchReload").keydown(function (event) {
+            if (event.keyCode == 13) {
+                active.search();
+            }
+        });
+
+        $('.tableBox .layui-btn').on('click', function () {
+            var type = $(this).data('type');
+            active[type] ? active[type].call(this) : '';
+        });
+        //endregion
+
+        //region 监听工具条
+        table.on('tool(lf_table)', function (obj) { //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的DOM对象
+
+            if (layEvent === 'del') { //删除
+                layer.confirm('真的删除 ' + obj.data.name + ' 么?', function (index) {
+                    obj.del(); //删除对应行（tr）的DOM结构，并更新缓存
+                    layer.close(index);
+                    //向服务端发送删除指令
+                    layui.$.ajax({
+                        type: "post",
+                        url: '/admin/role/delete',
+                        data: data,
+                        success: function (data) {
+                            layer.msg('删除成功');
+                        },
+                        error: function (data, textStatus, errorThrown) {
+                            layer.msg('删除失败');
+                        },
+                    });
+
+                });
+            } else if (layEvent === 'edit') { //编辑
+                //iframe层-父子操作
+                layer.open({
+                    type: 2,
+                    title: '编辑' + obj.data.name,
+                    area: ['700px', '450px'],
+                    fixed: false, //不固定
+                    maxmin: true,
+                    anim: 0,//0-6的动画形式，-1不开启
+                    content: '/admin/role/editView?id=' + obj.data.id,
+                    shade: false,
+                    shadeClose: true,
+//                    btn: ['确定', '取消'], //只是为了演示
+                });
+            }
+        });
+        //endregion
+
+        //region 监听日期范围选择
+        laydate.render({
+            elem: '#datePop',
+            theme: '#393D49',
+            range: true,
+            done: function (value, dateStart, dateEnd) {
+                //执行重载
+                table.reload('table', {
+                    page: {
+                        curr: 1 //重新从第 1 页开始
+                    },
+                    where: {
+                        dateValue: value,
+                        dateStart: JSON.stringify(dateStart),
+                        dateEnd: JSON.stringify(dateEnd)
+                    }
+                });
+
+//                layer.alert('你选择的日期是：' + value
+//                    + '<br>获得的开始对象是：' + JSON.stringify(dateStart)
+//                    + '<br>获得的结束对象是：' + JSON.stringify(dateEnd));
+
+            }
+        });
+        //endregion
+
+    });
+</script>
+<!--endregion-->
+
+<!--region 绑定列工具条-->
+<script type="text/html" id="tableBar">
+    <button class="layui-btn  layui-btn-xs layui-btn-primary" lay-event="edit">&nbsp;编辑&nbsp;</button>
+    <button class="layui-btn  layui-btn-danger layui-btn-xs" lay-event="del">&nbsp;删除&nbsp;</button>
+</script>
+<!--endregion-->
+
+<!--日期模板-->
+<script type="text/html" id="dateformat">
+    <div>{{ layui.util.timeAgo(d.create_time) }}</div>
+</script>
