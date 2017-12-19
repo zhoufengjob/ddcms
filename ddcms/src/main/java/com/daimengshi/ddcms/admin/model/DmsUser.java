@@ -18,28 +18,30 @@ public class DmsUser extends BaseDmsUser<DmsUser> {
      *
      * @return
      */
-    public List<DmsRole> getUserRoles() {
-        List<DmsRole> dmsRoleList = new ArrayList<>();
-        List<DmsUserRole> userRoles = DmsUserRole.dao.find("select * from dms_user_role WHERE dms_user_role.uid = ?", getStr("id"));
-
-        for (DmsUserRole userRole : userRoles) {
-            dmsRoleList.addAll(userRole.getRoles());
+    public DmsRole getUserRole() {
+        DmsUserRole userRole = DmsUserRole.dao.findFirst("select * from dms_user_role WHERE dms_user_role.uid = ?", getStr("id"));
+        if (userRole == null) {
+            return null;
         }
-        return dmsRoleList;
+        DmsRole dmsRole = userRole.getRole();
+        return dmsRole;
     }
 
 
     /**
-     * 获取用户所有权限
+     * 获取用有权限
      *
      * @return
      */
     public List<DmsPermission> getAllUserPermissions() {
         List<DmsPermission> permissions = new ArrayList<>();
-        for (DmsRole role : getUserRoles()) {                                   //得到所有角色
-            for (DmsRolePermission rolePermission : role.getRolePermissions()) {//得到所有角色中的角色权限
-                permissions.addAll(rolePermission.getUserRolePermissions());    //获取所有角色权限对象
-            }
+        DmsRole userRole = getUserRole();
+        if (userRole == null) {
+            return null;
+        }
+
+        for (DmsRolePermission rolePermission : userRole.getRolePermissions()) {//得到角色中的角色权限
+            permissions.addAll(rolePermission.getUserRolePermissions());
         }
         return permissions;
     }

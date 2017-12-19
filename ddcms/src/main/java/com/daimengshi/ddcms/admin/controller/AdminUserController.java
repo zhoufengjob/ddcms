@@ -1,7 +1,12 @@
 package com.daimengshi.ddcms.admin.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.daimengshi.ddcms.admin.model.DmsPermission;
+import com.daimengshi.ddcms.admin.model.DmsRole;
 import com.daimengshi.ddcms.admin.model.DmsUser;
+import com.daimengshi.ddcms.admin.model.DmsUserRole;
+import com.daimengshi.ddcms.admin.service.impl.DmsRoleServiceImpl;
+import com.daimengshi.ddcms.admin.service.impl.DmsUserRoleServiceImpl;
 import com.daimengshi.ddcms.admin.service.impl.DmsUserServiceImpl;
 import com.daimengshi.ddcms.pub.ResponseData;
 import com.daimengshi.ddcms.pub.TablePage;
@@ -16,6 +21,8 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import org.slf4j.event.Level;
 
 import javax.inject.Inject;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by zhoufeng on 2017/12/14.
@@ -28,6 +35,13 @@ public class AdminUserController extends JbootController {
 
     @Inject
     private DmsUserServiceImpl userService;
+
+    @Inject
+    private DmsRoleServiceImpl roleService;
+
+    @Inject
+    private DmsUserRoleServiceImpl userRoleService;
+
 
     /**
      * 默认页
@@ -52,7 +66,11 @@ public class AdminUserController extends JbootController {
      * 添加页面
      */
     public void addView() {
-
+        List<DmsRole> dmsRoleList = roleService.findAll();
+        DmsRole wuRole = new DmsRole();
+        wuRole.setName("无");
+        dmsRoleList.add(0, wuRole);
+        setAttr("dmsRoleList", dmsRoleList);//系统所有的角色
         setAttr("formTitle", "添加用户");
         setAttr("mainTP", "/htmls/admin/user/add.html");
         //调用通用模板
@@ -70,6 +88,19 @@ public class AdminUserController extends JbootController {
 
         user.setCreateTime(DateUtil.date());
         userService.save(user);
+
+        Integer user_role_id = JSON.parseObject(json).getInteger("user_role_id");
+
+        if (user_role_id == null) {
+            userRoleService.deleteByUID(user.getId());
+        }else {
+            DmsUserRole dmsUserRole = new DmsUserRole();
+            dmsUserRole.setUid(user.getId());
+            dmsUserRole.setRid(user_role_id);
+            dmsUserRole.setCreateTime(new Date());
+            userRoleService.save(dmsUserRole);
+        }
+
         renderJson(ResponseData.ok());
     }
 
@@ -82,6 +113,17 @@ public class AdminUserController extends JbootController {
         DmsUser user = userService.DAO.findByIdWithoutCache(id);
         log.info(user.toJson());
 
+        DmsRole userRole = user.getUserRole();
+        List<DmsPermission> userPermissions = user.getAllUserPermissions();
+
+        List<DmsRole> dmsRoleList = roleService.findAll();
+        DmsRole wuRole = new DmsRole();
+        wuRole.setName("无");
+        dmsRoleList.add(0, wuRole);
+
+        setAttr("userRole", userRole);//该用户的角色
+        setAttr("dmsRoleList", dmsRoleList);//系统所有的角色
+        setAttr("userPermissions", userPermissions);//该用户所有权限
         setAttr("user", user);
 
         setAttr("formTitle", "查看用户详情");
@@ -100,6 +142,19 @@ public class AdminUserController extends JbootController {
 
         if (StrUtil.isEmpty(user.getIsOpen())) {
             user.setIsOpen("off");
+        }
+
+        Integer user_role_id = JSON.parseObject(json).getInteger("user_role_id");
+
+        if (user_role_id == null) {
+            userRoleService.deleteByUID(user.getId());
+        }else {
+
+            DmsUserRole dmsUserRole = new DmsUserRole();
+            dmsUserRole.setUid(user.getId());
+            dmsUserRole.setRid(user_role_id);
+            dmsUserRole.setCreateTime(new Date());
+            userRoleService.save(dmsUserRole);
         }
 
         userService.update(user);

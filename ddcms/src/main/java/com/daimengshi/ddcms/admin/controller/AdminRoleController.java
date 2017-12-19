@@ -2,8 +2,13 @@ package com.daimengshi.ddcms.admin.controller;
 
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.daimengshi.ddcms.admin.model.DmsPermission;
 import com.daimengshi.ddcms.admin.model.DmsRole;
+import com.daimengshi.ddcms.admin.model.DmsRolePermission;
+import com.daimengshi.ddcms.admin.service.impl.DmsPermissionServiceImpl;
+import com.daimengshi.ddcms.admin.service.impl.DmsRolePermissionServiceImpl;
 import com.daimengshi.ddcms.admin.service.impl.DmsRoleServiceImpl;
 import com.daimengshi.ddcms.pub.ResponseData;
 import com.daimengshi.ddcms.pub.TableCheckStatus;
@@ -19,6 +24,9 @@ import io.jboot.web.controller.annotation.RequestMapping;
 import org.slf4j.event.Level;
 
 import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 功能:角色管理
@@ -32,6 +40,12 @@ public class AdminRoleController extends JbootController {
 
     @Inject
     DmsRoleServiceImpl roleService;
+
+    @Inject
+    DmsPermissionServiceImpl permissionServiceImpl;
+
+    @Inject
+    DmsRolePermissionServiceImpl rolePermissionService;
 
 
     /**
@@ -75,6 +89,27 @@ public class AdminRoleController extends JbootController {
 
         role.setCreateTime(DateUtil.date());
         roleService.save(role);
+
+
+        JSONObject tableValue = JSON.parseObject(json).getJSONObject("tableValue");
+
+        if (tableValue != null) {
+            JSONArray dataList = tableValue.getJSONArray("data");
+            if (dataList.size() > 0) {
+                //删除以前的
+                rolePermissionService.deleteByRid(role.getId());
+
+                for (int i = 0; i < dataList.size(); i++) {
+                    JSONObject obj = (JSONObject) dataList.get(i);
+                    DmsRolePermission rolePermission = new DmsRolePermission();
+                    rolePermission.setPid(obj.getInteger("id"));
+                    rolePermission.setRid(role.getId());
+                    rolePermission.setCreateTime(new Date());
+                    rolePermissionService.save(rolePermission);
+                }
+            }
+        }
+
         renderJson(ResponseData.ok());
     }
 
@@ -87,7 +122,16 @@ public class AdminRoleController extends JbootController {
         DmsRole role = roleService.DAO.findByIdWithoutCache(id);
         log.info(role.toJson());
 
+        //找出当前角色的所有权限
+        List<DmsRolePermission> roleRolePermissions = role.getRolePermissions();
+        List<DmsPermission> permissionList = new ArrayList<>();
+        for (DmsRolePermission rolePermission : roleRolePermissions) {
+            List<DmsPermission> permissions = rolePermission.getUserRolePermissions();
+            permissionList.addAll(permissions);
+        }
+
         setAttr("role", role);
+        setAttr("permissionList", permissionList);
 
         setAttr("formTitle", "查看用户详情");
         setAttr("mainTP", "/htmls/admin/role/edit.html");
@@ -106,11 +150,35 @@ public class AdminRoleController extends JbootController {
         if (StrUtil.isEmpty(role.getIsOpen())) {
             role.setIsOpen("off");
         }
-
         roleService.update(role);
+
+
+        JSONObject tableValue = JSON.parseObject(json).getJSONObject("tableValue");
+
+        if (tableValue != null) {
+            JSONArray dataList = tableValue.getJSONArray("data");
+            if (dataList.size() > 0) {
+                //删除以前的
+                rolePermissionService.deleteByRid(role.getId());
+
+                for (int i = 0; i < dataList.size(); i++) {
+                    JSONObject obj = (JSONObject) dataList.get(i);
+                    DmsRolePermission rolePermission = new DmsRolePermission();
+                    rolePermission.setPid(obj.getInteger("id"));
+                    rolePermission.setRid(role.getId());
+                    rolePermission.setCreateTime(new Date());
+                    rolePermissionService.save(rolePermission);
+                }
+            }
+        }
+
         renderJson(ResponseData.ok());
 
     }
+
+
+
+
 
     /**
      * 角色管理的删除请求
@@ -125,7 +193,7 @@ public class AdminRoleController extends JbootController {
     }
 
     /**
-     *  角色管理的多选删除
+     * 角色管理的多选删除
      */
     public void deletes() {
         //获取所有请求参数

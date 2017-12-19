@@ -1,5 +1,9 @@
 package com.daimengshi.ddcms.admin.controller;
 
+import com.daimengshi.ddcms.admin.model.DmsRole;
+import com.daimengshi.ddcms.admin.model.DmsUser;
+import com.daimengshi.ddcms.admin.service.impl.DmsRoleServiceImpl;
+import com.daimengshi.ddcms.admin.service.impl.DmsUserServiceImpl;
 import com.daimengshi.ddcms.pub.ResponseData;
 import com.daimengshi.ddcms.pub.TablePage;
 import com.daimengshi.ddcms.pub.Tools;
@@ -7,6 +11,9 @@ import com.xiaoleilu.hutool.log.Log;
 import com.xiaoleilu.hutool.log.LogFactory;
 import io.jboot.web.controller.JbootController;
 import io.jboot.web.controller.annotation.RequestMapping;
+
+import javax.inject.Inject;
+import java.util.List;
 
 /**
  * 功能:管理员管理
@@ -18,6 +25,10 @@ import io.jboot.web.controller.annotation.RequestMapping;
 public class AdminMasterController extends JbootController {
     private static final Log log = LogFactory.get();
 
+    @Inject
+    private DmsUserServiceImpl userService;
+    @Inject
+    private DmsRoleServiceImpl roleService;
 
     /**
      * 管理员管理默认页
@@ -42,6 +53,17 @@ public class AdminMasterController extends JbootController {
      * 管理员管理添加页面
      */
     public void addView() {
+
+
+        List<DmsUser> userList = userService.findAll();
+        List<DmsRole> roleList = roleService.findAll();
+
+
+        TablePage userTablePage = Tools.pageFind(this, "user.getPage");
+        setAttr("userTablePage", "userTablePage");//用户列表分页查询
+        setAttr("userList", "userList");//用户列表
+        setAttr("roleList", "roleList");//权限列表
+
 
         setAttr("formTitle", "管理员管理");
         setAttr("mainTP", "/htmls/admin/master/add.html");
@@ -110,7 +132,7 @@ public class AdminMasterController extends JbootController {
     }
 
     /**
-     *  管理员管理的多选删除
+     * 管理员管理的多选删除
      */
     public void deletes() {
         //获取所有请求参数

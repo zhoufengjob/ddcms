@@ -3,11 +3,13 @@ package com.daimengshi.ddcms.helloworld;
 
 import com.daimengshi.ddcms.config.MyConfigModel;
 import io.jboot.Jboot;
-import io.jboot.component.swagger.annotation.SwaggerAPI;
-import io.jboot.component.swagger.annotation.SwaggerAPIs;
 import io.jboot.event.annotation.EventConfig;
 import io.jboot.web.controller.JbootController;
 import io.jboot.web.controller.annotation.RequestMapping;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,7 +20,7 @@ import org.slf4j.LoggerFactory;
  */
 @RequestMapping("/")
 @EventConfig(action = {"event2"})
-@SwaggerAPIs(name = "测试接口", description = "这个接口集合的描述")
+@Api(description = "这个接口集合的描述", basePath = "/swaggerTest", tags = "abc")
 public class Helloworld extends JbootController {
 
     private final static Logger logger = LoggerFactory.getLogger(Helloworld.class);
@@ -26,7 +28,11 @@ public class Helloworld extends JbootController {
 
 
 
-    @SwaggerAPI(description = "测试description描述", summary = "测试summary", operationId = "testOnly", params = {})
+    @ApiOperation(value = "用户列表", httpMethod = "GET", notes = "user list")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "username", value = "用户名", paramType = "form", dataType = "string", required = true),
+            @ApiImplicitParam(name = "k1", value = "k1", paramType = "form", dataType = "string", required = true),
+    })
     public void index() {
 
         //去掉最后一个顿号

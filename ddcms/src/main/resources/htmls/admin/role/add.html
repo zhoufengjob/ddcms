@@ -24,12 +24,17 @@
     <div class="layui-form-item">
         <label class="layui-form-label">角色标识</label>
         <div class="layui-input-inline">
-            <input name="name" lay-verify="required" placeholder="请输入角色标识" autocomplete="off" class="layui-input"
+            <input name="key" lay-verify="required" placeholder="请输入角色标识" autocomplete="off" class="layui-input"
                    type="text" value="">
         </div>
         <div class="layui-form-mid layui-word-aux">请务必填写角色标识</div>
     </div>
-    
+
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="margin-right: 10px">选择权限</label>
+        <table id="table" class="layui-hide" lay-size="sm" lay-filter="lf_table"></table>
+        <input id="tableValue" name="tableValue"  class="layui-input layui-hide" autocomplete="off" type="text">
+    </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">是否启用</label>
@@ -50,12 +55,14 @@
 </form>
 
 <script>
-    layui.use(['element', 'form', 'layedit', 'laydate'], function () {
+    layui.use(['element', 'form', 'layedit', 'laydate','table'], function () {
         var element = layui.element;
         var form = layui.form;
         var layer = layui.layer;
         var layedit = layui.layedit;
         var laydate = layui.laydate;
+        var table = layui.table;
+
 
         //注意：parent 是 JS 自带的全局对象，可用于操作父页面
         var parentIndex = parent.layer.getFrameIndex(window.name); //获取窗口索引
@@ -91,7 +98,48 @@
 
             return false;
         });
+        //region 数据表格渲染
+        table.render({
+            height: '350',
+            elem: '#table',
+            url: '/admin/permission/list',
+//            where: {dateStart: '', dateEnd: ''},//如果无需传递额外参数，可不加该参数
+            method: 'post', //如果无需自定义HTTP类型，可不加该参数
+            page: true,//开启分页
+            response: {},
+            request: {
+                pageName: 'page' //页码的参数名称，默认：page
+                , limitName: 'size' //每页数据量的参数名，默认：limit
+            },
+            cols: [[
+                {type: 'checkbox'},
+                {field: 'name', title: '权限名', sort: true},
+                {field: 'key', title: '权限标识', sort: true},
+            ]],
+            //回调
+            done: function (res, curr, count) {
+                //如果是异步请求数据方式，res即为你接口返回的信息。
+                //如果是直接赋值的方式，res即为：{data: [], count: 99} data为当前页数据、count为数据总长度
+                console.log(res);
+                //得到当前页码
+                console.log(curr);
 
+                //得到数据总量
+                console.log(count);
+                console.log(res.code);
+            }
+        });
+        //endregion
+
+
+        table.on('checkbox(lf_table)', function (obj) {
+            var checkStatus = table.checkStatus('table');
+            layui.$('#tableValue').val(JSON.stringify(checkStatus));
+
+            console.log(layui.$('#tableValue').val());
+
+
+        });
 
     });
 </script>

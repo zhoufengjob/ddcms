@@ -18,6 +18,13 @@
   #include("role/index.sql");
 #end
 
+#namespace("user_role")
+  #include("user_role/index.sql");
+#end
+
 #namespace("permission")
   #include("permission/index.sql");
+#end
+#namespace("role_permission")
+  #include("role_permission/index.sql");
 #end

@@ -33,13 +33,13 @@
 
             <div class="x-nav">
 
-                <div class="layui-btn-group">
-                    <button class="layui-btn layui-btn-primary" data-type="add"><i class="layui-icon">&#xe61f;</i>添加
-                    </button>
-                    <button class="layui-btn layui-btn-primary" data-type="delete"><i
-                            class="layui-icon">&#xe640;</i>删除
-                    </button>
-                </div>
+                <!--<div class="layui-btn-group">-->
+                    <!--<button class="layui-btn layui-btn-primary" data-type="add"><i class="layui-icon">&#xe61f;</i>添加-->
+                    <!--</button>-->
+                    <!--<button class="layui-btn layui-btn-primary" data-type="delete"><i-->
+                            <!--class="layui-icon">&#xe640;</i>删除-->
+                    <!--</button>-->
+                <!--</div>-->
                 <div class="layui-inline" style="width: 180px">
                     <input class="layui-input" id="datePop" placeholder="时间范围搜索" type="text">
                 </div>
@@ -273,7 +273,7 @@
                     fixed: false, //不固定
                     maxmin: true,
                     anim: 0,//0-6的动画形式，-1不开启
-                    content: '/admin/master/editView?id=' + obj.data.id,
+                    content: '/admin/user/editView?id=' + obj.data.id,
                     shade: false,
                     shadeClose: true,
 //                    btn: ['确定', '取消'], //只是为了演示
@@ -315,7 +315,7 @@
 <!--region 绑定列工具条-->
 <script type="text/html" id="tableBar">
     <button class="layui-btn  layui-btn-xs layui-btn-primary" lay-event="edit">&nbsp;编辑&nbsp;</button>
-    <button class="layui-btn  layui-btn-danger layui-btn-xs" lay-event="del">&nbsp;删除&nbsp;</button>
+    <!--<button class="layui-btn  layui-btn-danger layui-btn-xs" lay-event="del">&nbsp;删除&nbsp;</button>-->
 </script>
 <!--endregion-->
 

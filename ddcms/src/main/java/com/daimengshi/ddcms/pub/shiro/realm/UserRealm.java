@@ -28,7 +28,7 @@ import java.util.List;
 public class UserRealm extends AuthorizingRealm {
     private static final Log log = LogFactory.get();
 
-    private  DmsUserServiceImpl userService = Duang.duang(DmsUserServiceImpl.class);
+    private DmsUserServiceImpl userService = Duang.duang(DmsUserServiceImpl.class);
 
 
     @Override
@@ -72,7 +72,6 @@ public class UserRealm extends AuthorizingRealm {
 //        }
 
 
-
         return simpleAuthenticationInfo;
     }
 
@@ -87,21 +86,17 @@ public class UserRealm extends AuthorizingRealm {
 
         // 根据身份信息获取权限信息
         // 从数据库获取到权限数据
-        List<DmsRole> roles = user.getUserRoles();                                  //得到所有角色
+        DmsRole role = user.getUserRole();                                      //得到所有角色
         List<DmsPermission> permissions = new ArrayList<>();
-        for (DmsRole role : roles) {
-            for (DmsRolePermission rolePermission : role.getRolePermissions()) {    //得到所有角色中的角色权限
-                permissions.addAll(rolePermission.getUserRolePermissions());    //获取所有角色权限对象
-            }
+        for (DmsRolePermission rolePermission : role.getRolePermissions()) {    //得到所有角色中的角色权限
+            permissions.addAll(rolePermission.getUserRolePermissions());        //获取所有角色权限对象
         }
 
         List<String> roleStrList = new ArrayList<>();
         List<String> permissionStrList = new ArrayList<>();
 
         //授权角色
-        for (DmsRole role : roles) {
-            roleStrList.add(role.getKey());
-        }
+        roleStrList.add(role.getKey());
         //授权权限
         for (DmsPermission permission : permissions) {
             permissionStrList.add(permission.getKey());
@@ -115,7 +110,6 @@ public class UserRealm extends AuthorizingRealm {
 
         return simpleAuthorizationInfo;
     }
-
 
 
     /*

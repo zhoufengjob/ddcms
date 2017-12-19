@@ -62,18 +62,19 @@
         </div>
         <div class="layui-form-mid layui-word-aux">请填写手机</div>
     </div>
-    <!--<div class="layui-form-item">-->
-        <!--<label class="layui-form-label">上级菜单</label>-->
-        <!--<div class="layui-input-inline">-->
-            <!--<select name="super_id">-->
-                <!--#for(m:menuList)-->
-                <!--#if( 0 == m.super_id)-->
-                <!--<option value="#(m.id)">#(m.name)</option>-->
-                <!--#end                #end-->
-            <!--</select>-->
-        <!--</div>-->
-        <!--<div class="layui-form-mid layui-word-aux">不选择则为顶级</div>-->
-    <!--</div>-->
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">角色</label>
+        <div class="layui-input-inline">
+            <select name="user_role_id" >
+                #for(role:dmsRoleList)
+                <option value="#(role.id)">#(role.name)</option>
+                #end
+
+            </select>
+        </div>
+        <div class="layui-form-mid layui-word-aux">请选择角色</div>
+    </div>
 
     <div class="layui-form-item">
         <label class="layui-form-label">是否启用</label>

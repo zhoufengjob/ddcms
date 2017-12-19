@@ -46,14 +46,6 @@ public abstract class BaseDmsRole<M extends BaseDmsRole<M>> extends JbootModel<M
 		return getStr("name");
 	}
 
-	public void setType(java.lang.String type) {
-		set("type", type);
-	}
-	
-	public java.lang.String getType() {
-		return getStr("type");
-	}
-
 	public void setCreateTime(java.util.Date createTime) {
 		set("create_time", createTime);
 	}
@@ -62,12 +54,12 @@ public abstract class BaseDmsRole<M extends BaseDmsRole<M>> extends JbootModel<M
 		return get("create_time");
 	}
 
-	public void setDescribe(java.lang.String describe) {
-		set("describe", describe);
+	public void setDesc(java.lang.String desc) {
+		set("desc", desc);
 	}
 	
-	public java.lang.String getDescribe() {
-		return getStr("describe");
+	public java.lang.String getDesc() {
+		return getStr("desc");
 	}
 
 	public void setKey(java.lang.String key) {

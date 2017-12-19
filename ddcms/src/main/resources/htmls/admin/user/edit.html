@@ -73,6 +73,30 @@
     </div>
 
     <div class="layui-form-item">
+        <label class="layui-form-label">角色</label>
+        <div class="layui-input-inline">
+            <select name="user_role_id" >
+                #if(userRole!=null)
+                <option value="#(userRole.id)">#(userRole.name)</option>
+                #end
+
+                #for(role:dmsRoleList)
+                #if(userRole!=null)
+                #if(role.id != userRole.id)
+                <option value="#(role.id)">#(role.name)</option>
+                #end
+                #else
+                <option value="#(role.id)">#(role.name)</option>
+                #end
+                #end
+
+            </select>
+        </div>
+        <div class="layui-form-mid layui-word-aux">请选择角色</div>
+    </div>
+
+
+    <div class="layui-form-item">
         <label class="layui-form-label">是否启用</label>
         <div class="layui-input-block">
             #if("on".equals(user.is_open))
