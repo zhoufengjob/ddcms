@@ -7,6 +7,10 @@
 
 项目讲持续更新，尽请期待。。。
 
+## 项目地址
+- github ：https://github.com/zhoufengjob/ddcms
+- 开源中国：https://gitee.com/zhoufengjob/ddcms
+
 
 > 感谢jboot、layui、X-admin。本后端基于jboot架构，前端基于layui,X-admin。
 
