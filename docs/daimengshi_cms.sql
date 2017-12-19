@@ -11,7 +11,7 @@
  Target Server Version : 50542
  File Encoding         : 65001
 
- Date: 19/12/2017 11:10:58
+ Date: 19/12/2017 13:39:16
 */
 
 SET NAMES utf8mb4;
@@ -217,7 +217,7 @@ CREATE TABLE `dms_user` (
 -- Records of dms_user
 -- ----------------------------
 BEGIN;
-INSERT INTO `dms_user` VALUES ('5ff5b3f5d94c44b3a2366b6e21cfcbfe', 'admin', '2017-12-16 17:08:58', '123123', 'admin', '周洛熙', 0, 'zhoufengjob@sina.com', 'on', '超级管理员');
+INSERT INTO `dms_user` VALUES ('5ff5b3f5d94c44b3a2366b6e21cfcbfe', 'admin', '2017-12-16 17:08:58', '123123123123', 'admin', '周洛熙', 0, 'zhoufengjob@sina.com', 'on', '超级管理员');
 INSERT INTO `dms_user` VALUES ('9ba98abd6bbf4f3f8776257cf369af6c', 'DDDDD', '2017-12-19 00:05:12', '123', 'DDD', 'DDD', 111, 'DDD', 'on', '');
 INSERT INTO `dms_user` VALUES ('c2abb2efa8d24c28b91b392b1dabd6b5', 'SSSS', '2017-12-19 00:05:36', '12', 'SSS', 'SS', 12, 'SS', 'on', '');
 INSERT INTO `dms_user` VALUES ('f569091266db4240ab0b28bbb5dba291', 'aaaa', '2017-12-16 18:21:01', '321321', 'ssa', 'aaaa', 123, 'asdas', 'off', '');
@@ -233,14 +233,15 @@ CREATE TABLE `dms_user_role` (
   `uid` varchar(100) DEFAULT NULL COMMENT '用户ID',
   `create_time` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8 COMMENT='用户角色表';
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8 COMMENT='用户角色表';
 
 -- ----------------------------
 -- Records of dms_user_role
 -- ----------------------------
 BEGIN;
-INSERT INTO `dms_user_role` VALUES (2, 1, '5ff5b3f5d94c44b3a2366b6e21cfcbfe', '2017-12-16 17:09:18');
-INSERT INTO `dms_user_role` VALUES (4, 1, 'f569091266db4240ab0b28bbb5dba291', '2017-12-19 00:00:39');
+INSERT INTO `dms_user_role` VALUES (4, 1, '5ff5b3f5d94c44b3a2366b6e21cfcbfe', '2017-12-19 00:00:39');
+INSERT INTO `dms_user_role` VALUES (7, 1, '5ff5b3f5d94c44b3a2366b6e21cfcbfe', '2017-12-19 13:37:01');
+INSERT INTO `dms_user_role` VALUES (8, 1, '5ff5b3f5d94c44b3a2366b6e21cfcbfe', '2017-12-19 13:38:32');
 COMMIT;
 
 SET FOREIGN_KEY_CHECKS = 1;
