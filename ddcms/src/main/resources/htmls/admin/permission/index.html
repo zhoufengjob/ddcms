@@ -192,20 +192,7 @@
 
             },
             add: function () { //添加
-                //iframe层-父子操作
-                layer.open({
-                    type: 2,
-                    title: '添加',
-                    area: ['700px', '450px'],
-                    fixed: false, //不固定
-                    maxmin: true,
-                    anim: 0,//0-6的动画形式，-1不开启
-                    content: '/admin/permission/addView',
-                    shade: false,
-                    shadeClose: true,
-//                    btn: ['确定', '取消'], //只是为了演示
-
-                });
+                x_admin_show_parent('添加','/admin/permission/addView');
             },
             search: function () {
                 var searchReload = $('#searchReload');
@@ -262,19 +249,7 @@
 
                 });
             } else if (layEvent === 'edit') { //编辑
-                //iframe层-父子操作
-                layer.open({
-                    type: 2,
-                    title: '编辑' + obj.data.name,
-                    area: ['700px', '450px'],
-                    fixed: false, //不固定
-                    maxmin: true,
-                    anim: 0,//0-6的动画形式，-1不开启
-                    content: '/admin/permission/editView?id=' + obj.data.id,
-                    shade: false,
-                    shadeClose: true,
-//                    btn: ['确定', '取消'], //只是为了演示
-                });
+                x_admin_show_parent('编辑' + obj.data.name,'/admin/permission/editView?id=' + obj.data.id);
             }
         });
         //endregion
