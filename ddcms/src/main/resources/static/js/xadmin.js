@@ -161,7 +161,7 @@ function x_admin_show(title, url, w, h) {
     }
     ;
     if (h == null || h == '') {
-        h = ($(window).height() - 50);
+        h = ($(window).height() );
     }
     ;
     var index = layer.open({
