@@ -192,7 +192,7 @@
 
             },
             add: function () { //添加
-                x_admin_show_parent('添加','/admin/role/addView');
+                x_admin_show('添加','/admin/role/addView');
             },
             search: function () {
                 var searchReload = $('#searchReload');
@@ -249,7 +249,7 @@
 
                 });
             } else if (layEvent === 'edit') { //编辑
-                x_admin_show_parent('编辑' + obj.data.name,'/admin/role/editView?id=' + obj.data.id);
+                x_admin_show('编辑' + obj.data.name,'/admin/role/editView?id=' + obj.data.id);
             }
         });
         //endregion

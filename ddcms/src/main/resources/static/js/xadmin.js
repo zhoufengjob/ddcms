@@ -164,55 +164,19 @@ function x_admin_show(title, url, w, h) {
         h = ($(window).height() - 50);
     }
     ;
-    layer.open({
-        type: 2,
-        area: [w + 'px', h + 'px'],
-        fix: false, //不固定
-        maxmin: true,
-        shadeClose: true,
-        shade: 0.4,
-        title: title,
-        content: url
-    });
-}
-
-/*弹出层*/
-/*
- 参数解释：
- title   标题
- url     请求的url
- id      需要操作的数据id
- w       弹出层宽度（缺省调默认值）
- h       弹出层高度（缺省调默认值）
- */
-function x_admin_show_parent(title, url, w, h) {
-    if (title == null || title == '') {
-        title = false;
-    }
-    ;
-    if (url == null || url == '') {
-        url = "404.html";
-    }
-    ;
-    if (w == null || w == '') {
-        w = ($(window).width() * 0.9);
-    }
-    ;
-    if (h == null || h == '') {
-        h = ($(window).height() );
-    }
-    ;
-    parent.layer.open({
+    var index = layer.open({
         type: 2,
         area: [w + 'px', h + 'px'],
         fixed: false, //不固定
-        maxmin: true,
+        maxmin: false,
         anim: 0,//0-6的动画形式，-1不开启
         shadeClose: true,
+         scrollbar: false,
         shade:0.4,
         title: title,
         content: url
     });
+    layer.full(index);
 }
 
 /*关闭弹出框口*/
