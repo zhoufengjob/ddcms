@@ -10,6 +10,7 @@ import com.xiaoleilu.hutool.log.LogFactory;
 import com.xiaoleilu.hutool.util.StrUtil;
 import io.jboot.web.controller.JbootController;
 import io.jboot.web.controller.annotation.RequestMapping;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 
 import javax.inject.Inject;
 import java.io.UnsupportedEncodingException;
@@ -86,8 +87,8 @@ public class ArticleIndexController extends JbootController {
 
     /**
      * 删除
-     * 只有拥有管理员角色才能调用删除
      */
+    @RequiresRoles("admin")//只有拥有管理员角色才能调用
     public void delete() {
         String id = getPara("id", "");
         if (StrUtil.isEmpty(id)) {
@@ -95,6 +96,62 @@ public class ArticleIndexController extends JbootController {
             return;
         }
         articleService.deleteById(id);
+        renderJson(ResponseData.ok());
+    }
+    /**
+     * 置顶
+     */
+    @RequiresRoles("admin")//只有拥有管理员角色才能调用
+    public void setTop() {
+        String id = getPara("id", "");
+        if (StrUtil.isEmpty(id)) {
+            renderJson(ResponseData.apiError("文章管理的id不能为空"));
+            return;
+        }
+
+        articleService.changeTopStatus(id,"on");
+        renderJson(ResponseData.ok());
+    }
+    /**
+     * 加精
+     */
+    @RequiresRoles("admin")//只有拥有管理员角色才能调用
+    public void setQuintessence() {
+        String id = getPara("id", "");
+        if (StrUtil.isEmpty(id)) {
+            renderJson(ResponseData.apiError("文章管理的id不能为空"));
+            return;
+        }
+
+        articleService.changeQuintessenceStatus(id,"on");
+        renderJson(ResponseData.ok());
+    }
+    /**
+     * 取消置顶
+     */
+    @RequiresRoles("admin")//只有拥有管理员角色才能调用
+    public void cancelTop() {
+        String id = getPara("id", "");
+        if (StrUtil.isEmpty(id)) {
+            renderJson(ResponseData.apiError("文章管理的id不能为空"));
+            return;
+        }
+
+        articleService.changeTopStatus(id,"off");
+        renderJson(ResponseData.ok());
+    }
+    /**
+     * 加精
+     */
+    @RequiresRoles("admin")//只有拥有管理员角色才能调用
+    public void cancelQuintessence() {
+        String id = getPara("id", "");
+        if (StrUtil.isEmpty(id)) {
+            renderJson(ResponseData.apiError("文章管理的id不能为空"));
+            return;
+        }
+
+        articleService.changeQuintessenceStatus(id,"off");
         renderJson(ResponseData.ok());
     }
 

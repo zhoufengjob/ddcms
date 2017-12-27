@@ -1,5 +1,7 @@
 <!-- article  添加界面-->
 <!--endregion-->
+<link rel="stylesheet" href="/static/libs/editormd/css/editormd.min.css"/>
+
 <blockquote class="layui-elem-quote layui-text">
     注意事项:
     <br/>
@@ -11,34 +13,98 @@
     <legend>#(formTitle == null ? "表单":formTitle)</legend>
 </fieldset>
 
-<form class="layui-form">
-    <div class="layui-form-item">
-        <label class="layui-form-label">标题</label>
-        <div class="layui-input-inline">
-            <input name="title" lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input"
-                   type="text" value="">
-        </div>
-        <div class="layui-form-mid layui-word-aux">请务必填写标题</div>
-    </div>
-
-
+<form class="layui-form layui-form-pane">
     <div class="layui-form-item">
         <label class="layui-form-label">是否启用</label>
         <div class="layui-input-block">
             <input name="is_open" type="checkbox" name="switch" lay-skin="switch" lay-text="启用|禁用" checked>
         </div>
     </div>
-    <div class="layui-form-item layui-form-text">
-        <label class="layui-form-label">备注</label>
+    <div class="layui-form-item">
+        <label class="layui-form-label">精华置顶</label>
         <div class="layui-input-block">
-            <textarea name="desc" placeholder="请输入备注内容(可选)" class="layui-textarea"></textarea>
+            <input name="is_quintessence" title="精华" type="checkbox">
+            <input name="is_top" title="置顶" type="checkbox">
+
         </div>
     </div>
 
+    <div class="layui-form-item">
+        <label class="layui-form-label">文章连接</label>
+        <div class="layui-input-inline">
+            <input name="url" lay-verify="required"
+                     placeholder="请输入" autocomplete="off"
+                   class="layui-input" type="text">
+        </div>
+        <div class="layui-form-mid layui-word-aux">填写文章自定义地址</div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label">标题</label>
+        <div class="layui-input-block">
+            <input name="title" lay-verify="required"   placeholder="请输入" autocomplete="off"
+                   class="layui-input" type="text">
+        </div>
+    </div>
+
+    <div class="layui-row layui-col-space15 layui-form-item layui-hide" id="LAY_quiz">
+        <div class="layui-col-md3">
+            <label class="layui-form-label">所属产品</label>
+            <div class="layui-input-block">
+                <select name="project">
+                    <option></option>
+                    <option value="layui">layui</option>
+                    <option value="独立版layer">独立版layer</option>
+                    <option value="独立版layDate">独立版layDate</option>
+                    <option value="LayIM">LayIM</option>
+                    <option value="Fly社区模板">Fly社区模板</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-col-md3">
+            <label class="layui-form-label" for="L_version">版本号</label>
+            <div class="layui-input-block">
+                <input type="text" id="L_version" value="" name="version" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-col-md6">
+            <label class="layui-form-label" for="L_browser">浏览器</label>
+            <div class="layui-input-block">
+                <input type="text" id="L_browser" value="" name="browser" placeholder="浏览器名称及版本，如：IE 11"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+    <div id="editormd">
+        <textarea name="content" style="display:none;"></textarea>
+    </div>
     <div class="layui-form-item" style="text-align: center">
         <button class="layui-btn" lay-submit="" lay-filter="sendForm">立即提交</button>
     </div>
 </form>
+
+
+
+
+<script src="/static/libs/editormd/editormd.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        var editor = editormd("editormd", {
+            path: "/static/libs/editormd/lib/", // Autoload modules mode, codemirror, marked... dependents libs path
+            height: 640,
+            saveHTMLToTextarea: true,
+            syncScrolling: "single",
+        });
+
+        /*
+         // or
+         var editor = editormd({
+         id   : "editormd",
+         path : "../lib/"
+         });
+         */
+    });
+</script>
 
 <script>
     layui.use(['element', 'form', 'layedit', 'laydate'], function () {

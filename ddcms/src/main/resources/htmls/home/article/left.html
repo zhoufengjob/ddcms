@@ -21,12 +21,19 @@
         ###需要管理员权限才能显示
         #shiroHasAllRoles(admin)
             <span class="layui-btn layui-btn-xs jie-admin"  data-type="delete">删除</span>
-
+            #if(article.is_top ?? == 'on')
+            <span class="layui-btn layui-btn-xs jie-admin" data-type="cancelTop"type="set" field="stick" rank="0" style="background-color:#ccc;">取消置顶</span>
+            #else
             <span class="layui-btn layui-btn-xs jie-admin" data-type="setTop" field="stick" rank="1">置顶</span>
-            <!-- <span class="layui-btn layui-btn-xs jie-admin" type="set" field="stick" rank="0" style="background-color:#ccc;">取消置顶</span> -->
+            #end
 
-            <span class="layui-btn layui-btn-xs jie-admin" data-type="set" field="status" rank="1">加精</span>
-            <!-- <span class="layui-btn layui-btn-xs jie-admin" type="set" field="status" rank="0" style="background-color:#ccc;">取消加精</span> -->
+
+            #if(article.is_quintessence ?? == 'on')
+            <span class="layui-btn layui-btn-xs jie-admin" data-type="cancelQuintessence" type="set" field="status" rank="0" style="background-color:#ccc;">取消加精</span>
+            #else
+            <span class="layui-btn layui-btn-xs jie-admin" data-type="setQuintessence" field="status" rank="1">加精</span>
+            #end
+
 
             <input id="article_id"  lay-verify="required"  autocomplete="off" class="layui-input layui-hide"
                    type="text" value="#(article.id)">
@@ -228,14 +235,12 @@
     layui.use(['element', 'layer'], function () {
         var element = layui.element;
         var layer = layui.layer;
+        var aid = layui.$('#article_id').val();
 
         //region 点击事件监听
         var $ = layui.$, active = {
             //获取选中数据 批量删除
             delete: function () {
-
-                var aid = layui.$('#article_id').val();
-
                 layer.confirm('真的要删除么?', function (index) {
                     //向服务端发送删除指令
                     layui.$.ajax({
@@ -246,7 +251,7 @@
                             if (200 === data.code) {
                                 layer.msg('删除成功');
                                 layer.close();
-                                location.href='/admin';
+                                location.href='/article';
 
                             } else {
                                 layer.alert('错误: ' + "<br/>" + data.msg);
@@ -259,14 +264,95 @@
                 });
 
 
-            },//删除
-            setTop: function () { //添加
-                x_admin_show('添加','/admin/article/addView');
+            },
+            setTop: function () { //设置置顶
+                layer.confirm('真的要置顶么?', function (index) {
+                    layui.$.ajax({
+                        type: "post",
+                        url: '/article/setTop',
+                        data: {id:aid},
+                        success: function (data) {
+                            if (200 === data.code) {
+                                layer.msg('置顶成功');
+                                layer.close();
+                                location.href='/article';
 
-            },//置顶
-            setQuintessence: function () { //添加精品
-                x_admin_show('添加','/admin/article/addView');
+                            } else {
+                                layer.alert('错误: ' + "<br/>" + data.msg);
+                            }
+                        },
+                        error: function (data, textStatus, errorThrown) {
+                            layer.msg('置顶失败');
+                        }
+                    });
+                });
+            },
 
+            cancelTop: function () { //取消置顶
+                layer.confirm('真的要取消置顶么?', function (index) {
+                    layui.$.ajax({
+                        type: "post",
+                        url: '/article/cancelTop',
+                        data: {id:aid},
+                        success: function (data) {
+                            if (200 === data.code) {
+                                layer.msg('取消置顶成功');
+                                layer.close();
+                                location.href='/article';
+
+                            } else {
+                                layer.alert('错误: ' + "<br/>" + data.msg);
+                            }
+                        },
+                        error: function (data, textStatus, errorThrown) {
+                            layer.msg('取消置顶失败');
+                        }
+                    });
+                });
+            },
+            setQuintessence: function () {//加精
+                layer.confirm('真的要加精么?', function (index) {
+                    layui.$.ajax({
+                        type: "post",
+                        url: '/article/setQuintessence',
+                        data: {id:aid},
+                        success: function (data) {
+                            if (200 === data.code) {
+                                layer.msg('加精成功');
+                                layer.close();
+                                location.href='/article';
+
+                            } else {
+                                layer.alert('错误: ' + "<br/>" + data.msg);
+                            }
+                        },
+                        error: function (data, textStatus, errorThrown) {
+                            layer.msg('加精失败');
+                        }
+                    });
+                });
+            },//取消加精
+            cancelQuintessence: function () {
+                layer.confirm('真的要取消加精么?', function (index) {
+                    layui.$.ajax({
+                        type: "post",
+                        url: '/article/cancelQuintessence',
+                        data: {id:aid},
+                        success: function (data) {
+                            if (200 === data.code) {
+                                layer.msg('取消加精成功');
+                                layer.close();
+                                location.href='/article';
+
+                            } else {
+                                layer.alert('错误: ' + "<br/>" + data.msg);
+                            }
+                        },
+                        error: function (data, textStatus, errorThrown) {
+                            layer.msg('取消加精失败');
+                        }
+                    });
+                });
             },
         };
 

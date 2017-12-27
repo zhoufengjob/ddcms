@@ -16,4 +16,21 @@ public class DmsArticleServiceImpl extends JbootServiceBase<DmsArticle> implemen
         DmsArticle article = getDao().findFirst(getDao().getSql("article.findByUrl"), url);
         return article;
     }
+
+    /**
+     * 更改置顶状态
+     */
+    public void  changeTopStatus(String id,String status){
+        DmsArticle article = findById(id);
+        article.setIsTop(status);
+        update(article);
+    }
+    /**
+     * 更改置顶状态
+     */
+    public void  changeQuintessenceStatus(String id,String status){
+        DmsArticle article = findById(id);
+        article.setIsQuintessence(status);
+        update(article);
+    }
 }
