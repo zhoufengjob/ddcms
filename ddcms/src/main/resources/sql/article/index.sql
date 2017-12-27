@@ -9,16 +9,23 @@
 #end
 
 
-###文章分页查询 带模糊查询功能
+###获取文章用户
 #sql("getUser")
   SELECT * FROM dms_user
   WHERE dms_user.id = ?
 #end
 
 
-
-###文章分页查询 带模糊查询功能
+###根据URL 查找文章
 #sql("findByUrl")
   SELECT * FROM dms_article
   WHERE dms_article.url = ?
+#end
+
+###获取所有置顶文章
+#sql("getTopArticleList")
+  SELECT *
+  FROM  dms_article
+  WHERE dms_article.is_top = 'on'
+  GROUP BY dms_article.create_time
 #end

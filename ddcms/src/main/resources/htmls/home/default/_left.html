@@ -18,11 +18,10 @@
     <!--</span>-->
     <!--</div>-->
 
-    #if(articlePage.list.size() > 0)
+    #if(topArticleList.size() > 0)
     <ul class="fly-list">
 
-        #for(article:articlePage.list)
-        #if(article.isTop == 'on')
+        #for(article:topArticleList)
         <li>
             <a href="/article/#(article.url)" class="fly-avatar">
                 <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg"
@@ -47,20 +46,16 @@
               </span>
             </div>
             <div class="fly-list-badge">
-                #if(article.is_top ?? == 'on')
                 <span class="layui-badge layui-bg-black">置顶</span>
-                #end
                 #if(article.is_quintessence ?? == 'on')
                 <span class="layui-badge layui-bg-red">精帖</span>
                 #end
             </div>
         </li>
         #end
-        #end
 
 
         #for(article:articlePage.list)
-        #if(article.isTop == 'off')
         <li>
             <a href="/article/#(article.url)" class="fly-avatar">
                 <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg"
@@ -85,16 +80,12 @@
               </span>
             </div>
             <div class="fly-list-badge">
-                #if(article.is_top ?? == 'on')
-                <span class="layui-badge layui-bg-black">置顶</span>
-                #end
                 #if(article.is_quintessence ?? == 'on')
                 <span class="layui-badge layui-bg-red">精帖</span>
                 #end
             </div>
         </li>
 
-        #end
         #end
     </ul>
     #else

@@ -1,9 +1,11 @@
 package com.daimengshi.ddcms.admin.service.impl;
 
-import io.jboot.aop.annotation.Bean;
-import com.daimengshi.ddcms.admin.service.DmsArticleService;
 import com.daimengshi.ddcms.admin.model.DmsArticle;
+import com.daimengshi.ddcms.admin.service.DmsArticleService;
+import io.jboot.aop.annotation.Bean;
 import io.jboot.service.JbootServiceBase;
+
+import java.util.List;
 
 @Bean
 public class DmsArticleServiceImpl extends JbootServiceBase<DmsArticle> implements DmsArticleService {
@@ -32,5 +34,15 @@ public class DmsArticleServiceImpl extends JbootServiceBase<DmsArticle> implemen
         DmsArticle article = findById(id);
         article.setIsQuintessence(status);
         update(article);
+    }
+
+
+    /**
+     * 获取置顶文章
+     * @return
+     */
+    public List<DmsArticle> getTopArticleList(){
+        List<DmsArticle> articleList = getDao().find(getDao().getSql("article.getTopArticleList"));
+        return articleList;
     }
 }
