@@ -5,6 +5,7 @@ import com.daimengshi.ddcms.admin.service.impl.DmsArticleServiceImpl;
 import com.daimengshi.ddcms.pub.ResponseData;
 import com.jfinal.aop.Before;
 import com.jfinal.ext.interceptor.SessionInViewInterceptor;
+import com.jfinal.plugin.activerecord.Page;
 import com.xiaoleilu.hutool.log.Log;
 import com.xiaoleilu.hutool.log.LogFactory;
 import com.xiaoleilu.hutool.util.StrUtil;
@@ -15,7 +16,6 @@ import org.apache.shiro.authz.annotation.RequiresRoles;
 import javax.inject.Inject;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.util.List;
 
 /**
  * Created by zhoufeng on 2017/12/21.
@@ -35,8 +35,14 @@ public class ArticleIndexController extends JbootController {
      */
 //    @EnableActionCache(group = "article_index", liveSeconds = 5)//jboot.me.getCache.removeAll 通过这个方法清除缓存 可以传入group指定
     public void index() {
-        List<DmsArticle> articleList = articleService.findAll();
-        setAttr("articleList", articleList);
+
+        int page = getParaToInt(0,1);
+        int limit = 10;//每页10条
+
+        Page<DmsArticle> articlePage  =  articleService.DAO.paginate(page,limit,"id");
+
+        setAttr("articlePage", articlePage);//文章分页
+        setAttr("limit", 10);//每页显示条数
 
         setAttr("leftTP", "/htmls/home/default/_left.html"); //左边动态内容模板
         setAttr("rightTP", "/htmls/home/default/_right.html"); //右边动态内容模板
@@ -141,7 +147,7 @@ public class ArticleIndexController extends JbootController {
         renderJson(ResponseData.ok());
     }
     /**
-     * 加精
+     * 取消加精
      */
     @RequiresRoles("admin")//只有拥有管理员角色才能调用
     public void cancelQuintessence() {

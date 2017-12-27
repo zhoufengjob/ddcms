@@ -35,8 +35,6 @@
             #end
 
 
-            <input id="article_id"  lay-verify="required"  autocomplete="off" class="layui-input layui-hide"
-                   type="text" value="#(article.id)">
         #end
         </div>
 
@@ -232,10 +230,11 @@
 
 <script>
 
-    layui.use(['element', 'layer'], function () {
+    layui.use(['element', 'layer','laypage'], function () {
         var element = layui.element;
         var layer = layui.layer;
-        var aid = layui.$('#article_id').val();
+        var aid = "#(article.id)";
+
 
         //region 点击事件监听
         var $ = layui.$, active = {
