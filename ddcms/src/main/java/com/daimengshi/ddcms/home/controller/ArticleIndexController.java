@@ -36,13 +36,14 @@ public class ArticleIndexController extends JbootController {
 //    @EnableActionCache(group = "article_index", liveSeconds = 5)//jboot.me.getCache.removeAll 通过这个方法清除缓存 可以传入group指定
     public void index() {
 
-        int page = getParaToInt(0,1);
-        int limit = 10;//每页10条
+        int pageIndex = getParaToInt(0,1);
+        int limit = 5;//每页条数
 
-        Page<DmsArticle> articlePage  =  articleService.DAO.paginate(page,limit,"id");
+        Page<DmsArticle> articlePage  =  articleService.DAO.paginate(pageIndex,limit,"create_time");
 
         setAttr("articlePage", articlePage);//文章分页
-        setAttr("limit", 10);//每页显示条数
+        setAttr("limit", limit);//每页显示条数
+        setAttr("pageIndex", pageIndex);//当前页数
 
         setAttr("leftTP", "/htmls/home/default/_left.html"); //左边动态内容模板
         setAttr("rightTP", "/htmls/home/default/_right.html"); //右边动态内容模板

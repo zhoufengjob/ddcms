@@ -73,6 +73,7 @@ public class AdminArticleController extends JbootController {
         log.info(json, Level.INFO);
 
         DmsArticle article = JSON.parseObject(json, DmsArticle.class);
+        article.setUid(getSessionAttr("uid"));
 
         article.setCreateTime(DateUtil.date());
         articleService.save(article);
