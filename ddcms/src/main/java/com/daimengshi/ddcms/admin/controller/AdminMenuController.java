@@ -44,9 +44,9 @@ public class AdminMenuController extends JbootController {
         setAttr("mainTP", "/htmls/admin/menu/index.html");
 
         //调用通用模板
-//        renderTemplate("/htmls/admin/global.html");
+//        render("/htmls/admin/global.html");
         //调用通用模板
-        renderTemplate("/htmls/admin/pop.html");
+        render("/htmls/admin/pop.html");
     }
 
 
@@ -83,7 +83,7 @@ public class AdminMenuController extends JbootController {
         setAttr("formTitle", "添加菜单");
         setAttr("mainTP", "/htmls/admin/menu/add.html");
         //调用通用模板
-        renderTemplate("/htmls/admin/pop.html");
+        render("/htmls/admin/pop.html");
     }
 
     /**
@@ -121,7 +121,7 @@ public class AdminMenuController extends JbootController {
         setAttr("formTitle", "查看菜单详情");
         setAttr("mainTP", "/htmls/admin/menu/edit.html");
         //调用通用模板
-        renderTemplate("/htmls/admin/pop.html");
+        render("/htmls/admin/pop.html");
     }
 
 

@@ -1,14 +1,8 @@
 package com.daimengshi.ddcms.pub.shiro.credentials;
 
-import net.sf.ehcache.CacheManager;
-import net.sf.ehcache.Ehcache;
-import net.sf.ehcache.Element;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.ExcessiveAttemptsException;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
-
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by zhoufeng on 2017/12/15.
@@ -16,11 +10,11 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class RetryLimitHashedCredentialsMatcher extends HashedCredentialsMatcher {
 
-    private Ehcache passwordRetryCache;
+//    private Ehcache passwordRetryCache;
 
     public RetryLimitHashedCredentialsMatcher() {
-        CacheManager cacheManager = CacheManager.create(CacheManager.class.getClassLoader().getResource("password-ehcache.xml"));
-        passwordRetryCache = cacheManager.getCache("passwordRetryCache");
+//        CacheManager cacheManager = CacheManager.create(CacheManager.class.getClassLoader().getResource("password-ehcache.xml"));
+//        passwordRetryCache = cacheManager.getCache("passwordRetryCache");
     }
 
 
@@ -29,7 +23,7 @@ public class RetryLimitHashedCredentialsMatcher extends HashedCredentialsMatcher
 
         String username = (String) token.getPrincipal();
         String password = new String((char[]) token.getCredentials()); //得到密码
-
+/*
         //retry count + 1
         Element element = passwordRetryCache.get(username);
         if (element == null) {
@@ -47,6 +41,7 @@ public class RetryLimitHashedCredentialsMatcher extends HashedCredentialsMatcher
             //clear retry count
             passwordRetryCache.remove(username);
         }
+        */
         return true;
     }
 }

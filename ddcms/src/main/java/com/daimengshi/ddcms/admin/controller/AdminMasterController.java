@@ -37,7 +37,7 @@ public class AdminMasterController extends JbootController {
         setAttr("title", "管理员管理");
         setAttr("mainTP", "/htmls/admin/master/index.html");
         //调用通用模板
-        renderTemplate("/htmls/admin/pop.html");
+        render("/htmls/admin/pop.html");
     }
 
     /**
@@ -68,7 +68,7 @@ public class AdminMasterController extends JbootController {
         setAttr("formTitle", "管理员管理");
         setAttr("mainTP", "/htmls/admin/master/add.html");
         //调用通用模板
-        renderTemplate("/htmls/admin/pop.html");
+        render("/htmls/admin/pop.html");
     }
 
     /**
@@ -99,7 +99,7 @@ public class AdminMasterController extends JbootController {
         setAttr("formTitle", "查看用户详情");
         setAttr("mainTP", "/htmls/admin/master/edit.html");
         //调用通用模板
-        renderTemplate("/htmls/admin/pop.html");
+        render("/htmls/admin/pop.html");
     }
 
     /**

@@ -45,6 +45,7 @@ public class AppConfig extends JbootAppListenerBase {
     public void onInterceptorConfig(Interceptors interceptors) {
         super.onInterceptorConfig(interceptors);
 //        interceptors.addGlobalActionInterceptor(new GlobalInterceptor());
+//        interceptors.add(new SessionInViewInterceptor());
     }
 
     @Override

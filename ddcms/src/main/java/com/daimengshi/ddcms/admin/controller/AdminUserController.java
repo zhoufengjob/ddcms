@@ -50,7 +50,7 @@ public class AdminUserController extends JbootController {
         setAttr("title", "用户列表");
         setAttr("mainTP", "/htmls/admin/user/index.html");
         //调用通用模板
-        renderTemplate("/htmls/admin/pop.html");
+        render("/htmls/admin/pop.html");
     }
 
     /**
@@ -74,7 +74,7 @@ public class AdminUserController extends JbootController {
         setAttr("formTitle", "添加用户");
         setAttr("mainTP", "/htmls/admin/user/add.html");
         //调用通用模板
-        renderTemplate("/htmls/admin/pop.html");
+        render("/htmls/admin/pop.html");
     }
 
     /**
@@ -129,7 +129,7 @@ public class AdminUserController extends JbootController {
         setAttr("formTitle", "查看用户详情");
         setAttr("mainTP", "/htmls/admin/user/edit.html");
         //调用通用模板
-        renderTemplate("/htmls/admin/pop.html");
+        render("/htmls/admin/pop.html");
     }
 
     /**

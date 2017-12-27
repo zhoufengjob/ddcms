@@ -30,7 +30,7 @@ public class AdminIndexController extends JbootController {
         setAttr("title", "后台主页");
 //        setAttr("mainTP", "/htmls/admin/index/index.html");
         //调用通用模板
-        renderTemplate("/htmls/admin/global.html");
+        render("/htmls/admin/global.html");
 //        renderJson(sysInfos);
     }
 
@@ -42,6 +42,6 @@ public class AdminIndexController extends JbootController {
         setAttr("title", "仪表盘");
         setAttr("mainTP", "/htmls/admin/index/index.html");
         //调用通用模板
-        renderTemplate("/htmls/admin/pop.html");
+        render("/htmls/admin/pop.html");
     }
 }

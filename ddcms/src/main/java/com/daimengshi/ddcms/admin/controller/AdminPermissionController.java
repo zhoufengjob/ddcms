@@ -40,7 +40,7 @@ public class AdminPermissionController extends JbootController {
         setAttr("title", "权限列表");
         setAttr("mainTP", "/htmls/admin/permission/index.html");
         //调用通用模板
-        renderTemplate("/htmls/admin/pop.html");
+        render("/htmls/admin/pop.html");
     }
 
     /**
@@ -60,7 +60,7 @@ public class AdminPermissionController extends JbootController {
         setAttr("formTitle", "权限管理");
         setAttr("mainTP", "/htmls/admin/permission/add.html");
         //调用通用模板
-        renderTemplate("/htmls/admin/pop.html");
+        render("/htmls/admin/pop.html");
     }
 
     /**
@@ -91,7 +91,7 @@ public class AdminPermissionController extends JbootController {
         setAttr("formTitle", "查看用户详情");
         setAttr("mainTP", "/htmls/admin/permission/edit.html");
         //调用通用模板
-        renderTemplate("/htmls/admin/pop.html");
+        render("/htmls/admin/pop.html");
     }
 
     /**

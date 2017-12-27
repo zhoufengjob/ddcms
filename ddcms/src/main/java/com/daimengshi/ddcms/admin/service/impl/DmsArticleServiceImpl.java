@@ -8,4 +8,12 @@ import io.jboot.service.JbootServiceBase;
 @Bean
 public class DmsArticleServiceImpl extends JbootServiceBase<DmsArticle> implements DmsArticleService {
 
+
+    /**
+     * 根据url查询文章
+     */
+    public DmsArticle findByUrl(String url) {
+        DmsArticle article = getDao().findFirst(getDao().getSql("article.findByUrl"), url);
+        return article;
+    }
 }

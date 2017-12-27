@@ -25,6 +25,11 @@
 #namespace("permission")
   #include("permission/index.sql");
 #end
+
 #namespace("role_permission")
   #include("role_permission/index.sql");
+#end
+
+#namespace("article")
+  #include("article/index.sql");
 #end

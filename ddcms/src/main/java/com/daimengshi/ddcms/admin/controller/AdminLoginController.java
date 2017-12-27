@@ -1,19 +1,16 @@
 package com.daimengshi.ddcms.admin.controller;
 
 import com.daimengshi.ddcms.pub.ResponseData;
+import com.daimengshi.ddcms.pub.shiro.DMSToken;
 import com.xiaoleilu.hutool.log.Log;
 import com.xiaoleilu.hutool.log.LogFactory;
 import io.jboot.web.controller.JbootController;
 import io.jboot.web.controller.annotation.RequestMapping;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.config.IniSecurityManagerFactory;
 import org.apache.shiro.mgt.RealmSecurityManager;
-import org.apache.shiro.mgt.SecurityManager;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
-import org.apache.shiro.util.Factory;
 
 import java.util.Map;
 
@@ -35,7 +32,7 @@ public class AdminLoginController extends JbootController {
         if (subject.isAuthenticated()) {
             redirect("/admin");
         } else {
-            renderTemplate("/htmls/admin/login/index.html");
+            render("/htmls/admin/login/index.html");
         }
     }
 
@@ -50,21 +47,24 @@ public class AdminLoginController extends JbootController {
         String username = getPara("username");
         String password = getPara("password");
 
-        //1、获取SecurityManager工厂，此处使用Ini配置文件初始化SecurityManager
-        Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:shiro.ini");
-        //2、得到SecurityManager实例 并绑定给SecurityUtils
-
+        //得到SecurityManager实例 并绑定给SecurityUtils
         RealmSecurityManager securityManager = (RealmSecurityManager) SecurityUtils.getSecurityManager();
-
         SecurityUtils.setSecurityManager(securityManager);
-        //3、得到Subject及创建用户名/密码身份验证Token（即用户身份/凭证）
+        //得到Subject及创建用户名/密码身份验证Token（即用户身份/凭证）
         Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
+        DMSToken token = new DMSToken(username, password);
 
         try {
             //4、登录，即身份验证
             subject.login(token);
             log.info(token.getUsername() + "登录成功");
+
+
+            setSessionAttr("name",token.getUsername());
+            setSessionAttr("uid",token.getUid());
+            setSessionAttr("nike_name",token.getNikeName());
+
+
         } catch (AuthenticationException e) {
             //5、身份验证失败
             log.info(token.getUsername() + "登录失败--" + e);

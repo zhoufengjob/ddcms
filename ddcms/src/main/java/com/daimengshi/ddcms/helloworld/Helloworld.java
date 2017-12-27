@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
  * @version V1.0
  * @Package io.jboot.demo.helloworld
  */
-@RequestMapping("/")
+@RequestMapping("/test")
 @EventConfig(action = {"event2"})
 @Api(description = "这个接口集合的描述", basePath = "/swaggerTest", tags = "abc")
 public class Helloworld extends JbootController {
@@ -67,7 +67,7 @@ public class Helloworld extends JbootController {
         setAttr("title", "你好");
         setAttr("test", "测试");
         setAttr("config", config);
-        renderTemplate("/htmls/test.html");
+        render("/htmls/test.html");
 
 
     }

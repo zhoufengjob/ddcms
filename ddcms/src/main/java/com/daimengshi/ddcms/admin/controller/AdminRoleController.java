@@ -55,7 +55,7 @@ public class AdminRoleController extends JbootController {
         setAttr("title", "角色管理");
         setAttr("mainTP", "/htmls/admin/role/index.html");
         //调用通用模板
-        renderTemplate("/htmls/admin/pop.html");
+        render("/htmls/admin/pop.html");
     }
 
     /**
@@ -75,7 +75,7 @@ public class AdminRoleController extends JbootController {
         setAttr("formTitle", "角色管理");
         setAttr("mainTP", "/htmls/admin/role/add.html");
         //调用通用模板
-        renderTemplate("/htmls/admin/pop.html");
+        render("/htmls/admin/pop.html");
     }
 
     /**
@@ -136,7 +136,7 @@ public class AdminRoleController extends JbootController {
         setAttr("formTitle", "查看用户详情");
         setAttr("mainTP", "/htmls/admin/role/edit.html");
         //调用通用模板
-        renderTemplate("/htmls/admin/pop.html");
+        render("/htmls/admin/pop.html");
     }
 
     /**

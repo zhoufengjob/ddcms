@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class PermissionsAuthorizationFilter extends AccessControlFilter {
 
-    private String unauthorizedUrl = "/unauthorized.jsp";
+    private String unauthorizedUrl = "/";
     private String loginUrl = "/admin/login/";
 
     @Override
