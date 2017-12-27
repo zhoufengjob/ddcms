@@ -55,7 +55,7 @@
             <span style="padding-right: 10px; color: #FF7200"> <!--悬赏：60飞吻--></span>
             #shiroAuthenticated()
                 #if(session.uid ?? == article.uid)
-                <span class="layui-btn layui-btn-xs jie-admin " type="edit"><a href="/editView/#(article.url)">编辑此贴</a></span>
+                <span class="layui-btn layui-btn-xs jie-admin " type="edit"><a href="/article/editView/#(article.url)">编辑此贴</a></span>
                 #end
             #end
         </div>
