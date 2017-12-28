@@ -7,6 +7,9 @@
 
 项目讲持续更新，尽请期待。。。
 
+### 2018 先给项目画一个饼
+![项目脑图](docs/imgs/nt.png)
+
 ## 近期更新
 2017-12-27
 - 兼容jboot最新版1.2.1
@@ -78,6 +81,9 @@ clean package appassembler:generate-daemons
 
 > 后台登录帐号:admin  
 > 后台登录密码:admin
+
+
+
 
 ### 静态图展示
 ![后台主页](docs/imgs/login.jpg)
