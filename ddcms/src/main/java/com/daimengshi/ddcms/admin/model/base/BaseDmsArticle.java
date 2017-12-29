@@ -126,4 +126,12 @@ public abstract class BaseDmsArticle<M extends BaseDmsArticle<M>> extends JbootM
 		return getStr("is_top");
 	}
 
+	public void setPv(java.lang.Integer pv) {
+		set("pv", pv);
+	}
+	
+	public java.lang.Integer getPv() {
+		return getInt("pv");
+	}
+
 }

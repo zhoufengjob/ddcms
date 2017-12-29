@@ -31,6 +31,8 @@
             </div>
         </div>
     </div>
+
+
     #@foot()
 </div>
 </body>
@@ -47,6 +49,30 @@
             , upload = layui.upload
             , util = layui.util
             , device = layui.device()
+
+        //手机设备的简单适配
+        var treeMobile = $('.site-tree-mobile')
+            ,shadeMobile = $('.site-mobile-shade')
+
+        treeMobile.on('click', function(){
+            $('body').addClass('site-mobile');
+        });
+
+        shadeMobile.on('click', function(){
+            $('body').removeClass('site-mobile');
+        });
+
+
+        //固定Bar
+        util.fixbar({
+            bar1: '&#xe642;'
+            ,bgcolor: '#009688'
+            ,click: function(type){
+                if(type === 'bar1'){
+                    location.href = '/article/addView';
+                }
+            }
+        });
 
         //搜索
         $('.fly-search').on('click', function () {

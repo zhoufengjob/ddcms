@@ -10,6 +10,7 @@ import com.jfinal.plugin.activerecord.Page;
 import com.xiaoleilu.hutool.log.Log;
 import com.xiaoleilu.hutool.log.LogFactory;
 import com.xiaoleilu.hutool.util.StrUtil;
+import io.jboot.web.cache.EnableActionCache;
 import io.jboot.web.controller.JbootController;
 import io.jboot.web.controller.annotation.RequestMapping;
 import org.apache.shiro.authz.annotation.RequiresRoles;
@@ -26,7 +27,7 @@ import java.util.List;
  */
 @RequestMapping("/article")
 @Before(SessionInViewInterceptor.class)
-public class ArticleIndexController extends JbootController {
+public class HomeArticleController extends JbootController {
     private static final Log log = LogFactory.get();
 
 
@@ -36,7 +37,7 @@ public class ArticleIndexController extends JbootController {
     /**
      * 文章列表
      */
-//    @EnableActionCache(group = "article_index", liveSeconds = 5)//jboot.me.getCache.removeAll 通过这个方法清除缓存 可以传入group指定
+    @EnableActionCache(group = "article_index", liveSeconds = 5)//jboot.me.getCache.removeAll 通过这个方法清除缓存 可以传入group指定
     public void index() {
 
         int pageIndex = getParaToInt(0, 1);
@@ -69,6 +70,7 @@ public class ArticleIndexController extends JbootController {
      */
     public void detail() {
         String url = getPara(0);
+        String id = getPara(1);
 
         String decode;
         try {
@@ -78,8 +80,20 @@ public class ArticleIndexController extends JbootController {
             return;
         }
 
+
+        DmsArticle article;
+
         //获取文章
-        DmsArticle article = articleService.findByUrl(decode);
+        if (id != null) {
+            article = articleService.findById(id);
+        }else {
+            article = articleService.findByUrl(decode);
+        }
+
+        int pv = article.getPv() + 1;
+        article.setPv(pv);
+        articleService.update(article);
+
         setAttr("article", article);
 
         setAttr("leftTP", "/htmls/home/article/left.html"); //左边内容模板
@@ -98,11 +112,38 @@ public class ArticleIndexController extends JbootController {
         //获取文章
         DmsArticle article = articleService.findByUrl(url);
         setAttr("article", article);
+        setAttr("isOpenTopNav2", "off"); //关闭二级导航,用于手机适配
 
-        setAttr("mainTP", "/htmls/home/article/edit.html"); //左边内容模板
+        setAttr("mainTP", "/htmls/home/article/edit.html"); //中间内容模板
         render("/htmls/home/lr_global.html");
 
     }
+
+
+    /**
+     * 用户发布文章页面
+     */
+    public void addView() {
+
+        setAttr("isOpenTopNav2", "off"); //关闭二级导航,用于手机适配
+        setAttr("mainTP", "/htmls/home/article/add.html"); //中间内容模板
+        render("/htmls/home/lr_global.html");
+
+    }
+
+    /**
+     * 提交编辑数据
+     */
+    public void add() {
+        String json = getBodyString();
+        log.info(json);
+        DmsArticle article = JSON.parseObject(json, DmsArticle.class);
+        article.setUid(getSessionAttr("uid"));
+        article.setCreateTime(new Date());
+        articleService.save(article);
+        renderJson(ResponseData.ok());
+    }
+
 
     /**
      * 提交编辑数据

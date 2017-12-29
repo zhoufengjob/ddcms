@@ -23,14 +23,16 @@
 
         #for(article:topArticleList)
         <li>
-            <a href="/article/#(article.url)" class="fly-avatar">
+            <a href="/article/#(article.url == '' ? 'id-'+article.id:article.url)" class="fly-avatar">
                 <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg"
                      alt="#(article.user.name)">
             </a>
             <h2>
                 <!--<a class="layui-badge">分享</a>-->
-                <a href="/article/detail/#(article.url)">#(article.title)</a>
+                <a href="/article/detail/#(article.url == '' ? 'id-'+article.id:article.url)">#(article.title)</a>
             </h2>
+
+
             <div class="fly-list-info">
                 <a href="/user/home.html" link>
                     <cite>#(article.user.name == null ? article.user.name : article.user.nike_name )</cite>
@@ -57,13 +59,13 @@
 
         #for(article:articlePage.list)
         <li>
-            <a href="/article/#(article.url)" class="fly-avatar">
+            <a href="/article/#(article.url == '' ? 'id-'+article.id:article.url)" class="fly-avatar">
                 <img src="https://tva1.sinaimg.cn/crop.0.0.118.118.180/5db11ff4gw1e77d3nqrv8j203b03cweg.jpg"
                      alt="#(article.user.name)">
             </a>
             <h2>
                 <!--<a class="layui-badge">分享</a>-->
-                <a href="/article/detail/#(article.url)">#(article.title)</a>
+                <a href="/article/detail/#(article.url == '' ? 'id-'+article.id:article.url)">#(article.title)</a>
             </h2>
             <div class="fly-list-info">
                 <a href="/user/home.html" link>
@@ -113,7 +115,7 @@
             elem: 'articlePage'
             , count: "#(articlePage.totalRow)" //数据总数，从服务端得到
             , limit: "#(limit)" //每页显示条数
-            ,curr:"#(pageIndex)" //获取起始页
+            , curr: "#(pageIndex)" //获取起始页
             , jump: function (obj, first) {
                 //obj包含了当前分页的所有参数，比如：
                 console.log(obj.curr); //得到当前页，以便向服务端请求对应页的数据。
@@ -121,7 +123,7 @@
 
                 //首次不执行
                 if (!first) {
-                    location.href='/article/'+obj.curr;
+                    location.href = '/article/' + obj.curr;
                 }
             }
         });
