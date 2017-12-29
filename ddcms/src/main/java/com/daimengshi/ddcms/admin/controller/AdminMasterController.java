@@ -75,7 +75,7 @@ public class AdminMasterController extends JbootController {
      * 管理员管理添加请求
      */
     public void add() {
-//        String json = HttpKit.readData(getRequest());
+//        String json = getBodyString();
 //        log.info(json, Level.INFO);
 //
 //        DmsMaster master = JSON.parseObject(json, DmsMaster.class);
@@ -106,7 +106,7 @@ public class AdminMasterController extends JbootController {
      * 管理员管理的编辑菜单请求
      */
     public void edit() {
-//        String json = HttpKit.readData(getRequest());
+//        String json = getBodyString();
 //        log.info(json);
 //        DmsMaster master = JSON.parseObject(json, DmsMaster.class);
 //
@@ -136,7 +136,7 @@ public class AdminMasterController extends JbootController {
      */
     public void deletes() {
         //获取所有请求参数
-//        String json = HttpKit.readData(getRequest());
+//        String json = getBodyString();
 //        TableCheckStatus mTableCheckStatus = JSON.parseObject(json, TableCheckStatus.class);
 //
 //        for (Object obj : mTableCheckStatus.getData()) {

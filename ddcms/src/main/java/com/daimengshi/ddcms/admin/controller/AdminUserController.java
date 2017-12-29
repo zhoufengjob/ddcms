@@ -11,7 +11,6 @@ import com.daimengshi.ddcms.admin.service.impl.DmsUserServiceImpl;
 import com.daimengshi.ddcms.pub.ResponseData;
 import com.daimengshi.ddcms.pub.TablePage;
 import com.daimengshi.ddcms.pub.Tools;
-import com.jfinal.kit.HttpKit;
 import com.xiaoleilu.hutool.date.DateUtil;
 import com.xiaoleilu.hutool.log.Log;
 import com.xiaoleilu.hutool.log.LogFactory;
@@ -81,7 +80,7 @@ public class AdminUserController extends JbootController {
      * 添加
      */
     public void add() {
-        String json = HttpKit.readData(getRequest());
+        String json = getBodyString();
         log.info(json, Level.INFO);
 
         DmsUser user = JSON.parseObject(json, DmsUser.class);
@@ -136,7 +135,7 @@ public class AdminUserController extends JbootController {
      * 编辑菜单
      */
     public void edit() {
-        String json = HttpKit.readData(getRequest());
+        String json = getBodyString();
         log.info(json);
         DmsUser user = JSON.parseObject(json, DmsUser.class);
 

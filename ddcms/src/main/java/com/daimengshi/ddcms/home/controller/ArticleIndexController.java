@@ -6,7 +6,6 @@ import com.daimengshi.ddcms.admin.service.impl.DmsArticleServiceImpl;
 import com.daimengshi.ddcms.pub.ResponseData;
 import com.jfinal.aop.Before;
 import com.jfinal.ext.interceptor.SessionInViewInterceptor;
-import com.jfinal.kit.HttpKit;
 import com.jfinal.plugin.activerecord.Page;
 import com.xiaoleilu.hutool.log.Log;
 import com.xiaoleilu.hutool.log.LogFactory;
@@ -109,7 +108,7 @@ public class ArticleIndexController extends JbootController {
      * 提交编辑数据
      */
     public void edit() {
-        String json = HttpKit.readData(getRequest());
+        String json = getBodyString();
         log.info(json);
         DmsArticle article = JSON.parseObject(json, DmsArticle.class);
         //这里做控制 只修改文章部分(否则修改json可以直接改其他属性)

@@ -8,7 +8,6 @@ import com.daimengshi.ddcms.pub.ResponseData;
 import com.daimengshi.ddcms.pub.TableCheckStatus;
 import com.daimengshi.ddcms.pub.TablePage;
 import com.daimengshi.ddcms.pub.Tools;
-import com.jfinal.kit.HttpKit;
 import com.xiaoleilu.hutool.date.DateUtil;
 import com.xiaoleilu.hutool.log.Log;
 import com.xiaoleilu.hutool.log.LogFactory;
@@ -67,7 +66,7 @@ public class AdminPermissionController extends JbootController {
      * 权限管理添加请求
      */
     public void add() {
-        String json = HttpKit.readData(getRequest());
+        String json = getBodyString();
         log.info(json, Level.INFO);
 
         DmsPermission permission = JSON.parseObject(json, DmsPermission.class);
@@ -98,7 +97,7 @@ public class AdminPermissionController extends JbootController {
      * 权限管理的编辑菜单请求
      */
     public void edit() {
-        String json = HttpKit.readData(getRequest());
+        String json = getBodyString();
         log.info(json);
         DmsPermission permission = JSON.parseObject(json, DmsPermission.class);
 
@@ -128,7 +127,7 @@ public class AdminPermissionController extends JbootController {
      */
     public void deletes() {
         //获取所有请求参数
-        String json = HttpKit.readData(getRequest());
+        String json = getBodyString();
         TableCheckStatus mTableCheckStatus = JSON.parseObject(json, TableCheckStatus.class);
 
         for (Object obj : mTableCheckStatus.getData()) {
