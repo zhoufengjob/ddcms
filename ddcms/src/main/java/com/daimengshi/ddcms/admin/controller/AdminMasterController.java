@@ -4,6 +4,7 @@ import com.daimengshi.ddcms.admin.model.DmsRole;
 import com.daimengshi.ddcms.admin.model.DmsUser;
 import com.daimengshi.ddcms.admin.service.impl.DmsRoleServiceImpl;
 import com.daimengshi.ddcms.admin.service.impl.DmsUserServiceImpl;
+import com.daimengshi.ddcms.pub.HtmlView;
 import com.daimengshi.ddcms.pub.ResponseData;
 import com.daimengshi.ddcms.pub.TablePage;
 import com.daimengshi.ddcms.pub.Tools;
@@ -34,10 +35,7 @@ public class AdminMasterController extends JbootController {
      * 管理员管理默认页
      */
     public void index() {
-        setAttr("title", "管理员管理");
-        setAttr("mainTP", "/htmls/admin/master/index.html");
-        //调用通用模板
-        render("/htmls/admin/pop.html");
+        HtmlView.adminPop(this, "管理员管理", "/master/index.html");
     }
 
     /**
@@ -64,11 +62,8 @@ public class AdminMasterController extends JbootController {
         setAttr("userList", "userList");//用户列表
         setAttr("roleList", "roleList");//权限列表
 
+        HtmlView.adminPop(this, "管理员管理", "/master/add.html");
 
-        setAttr("formTitle", "管理员管理");
-        setAttr("mainTP", "/htmls/admin/master/add.html");
-        //调用通用模板
-        render("/htmls/admin/pop.html");
     }
 
     /**
@@ -90,16 +85,9 @@ public class AdminMasterController extends JbootController {
      * 管理员管理的查看详情和编辑页面
      */
     public void editView() {
-//        String id = getPara("id");
-//        DmsMaster master = masterService.DAO.findByIdWithoutCache(id);
-//        log.info(master.toJson());
-//
-//        setAttr("master", master);
+        render("/htmls/admin/layui/pop.html");
+        HtmlView.adminPop(this, "查看用户详情", "/master/edit.html");
 
-        setAttr("formTitle", "查看用户详情");
-        setAttr("mainTP", "/htmls/admin/master/edit.html");
-        //调用通用模板
-        render("/htmls/admin/pop.html");
     }
 
     /**

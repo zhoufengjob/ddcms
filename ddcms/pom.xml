@@ -53,6 +53,14 @@
             <artifactId>swagger-core</artifactId>
             <version>1.5.17</version>
         </dependency>
+
+
+        <dependency>
+            <groupId>com.qq</groupId>
+            <artifactId>connect</artifactId>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/Sdk4J.jar</systemPath>
+        </dependency>
     </dependencies>
 
 

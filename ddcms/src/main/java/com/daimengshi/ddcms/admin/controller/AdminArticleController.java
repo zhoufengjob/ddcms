@@ -4,10 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.daimengshi.ddcms.admin.model.DmsArticle;
 import com.daimengshi.ddcms.admin.service.impl.DmsArticleServiceImpl;
-import com.daimengshi.ddcms.pub.ResponseData;
-import com.daimengshi.ddcms.pub.TableCheckStatus;
-import com.daimengshi.ddcms.pub.TablePage;
-import com.daimengshi.ddcms.pub.Tools;
+import com.daimengshi.ddcms.pub.*;
 import com.xiaoleilu.hutool.date.DateUtil;
 import com.xiaoleilu.hutool.log.Log;
 import com.xiaoleilu.hutool.log.LogFactory;
@@ -33,15 +30,13 @@ public class AdminArticleController extends JbootController {
     @Inject
     DmsArticleServiceImpl articleService;
 
+    String HTML_PATH = Tools.configMap.get("adminTheme").getValue();//后端主题
 
     /**
      * 文章管理默认页
      */
     public void index() {
-        setAttr("title", "文章管理");
-        setAttr("mainTP", "/htmls/admin/article/index.html");
-        //调用通用模板
-        render("/htmls/admin/pop.html");
+        HtmlView.adminPop(this,"文章管理","/article/index.html");
     }
 
     /**
@@ -57,11 +52,7 @@ public class AdminArticleController extends JbootController {
      * 文章管理添加页面
      */
     public void addView() {
-
-        setAttr("formTitle", "文章管理");
-        setAttr("mainTP", "/htmls/admin/article/add.html");
-        //调用通用模板
-        render("/htmls/admin/pop.html");
+        HtmlView.adminPop(this,"添加文章","/article/add.html");
     }
 
     /**
@@ -90,10 +81,7 @@ public class AdminArticleController extends JbootController {
 
         setAttr("article", article);
 
-        setAttr("formTitle", "查看用户详情");
-        setAttr("mainTP", "/htmls/admin/article/edit.html");
-        //调用通用模板
-        render("/htmls/admin/pop.html");
+        HtmlView.adminPop(this,"查看文章详情","/article/edit.html");
     }
 
     /**

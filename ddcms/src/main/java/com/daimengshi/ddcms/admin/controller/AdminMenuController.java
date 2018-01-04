@@ -40,12 +40,12 @@ public class AdminMenuController extends JbootController {
         List<DmsMenu> menus = menuService.findAll();
         setAttr("menus", menus);
         setAttr("title", "菜单列表");
-        setAttr("mainTP", "/htmls/admin/menu/index.html");
+        setAttr("mainTP", "/htmls/admin/layui/menu/index.html");
 
         //调用通用模板
 //        render("/htmls/admin/global.html");
         //调用通用模板
-        render("/htmls/admin/pop.html");
+        render("/htmls/admin/layui/pop.html");
     }
 
 
@@ -80,9 +80,9 @@ public class AdminMenuController extends JbootController {
 
 
         setAttr("formTitle", "添加菜单");
-        setAttr("mainTP", "/htmls/admin/menu/add.html");
+        setAttr("mainTP", "/htmls/admin/layui/menu/add.html");
         //调用通用模板
-        render("/htmls/admin/pop.html");
+        render("/htmls/admin/layui/pop.html");
     }
 
     /**
@@ -117,10 +117,8 @@ public class AdminMenuController extends JbootController {
         setAttr("menuList", menuList);
         setAttr("menuTypeList", menuTypeList);
 
-        setAttr("formTitle", "查看菜单详情");
-        setAttr("mainTP", "/htmls/admin/menu/edit.html");
-        //调用通用模板
-        render("/htmls/admin/pop.html");
+        HtmlView.adminPop(this, "查看菜单详情", "menu/edit.html");
+
     }
 
 

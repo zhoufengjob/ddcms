@@ -2,6 +2,7 @@ package com.daimengshi.ddcms.pub;
 
 import com.alibaba.fastjson.JSON;
 import com.daimengshi.ddcms.admin.bean.SysInfo;
+import com.daimengshi.ddcms.admin.model.DmsConfig;
 import com.jfinal.kit.Kv;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
@@ -12,19 +13,23 @@ import com.xiaoleilu.hutool.util.StrUtil;
 import io.jboot.web.controller.JbootController;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 
 /**
  * Created by zhoufeng on 2017/12/8.
  * 静态工具类
  */
-public class Tools {
+public class Tools implements AppConstant {
+
+    public static Map<String, DmsConfig> configMap;
 
     private static List<SysInfo> sysInfos;
 
+    /**
+     * 获取系统信息
+     *
+     * @return
+     */
     public static List<SysInfo> getSysInfos() {
         if (sysInfos == null) {
             sysInfos = new ArrayList<>();
@@ -44,13 +49,10 @@ public class Tools {
         return sysInfos;
     }
 
-
-
-
     /**
      * 分页查询 返回layui 数据表格 格式数据
      */
-    public static TablePage pageFind(JbootController controller ,String sqlKey) {
+    public static TablePage pageFind(JbootController controller, String sqlKey) {
         Page<Record> menusPage;
 
         //分页

@@ -1,0 +1,41 @@
+#--
+公用左边菜单
+--#
+
+<!-- 左侧菜单开始 -->
+<div class="left-nav">
+    <div id="side-nav">
+        <ul id="nav">
+
+            #for(menu:menus)
+            #if("1".equals(menu.type_id) && 0 == menu.super_id && "on".equals(menu.is_open))
+            <li>
+                <a class="" href="#(menu.url == null ? 'javascript:;':menu.url)">
+                    <i class="iconfont">&#xe6b8;</i>
+                    <cite>#(menu.name)</cite>
+                    <i class="iconfont nav_right">&#xe697;</i>
+                </a>
+
+                <ul class="sub-menu">
+                    #for(subMenu:menus)
+                    #if(menu.id.equals(subMenu.super_id) && "on".equals(subMenu.is_open))
+                    <li>
+                        <a _href="#(subMenu.url)">
+                            <i class="iconfont">&#xe6a7;</i>
+                            <cite>#(subMenu.name)</cite>
+
+                        </a>
+
+                    </li>
+                    #end
+                    #end
+                </ul>
+            </li>
+            #end
+            #end
+        </ul>
+
+    </div>
+</div>
+<!-- <div class="x-slide_left"></div> -->
+<!-- 左侧菜单结束 -->

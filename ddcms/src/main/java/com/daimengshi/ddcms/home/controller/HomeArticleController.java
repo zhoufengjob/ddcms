@@ -58,10 +58,10 @@ public class HomeArticleController extends JbootController {
         setAttr("limit", limit);//每页显示条数
         setAttr("pageIndex", pageIndex);//当前页数
 
-        setAttr("leftTP", "/htmls/home/default/_left.html"); //左边动态内容模板
-        setAttr("rightTP", "/htmls/home/default/_right.html"); //右边动态内容模板
+        setAttr("leftTP", "/htmls/home/layui/default/_left.html"); //左边动态内容模板
+        setAttr("rightTP", "/htmls/home/layui/default/_right.html"); //右边动态内容模板
 
-        render("/htmls/home/lr_global.html");   //加载左右模式模板
+        render("/htmls/home/layui/lr_global.html");   //加载左右模式模板
 
     }
 
@@ -96,10 +96,10 @@ public class HomeArticleController extends JbootController {
 
         setAttr("article", article);
 
-        setAttr("leftTP", "/htmls/home/article/left.html"); //左边内容模板
-        setAttr("rightTP", "/htmls/home/default/_right.html"); //右边内容模板
+        setAttr("leftTP", "/htmls/home/layui/article/left.html"); //左边内容模板
+        setAttr("rightTP", "/htmls/home/layui/default/_right.html"); //右边内容模板
 
-        render("/htmls/home/lr_global.html");
+        render("/htmls/home/layui/lr_global.html");
 
     }
 
@@ -114,8 +114,8 @@ public class HomeArticleController extends JbootController {
         setAttr("article", article);
         setAttr("isOpenTopNav2", "off"); //关闭二级导航,用于手机适配
 
-        setAttr("mainTP", "/htmls/home/article/edit.html"); //中间内容模板
-        render("/htmls/home/lr_global.html");
+        setAttr("mainTP", "/htmls/home/layui/article/edit.html"); //中间内容模板
+        render("/htmls/home/layui/lr_global.html");
 
     }
 
@@ -126,8 +126,8 @@ public class HomeArticleController extends JbootController {
     public void addView() {
 
         setAttr("isOpenTopNav2", "off"); //关闭二级导航,用于手机适配
-        setAttr("mainTP", "/htmls/home/article/add.html"); //中间内容模板
-        render("/htmls/home/lr_global.html");
+        setAttr("mainTP", "/htmls/home/layui/article/add.html"); //中间内容模板
+        render("/htmls/home/layui/lr_global.html");
 
     }
 

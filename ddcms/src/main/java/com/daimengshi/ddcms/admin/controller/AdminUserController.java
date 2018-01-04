@@ -8,6 +8,7 @@ import com.daimengshi.ddcms.admin.model.DmsUserRole;
 import com.daimengshi.ddcms.admin.service.impl.DmsRoleServiceImpl;
 import com.daimengshi.ddcms.admin.service.impl.DmsUserRoleServiceImpl;
 import com.daimengshi.ddcms.admin.service.impl.DmsUserServiceImpl;
+import com.daimengshi.ddcms.pub.HtmlView;
 import com.daimengshi.ddcms.pub.ResponseData;
 import com.daimengshi.ddcms.pub.TablePage;
 import com.daimengshi.ddcms.pub.Tools;
@@ -46,10 +47,8 @@ public class AdminUserController extends JbootController {
      * 默认页
      */
     public void index() {
-        setAttr("title", "用户列表");
-        setAttr("mainTP", "/htmls/admin/user/index.html");
-        //调用通用模板
-        render("/htmls/admin/pop.html");
+        HtmlView.adminPop(this,"用户管理","/user/index.html");
+
     }
 
     /**
@@ -70,10 +69,9 @@ public class AdminUserController extends JbootController {
         wuRole.setName("无");
         dmsRoleList.add(0, wuRole);
         setAttr("dmsRoleList", dmsRoleList);//系统所有的角色
-        setAttr("formTitle", "添加用户");
-        setAttr("mainTP", "/htmls/admin/user/add.html");
-        //调用通用模板
-        render("/htmls/admin/pop.html");
+
+        HtmlView.adminPop(this,"添加用户","/user/add.html");
+
     }
 
     /**
@@ -125,10 +123,9 @@ public class AdminUserController extends JbootController {
         setAttr("userPermissions", userPermissions);//该用户所有权限
         setAttr("user", user);
 
-        setAttr("formTitle", "查看用户详情");
-        setAttr("mainTP", "/htmls/admin/user/edit.html");
-        //调用通用模板
-        render("/htmls/admin/pop.html");
+
+        HtmlView.adminPop(this,"查看用户详情","/user/edit.html");
+
     }
 
     /**

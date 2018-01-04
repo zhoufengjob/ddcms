@@ -10,7 +10,7 @@ import io.jboot.server.listener.JbootAppListenerBase;
  * Created by zhoufeng on 2017/12/14.
  * 程序启动入口
  */
-public class AppMain  extends JbootAppListenerBase{
+public class AppMain extends JbootAppListenerBase {
 
     private static final Log log = LogFactory.get();
 
@@ -24,13 +24,25 @@ public class AppMain  extends JbootAppListenerBase{
         //1、获取SecurityManager工厂，此处使用Ini配置文件初始化SecurityManager
 //        Factory<SecurityManager> factory = new IniSecurityManagerFactory("classpath:shiro.ini");
 
+        log.info("███████╗██╗   ██╗ ██████╗ ██████╗███████╗███████╗███████╗");
+        log.info("██╔════╝██║   ██║██╔════╝██╔════╝██╔════╝██╔════╝██╔════╝");
+        log.info("███████╗██║   ██║██║     ██║     █████╗  ███████╗███████╗");
+        log.info("╚════██║██║   ██║██║     ██║     ██╔══╝  ╚════██║╚════██║");
+        log.info("███████║╚██████╔╝╚██████╗╚██████╗███████╗███████║███████║");
+        log.info("╚══════╝ ╚═════╝  ╚═════╝ ╚═════╝╚══════╝╚══════╝╚══════╝");
 
-        log.info("程序启动成功!");
     }
 
     @Override
     public void onAppStartBefore(JbootServer underTowServer) {
         super.onAppStartBefore(underTowServer);
-        log.info("程序启动中...");
+
+        log.info("██████╗ ██████╗      ██████╗███╗   ███╗███████╗    ███████╗████████╗ █████╗ ██████╗ ████████╗██╗███╗   ██╗ ██████╗ ");
+        log.info("██╔══██╗██╔══██╗    ██╔════╝████╗ ████║██╔════╝    ██╔════╝╚══██╔══╝██╔══██╗██╔══██╗╚══██╔══╝██║████╗  ██║██╔════╝ ");
+        log.info("██║  ██║██║  ██║    ██║     ██╔████╔██║███████╗    ███████╗   ██║   ███████║██████╔╝   ██║   ██║██╔██╗ ██║██║  ███╗");
+        log.info("██║  ██║██║  ██║    ██║     ██║╚██╔╝██║╚════██║    ╚════██║   ██║   ██╔══██║██╔══██╗   ██║   ██║██║╚██╗██║██║   ██║");
+        log.info("██████╔╝██████╔╝    ╚██████╗██║ ╚═╝ ██║███████║    ███████║   ██║   ██║  ██║██║  ██║   ██║   ██║██║ ╚████║╚██████╔╝");
+        log.info("╚═════╝ ╚═════╝      ╚═════╝╚═╝     ╚═╝╚══════╝    ╚══════╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝╚═╝  ╚═══╝ ╚═════╝");
+
     }
 }

@@ -32,7 +32,7 @@ public class AdminLoginController extends JbootController {
         if (subject.isAuthenticated()) {
             redirect("/admin");
         } else {
-            render("/htmls/admin/login/index.html");
+            render("/htmls/admin/layui/login/index.html");
         }
     }
 

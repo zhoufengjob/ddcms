@@ -14,7 +14,6 @@ import com.xiaoleilu.hutool.log.LogFactory;
 import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by zhoufeng on 2017/12/12.
@@ -29,7 +28,7 @@ public class AdminInterceptor implements Interceptor {
     @Inject
     private DmsMenuServiceImpl menuService;
 
-    public static Map<String, DmsConfig> configMap;
+
 
     public static List<DmsMenu> menus;
 
@@ -40,16 +39,16 @@ public class AdminInterceptor implements Interceptor {
         List<SysInfo> sysInfos = Tools.getSysInfos();
         inv.getController().setAttr("sysInfos", sysInfos);
 
-        if (configMap == null) {
+        if (Tools.configMap == null) {
             //获取站点配置
             List<DmsConfig> dmsConfigs = configService.findAll();
-            configMap = new HashMap<>();
+            Tools.configMap = new HashMap<>();
             for (DmsConfig config : dmsConfigs) {
-                configMap.put(config.getKey(), config);
+                Tools.configMap.put(config.getKey(), config);
             }
         }
 
-        inv.getController().setAttr("configMap", configMap);
+        inv.getController().setAttr("configMap", Tools.configMap);
 
         if (menus == null) {
             //获取菜单列表

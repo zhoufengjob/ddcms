@@ -10,10 +10,7 @@ import com.daimengshi.ddcms.admin.model.DmsRolePermission;
 import com.daimengshi.ddcms.admin.service.impl.DmsPermissionServiceImpl;
 import com.daimengshi.ddcms.admin.service.impl.DmsRolePermissionServiceImpl;
 import com.daimengshi.ddcms.admin.service.impl.DmsRoleServiceImpl;
-import com.daimengshi.ddcms.pub.ResponseData;
-import com.daimengshi.ddcms.pub.TableCheckStatus;
-import com.daimengshi.ddcms.pub.TablePage;
-import com.daimengshi.ddcms.pub.Tools;
+import com.daimengshi.ddcms.pub.*;
 import com.xiaoleilu.hutool.date.DateUtil;
 import com.xiaoleilu.hutool.log.Log;
 import com.xiaoleilu.hutool.log.LogFactory;
@@ -51,10 +48,7 @@ public class AdminRoleController extends JbootController {
      * 角色管理默认页
      */
     public void index() {
-        setAttr("title", "角色管理");
-        setAttr("mainTP", "/htmls/admin/role/index.html");
-        //调用通用模板
-        render("/htmls/admin/pop.html");
+        HtmlView.adminPop(this,"角色管理","/role/index.html");
     }
 
     /**
@@ -70,11 +64,7 @@ public class AdminRoleController extends JbootController {
      * 角色管理添加页面
      */
     public void addView() {
-
-        setAttr("formTitle", "角色管理");
-        setAttr("mainTP", "/htmls/admin/role/add.html");
-        //调用通用模板
-        render("/htmls/admin/pop.html");
+        HtmlView.adminPop(this,"添加角色","/role/add.html");
     }
 
     /**
@@ -132,10 +122,8 @@ public class AdminRoleController extends JbootController {
         setAttr("role", role);
         setAttr("permissionList", permissionList);
 
-        setAttr("formTitle", "查看用户详情");
-        setAttr("mainTP", "/htmls/admin/role/edit.html");
-        //调用通用模板
-        render("/htmls/admin/pop.html");
+        HtmlView.adminPop(this,"查看角色详情","/role/edit.html");
+
     }
 
     /**

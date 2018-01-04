@@ -4,10 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.daimengshi.ddcms.admin.model.DmsPermission;
 import com.daimengshi.ddcms.admin.service.impl.DmsPermissionServiceImpl;
-import com.daimengshi.ddcms.pub.ResponseData;
-import com.daimengshi.ddcms.pub.TableCheckStatus;
-import com.daimengshi.ddcms.pub.TablePage;
-import com.daimengshi.ddcms.pub.Tools;
+import com.daimengshi.ddcms.pub.*;
 import com.xiaoleilu.hutool.date.DateUtil;
 import com.xiaoleilu.hutool.log.Log;
 import com.xiaoleilu.hutool.log.LogFactory;
@@ -36,10 +33,7 @@ public class AdminPermissionController extends JbootController {
      * 权限管理默认页
      */
     public void index() {
-        setAttr("title", "权限列表");
-        setAttr("mainTP", "/htmls/admin/permission/index.html");
-        //调用通用模板
-        render("/htmls/admin/pop.html");
+        HtmlView.adminPop(this,"权限管理","/permission/index.html");
     }
 
     /**
@@ -55,11 +49,7 @@ public class AdminPermissionController extends JbootController {
      * 权限管理添加页面
      */
     public void addView() {
-
-        setAttr("formTitle", "权限管理");
-        setAttr("mainTP", "/htmls/admin/permission/add.html");
-        //调用通用模板
-        render("/htmls/admin/pop.html");
+        HtmlView.adminPop(this,"添加权限","/permission/add.html");
     }
 
     /**
@@ -87,10 +77,8 @@ public class AdminPermissionController extends JbootController {
 
         setAttr("permission", permission);
 
-        setAttr("formTitle", "查看用户详情");
-        setAttr("mainTP", "/htmls/admin/permission/edit.html");
-        //调用通用模板
-        render("/htmls/admin/pop.html");
+        HtmlView.adminPop(this,"查看权限详情","/permission/edit.html");
+
     }
 
     /**
