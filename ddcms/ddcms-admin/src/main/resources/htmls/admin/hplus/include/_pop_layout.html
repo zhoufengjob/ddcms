@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+#--
+公用布局框架
+--#
+#define pop_layout()
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+
+    <title>H+ 后台主题UI框架 - 主页</title>
+
+    <meta name="keywords" content="呆萌狮内容管理,内容管理">
+    <meta name="description" content="呆萌狮内容管理">
+
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresjfontent="0;ie.html"/>
+    <![endif]-->
+
+    #@css?()
+    #@js?()
+
+</head>
+
+<body class="gray-bg">
+
+<div class="wrapper wrapper-content animated fadeInRight">
+    #@main(mainTP)
+</div>
+
+</body>
+<script>
+    $(function () {
+        //浮动刷新主页
+        var gohome = '<div class="gohome"><a class="animated bounceInUp" href="" title="刷新当前"><i class="fa fa-refresh"></i></a></div>';
+        $('body').append(gohome);
+    });
+
+</script>
+</html>
+#end

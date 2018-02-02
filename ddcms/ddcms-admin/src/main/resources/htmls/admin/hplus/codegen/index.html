@@ -1,0 +1,95 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-12">
+        <h2>代码生成</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="">开发工具</a>
+            </li>
+            <li>
+                <a href="">代码生成</a>
+            </li>
+        </ol>
+        <hr>
+
+    </div>
+
+    <form id="ajaxForm" class="form-horizontal" style="margin-top: 100px">
+        <div class="form-group">
+            <div class="row">
+                <label class="col-sm-2 control-label">中文名</label>
+
+                <div class="col-sm-4">
+                    <input name="chinaName" type="text" placeholder="请输入中文名" class="form-control"
+                           value=''>
+                </div>
+                <span class="col-sm-4 help-block m-b-none">必填</span>
+
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="row">
+                <label class="col-sm-2 control-label">类名</label>
+
+                <div class="col-sm-4">
+                    <input name="className" type="text" placeholder="请输入类名" class="form-control"
+                           value=''>
+                </div>
+                <span class="col-sm-4 help-block m-b-none">必填</span>
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="row">
+                <label class="col-sm-2 control-label">表名</label>
+
+                <div class="col-sm-4">
+                    <input name="tableName" type="text" placeholder="请输入表名" class="form-control"
+                           value=''>
+                </div>
+                <span class="col-sm-4 help-block m-b-none">必填</span>
+
+            </div>
+        </div>
+
+        <div class="hr-line-dashed"></div>
+        <div class="form-group">
+            <div class="col-sm-4 col-sm-offset-2">
+                <button class="btn btn-primary" id="ajaxSubmit" type="button">开始生成</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<script>
+    $(function () {
+
+        $("#ajaxSubmit").on("click", function () {
+            var form = $("#ajaxForm");
+            var formData = form.serializeObject();
+
+            $.ajax({
+                type: "POST",
+                url: "/admin/dveTools/postCodeGen",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(formData),
+                dataType: "json",
+                success: function (data) {
+
+                    if (200 === data.code) {
+                        showToast("生成成功");
+                    } else {
+                        swal("操作失败", "错误信息:" + data.msg, "error");
+                    }
+                },
+                error: function (data) {
+                    $("#ajaxSubmit").html("提交数据失败！");
+                }
+            });
+
+        });
+    });
+
+</script>
+

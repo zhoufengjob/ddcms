@@ -1,0 +1,150 @@
+<form id="ajaxForm" class="form-horizontal">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>基本信息
+                <small>当前编辑id:#(role.id)</small>
+            </h5>
+        </div>
+        <div class="ibox-content">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">ID</label>
+
+                <div class="col-sm-10">
+                    <p name="id" class="form-control-static">#(role.id)</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">创建时间</label>
+
+                <div class="col-sm-10">
+                    <p class="form-control-static"> #date(role.create_time,'yyyy-MM-dd HH:mm:ss')</p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">最后更新时间</label>
+
+                <div class="col-sm-10">
+                    <p class="form-control-static"> #date(role.last_updata_time ??,'yyyy-MM-dd HH:mm:ss')</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">最后更新用户名</label>
+
+                <div class="col-sm-10">
+                    <p name="id" class="form-control-static">#(role.last_updata_acct ??)</p>
+                </div>
+            </div>
+
+            <div class="form-group hidden">
+                <div class="row">
+                    <label class="col-sm-2 control-label">ID</label>
+
+                    <div class="col-sm-4">
+                        <input name="id" type="text" class="form-control" value='#(role.id)'>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-sm-2 control-label">角色名</label>
+
+                    <div class="col-sm-4">
+                        <input name="name" type="text" placeholder="请输入" class="form-control"
+                               value='#(role.name)'>
+                    </div>
+                    <span class="help-block m-b-none">请务必填写角色名</span>
+
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-sm-2 control-label">备注</label>
+
+                    <div class="col-sm-4">
+                        <input name="desc" type="text" placeholder="备注" class="form-control"
+                               value='#(role.desc)'>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-sm-2 control-label">是否启用</label>
+
+                    <div class="col-sm-4">
+
+                        #if("on".equals(role.is_open))
+                        <input name="is_open" type="checkbox" class="js-switch" checked/>
+                        #else
+                        <input name="is_open" type="checkbox" class="js-switch"/>
+                        #end
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
+                <div class="col-sm-4 col-sm-offset-2">
+                    <button class="btn btn-primary" id="ajaxSubmit" type="button">保存内容</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+
+    $(function () {
+        $("#ajaxSubmit").on("click", function () {
+            var form = $("#ajaxForm");
+            var formData = form.serializeObject();
+            console.log(JSON.stringify(formData));
+
+
+            $.ajax({
+                type: "POST",
+                url: "postEdit",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(formData),
+                dataType: "json",
+                success: function (data) {
+                    if (200 === data.code) {
+                        showToast("保存成功", function () {
+                            closePop();
+                        });
+                    } else {
+                        swal("操作失败", "错误信息:" + data.msg, "error");
+
+                    }
+                },
+                error: function (data) {
+                    $("#ajaxSubmit").html("提交数据失败！");
+                }
+            });
+
+        });
+
+
+        //自定义样式
+        $(document).ready(function () {
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+        });
+
+        //仿IOS切换按钮
+        var elem = document.querySelector('.js-switch');
+        var switchery = new Switchery(elem, {
+            color: '#1AB394'
+        });
+
+    });
+
+</script>

@@ -1,0 +1,103 @@
+#--
+公用导航
+--#
+<!--region 一级导航-->
+<div class="fly-header layui-bg-black">
+    <div class="layui-container">
+        <a class="fly-logo" href="/">
+            <img height="40" src="/static/images/m42.png" alt="呆萌狮">
+        </a>
+        <!--<ul class="layui-nav fly-nav layui-hide-xs">-->
+            <!--<li class="layui-nav-item layui-this">-->
+                <!--<a href="/"><i class="iconfont icon-jiaoliu"></i>预留</a>-->
+            <!--</li>-->
+            <!--<li class="layui-nav-item">-->
+                <!--<a href="case/cjfhtml"><i class="iconfont icon-iconmingxinganli"></i>预留</a>-->
+            <!--</li>-->
+            <!--<li class="layui-nav-item">-->
+                <!--<a href="http://www.layui.com/" target="_blank"><i class="iconfont icon-ui"></i>预留</a>-->
+            <!--</li>-->
+        <!--</ul>-->
+
+        <ul class="layui-nav fly-nav-user">
+            #shiroGuest()
+            <!-- 未登入的状态 -->
+            <li class="layui-nav-item">
+                <a href="/admin/login">登录</a>
+            </li>
+            <!--<li class="layui-nav-item">-->
+                <!--<a class="iconfont icon-touxiang layui-hide-xs" href="/admin/lojfhtml"></a>-->
+            <!--</li>-->
+
+            <!--<li class="layui-nav-item">-->
+                <!--<a href="user/jfhtml">注册</a>-->
+            <!--</li>-->
+            <!--<li class="layui-nav-item layui-hide-xs">-->
+                <!--<a href="/app/qq/" onclick="layer.msg('正在通过QQ登入', {icon:16, shade: 0.1, time:0})" title="QQ登入" class="iconfont icon-qq"></a>-->
+            <!--</li>-->
+            <!--<li class="layui-nav-item layui-hide-xs">-->
+                <!--<a href="/app/weibo/" onclick="layer.msg('正在通过微博登入', {icon:16, shade: 0.1, time:0})" title="微博登入" class="iconfont icon-weibo"></a>-->
+            <!--</li>-->
+            #end
+
+            #shiroHasAllRoles(admin)
+            <li class="layui-nav-item">
+                <a href="/admin">进入后台</a>
+            </li>
+            #end
+
+
+            <!-- 登入后的状态 -->
+            #shiroPrincipal()
+
+            <li class="layui-nav-item">
+                <a class="fly-nav-avatar" href="javascript:;">
+                    <cite class="layui-hide-xs">#(principal)</cite>
+                    <!--<i class="iconfont icon-renzheng layui-hide-xs" title="认证信息：作者"></i>-->
+                    <!--<i class="layui-badge fly-badge-vip layui-hide-xs">VIP3</i>-->
+                    <img src="#(configMap.imgServerName.value + user.avatar)">
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="/user/config"><i class="layui-icon">&#xe620;</i>基本设置</a></dd>
+                    <!--<dd><a href="/user/message"><i class="iconfont icon-tongzhi" style="top: 4px;"></i>我的消息</a></dd>-->
+                    <!--<dd><a href="/user/home"><i class="layui-icon" style="margin-left: 2px; font-size: 22px;">&#xe68e;</i>我的主页</a></dd>-->
+                    <hr style="margin: 5px 0;">
+                    <dd><a href="/admin/login/logout" style="text-align: center;">退出</a></dd>
+                </dl>
+            </li>
+            #end
+        </ul>
+    </div>
+</div>
+<!--endregion-->
+
+#if(isOpenTopNav2 ?? != "off")
+<!--region 二级导航-->
+<div class="fly-panel fly-column">
+    <div class="layui-container">
+        <ul class="layui-clear">
+            <li class="layui-hide-xs layui-this"><a href="/">首页</a></li>
+            <!--<li><a href="jie/index.html">提问</a></li>-->
+            <!--<li><a href="jie/index.html">分享<span class="layui-badge-dot"></span></a></li>-->
+            <!--<li><a href="jie/index.html">讨论</a></li>-->
+            <!--<li><a href="jie/index.html">建议</a></li>-->
+            <!--<li><a href="jie/index.html">公告</a></li>-->
+            <!--<li><a href="jie/index.html">动态</a></li>-->
+            <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><span class="fly-mid"></span></li>
+
+            <!-- 用户登入后显示 -->
+            <li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><a href="/user/index">我发表的贴</a></li>
+            <!--<li class="layui-hide-xs layui-hide-sm layui-show-md-inline-block"><a href="/user/index#collection">我收藏的贴</a></li>-->
+        </ul>
+
+        <div class="fly-column-right layui-hide-xs">
+            <span class="fly-search"><i class="layui-icon"></i></span>
+            <a href="/article/addView" class="layui-btn">发表新帖</a>
+        </div>
+        <div class="layui-hide-sm layui-show-xs-block" style="margin-top: -10px; padding-bottom: 10px; text-align: center;">
+            <a href="/article/addView" class="layui-btn">发表新帖</a>
+        </div>
+    </div>
+</div>
+#end
+<!--endregion-->

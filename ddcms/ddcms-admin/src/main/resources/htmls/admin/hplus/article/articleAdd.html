@@ -1,0 +1,172 @@
+<link rel="stylesheet" href="/static/libs/editormd/css/editormd.min.css"/>
+<form id="ajaxForm" class="form-horizontal">
+
+
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>文章内容
+            </h5>
+        </div>
+        <div class="ibox-content">
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div id="editormd">
+                            <textarea name="content" style="display:none;"></textarea>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>基本信息
+            </h5>
+        </div>
+        <div class="ibox-content">
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-sm-2 control-label">文章标题</label>
+
+                    <div class="col-sm-4">
+                        <input name="title" type="text" placeholder="文章标题" class="form-control"
+                               value=''>
+                    </div>
+                    <span class="help-block m-b-none">请务必填写文章标题</span>
+
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-sm-2 control-label">自定义连接</label>
+
+                    <div class="col-sm-4">
+                        <input name="url" type="text" placeholder="自定义连接" class="form-control"
+                               value=''>
+                    </div>
+                    <span class="help-block m-b-none">(可选)</span>
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-sm-2 control-label">精华置顶</label>
+
+                    <div class="col-sm-4">
+                        <label class="checkbox-inline i-checks">
+                            <input id="is_quintessence" name="is_quintessence" type="checkbox"> 精华</label>
+                        <label class="checkbox-inline i-checks">
+                            <input id="is_top" name="is_top" type="checkbox"> 置顶</label>
+                    </div>
+                    <span class="help-block m-b-none">(可选)</span>
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-sm-2 control-label">备注</label>
+
+                    <div class="col-sm-4">
+                        <input name="desc" type="text" placeholder="备注" class="form-control">
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-sm-2 control-label">是否启用</label>
+
+                    <div class="col-sm-4">
+                        <input name="is_open" type="checkbox" class="js-switch" checked/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
+                <div class="col-sm-4 col-sm-offset-2">
+                    <button class="btn btn-primary" id="ajaxSubmit" type="button">保存内容</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</form>
+
+<script src="/static/libs/editormd/editormd.min.js"></script>
+<script>
+
+    $(function () {
+
+        var editor = editormd("editormd", {
+            path: "/static/libs/editormd/lib/", // Autoload modules mode, codemirror, marked... dependents libs path
+            height: 640,
+            onfullscreen: function () {
+                var oDiv = document.getElementById('editormd');
+                oDiv.style.zIndex = 9999;   //这时候你在审查div这个元素的时候，发现z-index的值为10；
+            },
+            onfullscreenExit: function () {
+                var oDiv = document.getElementById('editormd');
+                oDiv.style.zIndex = 0;   //这时候你在审查div这个元素的时候，发现z-index的值为10；
+            }
+        });
+
+
+        $("#ajaxSubmit").on("click", function () {
+            var form = $("#ajaxForm");
+            var formData = form.serializeObject();
+            console.log(JSON.stringify(formData));
+
+
+            $.ajax({
+                type: "POST",
+                url: "postAdd",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(formData),
+                dataType: "json",
+                success: function (data) {
+                    if (200 === data.code) {
+                        showToast("保存成功", function () {
+                            closePop();
+                        });
+                    } else {
+                        swal("操作失败", "错误信息:" + data.msg, "error");
+
+                    }
+                },
+                error: function (data) {
+                    $("#ajaxSubmit").html("提交数据失败！");
+                }
+            });
+
+        });
+
+
+        //自定义样式
+        $(document).ready(function () {
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+        });
+
+        //仿IOS切换按钮
+        var elem = document.querySelector('.js-switch');
+        var switchery = new Switchery(elem, {
+            color: '#1AB394'
+        });
+
+    });
+
+</script>
+
+

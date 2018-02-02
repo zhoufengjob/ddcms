@@ -1,0 +1,174 @@
+<body class="gray-bg">
+
+<div class="row">
+    <div class="col-sm-3">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <span class="label label-success pull-right">月</span>
+                <h5>收入</h5>
+            </div>
+            <div class="ibox-content">
+                <h1 class="no-margins">40 886,200</h1>
+                <div class="stat-percent font-bold text-success">98% <i class="fa fa-bolt"></i>
+                </div>
+                <small>总收入</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <span class="label label-info pull-right">全年</span>
+                <h5>订单</h5>
+            </div>
+            <div class="ibox-content">
+                <h1 class="no-margins">275,800</h1>
+                <div class="stat-percent font-bold text-info">20% <i class="fa fa-level-up"></i>
+                </div>
+                <small>新订单</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <span class="label label-primary pull-right">今天</span>
+                <h5>访客</h5>
+            </div>
+            <div class="ibox-content">
+                <h1 class="no-margins">106,120</h1>
+                <div class="stat-percent font-bold text-navy">44% <i class="fa fa-level-up"></i>
+                </div>
+                <small>新访客</small>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title">
+                <span class="label label-danger pull-right">最近一个月</span>
+                <h5>活跃用户</h5>
+            </div>
+            <div class="ibox-content">
+                <h1 class="no-margins">80,600</h1>
+                <div class="stat-percent font-bold text-danger">38% <i class="fa fa-level-down"></i>
+                </div>
+                <small>12月</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row  border-bottom white-bg dashboard-header">
+    <div class="col-sm-8">
+        <p>这个项目我站在巨人的肩膀上只用了10天时间完成权限管理v1.0.0 <br/>
+        <p>我没有webapp开发经验这里所有都是在这10天里面现学现用.在此之前没有接触过jfinal或enjoy. <br/>
+        <p>我主要开发android程序,闲下来的时间学习web扩充知识点 <br/>
+        <p>如果项目中有不合理的地方请理解... <br/>
+        <p>如果你有心可以提交发现的问题,大家一起学习... <br/>
+        <p>我很喜欢jboot 原因是 上手简单 <br/>
+        <p class="text-success">我在jboot官方1群,群号:601440615,欢迎来call...<br/>
+        <hr>
+    </div>
+    <div class="col-sm-4">
+        <h2>
+            呆萌狮内容管理
+        </h2>
+        <p>
+            这是一个基于JBoot实现的内容管理手脚架。
+            <br/>
+            目前后台实现了权限管理和文章管理部分，
+            <br/>
+            前台实现文章查询部分
+            <br/>
+            项目将持续更新，尽请期待。。。
+        </p>
+        <p>
+            <b>当前版本：</b>v1.1.0
+        </p>
+        <br>
+        <p>
+            <a class="btn btn-success btn-outline" href="http://wpa.qq.com/msgrd?v=3&uin=516477188&site=qq&menu=yes"
+               target="_blank">
+                <i class="fa fa-github"> </i> 访问Github
+            </a>
+            <a class="btn btn-success btn-outline" href="https://gitee.com/zhoufengjob/ddcms" target="_blank">
+                <i class="fa fa-code"></i> 访问gitee
+            </a>
+        </p>
+    </div>
+
+</div>
+
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-sm-8">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>系统信息</h5>
+                    <div class="ibox-tools">
+                        <a class="collapse-link">
+                            <i class="fa fa-chevron-up"></i>
+                        </a>
+                        <a class="close-link">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <table class="table table-hover no-margins">
+                        <thead>
+                        <tr>
+                            <th>名称</th>
+                            <th>值</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        #for(x:sysInfos)
+                        <tr>
+                            <td> #(x.name)</td>
+                            <td class="text-navy"> #(x.value)</td>
+                        </tr>
+
+                        #else
+                        <tr>
+                            <td><span>未获取到系统信息</span></td>
+                        </tr>
+
+                        #end
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-4">
+
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>呆萌狮架构主要核心</h5>
+                </div>
+                <div class="ibox-content">
+                    <p>后端框架：Jboot v1.2.2</p>
+                    <p>后端工具：Hutool v3.2.0</p>
+                    <p>前端框架：layui v2.x</p>
+                    <p>前端依赖：xAdmin v2.x</p>
+                    <p>渲染引擎：enjoy v3.3</p>
+                    <p>sql 分离：enjoy v3.3</p>
+                    <p>核心驱动：jfinal v3.3</p>
+                    <p>权限框架：Shiro v1.3.2</p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $.cookie('tab_iframe_id', 'iframe' + '/admin/main', {path: '/'});
+    });
+</script>
+
+</body>

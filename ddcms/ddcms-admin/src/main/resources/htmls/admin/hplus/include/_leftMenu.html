@@ -1,0 +1,34 @@
+#--
+公用左边菜单
+--#
+<nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="nav-close"><i class="fa fa-times-circle"></i>
+    </div>
+    <div class="sidebar-collapse">
+        <ul class="nav" id="side-menu">
+
+            #for(menu:menus)
+            #if( 0 == menu.super_id && "on".equals(menu.is_open))
+            <li>
+                <a href="#(menu.url == null ? '#':menu.url)">
+                    <i class="fa fa-home"></i>
+                    <span class="nav-label">#(menu.name)</span>
+                    <span class="fa arrow"></span>
+                </a>
+                <ul class="nav nav-second-level">
+                    #for(subMenu:menus)
+                    #if(menu.id.equals(subMenu.super_id) && "on".equals(subMenu.is_open))
+                    <li>
+                        <a class="J_menuItem" href="#(subMenu.url)" data-index="#(subMenu.url)">#(subMenu.name)</a>
+                    </li>
+                    #end
+                    #end
+                </ul>
+
+            </li>
+            #end
+            #end
+
+        </ul>
+    </div>
+</nav>

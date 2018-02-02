@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+#--
+公用布局框架
+--#
+#define layout()
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+
+    <title>H+ 后台主题UI框架 - 主页</title>
+
+    <meta name="keywords" content="呆萌狮内容管理,内容管理">
+    <meta name="description" content="呆萌狮内容管理">
+
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresjfontent="0;ie.html"/>
+    <![endif]-->
+
+    #@css?()
+
+</head>
+
+<body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden">
+<div id="wrapper">
+
+    <!--<editor-fold desc="左侧导航开始">-->
+    #@leftMenu()
+    <!--</editor-fold>-->
+
+    <!--<editor-fold desc="右侧部分开始">-->
+    <!--右侧部分开始-->
+    #@rightContent()
+    <!--右侧部分结束-->
+    <!--</editor-fold>-->
+
+    <!--<editor-fold desc="右侧边栏开始">-->
+    <!--右侧边栏开始-->
+    #@rightMenu()
+    <!--右侧边栏结束-->
+    <!--</editor-fold>-->
+
+    <!--<editor-fold desc="mini聊天窗口开始">-->
+    <!--mini聊天窗口开始-->
+    #@miniIM()
+    <!--mini聊天窗口结束-->
+    <!--</editor-fold>-->
+
+</div>
+
+#@js?()
+
+</body>
+
+</html>
+#end

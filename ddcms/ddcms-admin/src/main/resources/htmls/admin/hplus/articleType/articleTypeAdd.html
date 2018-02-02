@@ -1,0 +1,111 @@
+<form id="ajaxForm" class="form-horizontal">
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>基本信息
+                <small>添加文章类型</small>
+
+            </h5>
+        </div>
+        <div class="ibox-content">
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-sm-2 control-label">文章类型名</label>
+
+                    <div class="col-sm-4">
+                        <input name="name" type="text" placeholder="articleType名" class="form-control" value=''>
+                    </div>
+                    <span class="help-block m-b-none">请务必填写文章类型名</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-sm-2 control-label">备注</label>
+
+                    <div class="col-sm-4">
+                        <input name="desc" type="text" placeholder="备注" class="form-control" value=''>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-sm-2 control-label">是否启用</label>
+
+                    <div class="col-sm-4">
+                        <input name="is_open" type="checkbox" class="js-switch" checked/>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
+                <div class="col-sm-4 col-sm-offset-2">
+                    <button class="btn btn-primary" id="ajaxSubmit" type="button">保存内容</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+
+    $(function () {
+        $("#user_role_selector  option[value='0'] ").attr("selected", true)
+
+        $("#ajaxSubmit").on("click", function () {
+            var form = $("#ajaxForm");
+            var formData = form.serializeObject();
+
+            $.ajax({
+                type: "POST",
+                url: "postAdd",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(formData),
+                dataType: "json",
+                success: function (data) {
+
+                    if (200 === data.code) {
+                        showToast("保存成功", function () {
+                            closePop();
+                        });
+                    } else {
+                        swal("操作失败", "错误信息:" + data.msg, "error");
+                    }
+                },
+                error: function (data) {
+                    $("#ajaxSubmit").html("提交数据失败！");
+                }
+            });
+
+        });
+
+
+        //自定义样式
+        $(document).ready(function () {
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+        });
+
+        //仿IOS切换按钮
+        var elem = document.querySelector('.js-switch');
+        var switchery = new Switchery(elem, {
+            color: '#1AB394'
+        });
+
+        //这里是初始化下拉选择
+        $('.filter-box').selectFilter({
+            callBack: function (val) {
+                //返回选择的值
+                console.log(val + '-是返回的值')
+            }
+        });
+
+
+    });
+
+</script>

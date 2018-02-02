@@ -1,0 +1,36 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-12">
+        <h2>网站配置</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="">系统管理</a>
+            </li>
+            <li>
+                <a href="">网站配置</a>
+            </li>
+        </ol>
+        <hr>
+
+    </div>
+
+    <form id="ajaxForm" class="form-horizontal" style="margin-top: 100px">
+        #for(config:configList)
+        <div class="form-group">
+            <div class="row">
+                <label class="col-sm-2 control-label">#(config.name)</label>
+
+                <div class="col-sm-4">
+                    <input name="name" type="text" placeholder="请输入#(config.name)" class="form-control"
+                           value='#(config.value)'>
+                </div>
+                <span class="col-sm-4 help-block m-b-none">#(config.desc)</span>
+
+            </div>
+        </div>
+        #end
+
+    </form>
+
+</div>
+
+

@@ -1,0 +1,114 @@
+#--
+左边部分引用
+--#
+<div class="fly-panel">
+    <div class="fly-panel-title fly-filter">
+        <a>置顶</a>
+        <a href="#signin" class="layui-hide-sm layui-show-xs-block fly-right" id="LAY_goSignin" style="color: #FF5722;">去签到</a>
+    </div>
+
+    #if(topArticleList.size() > 0)
+    <ul class="fly-list">
+
+        #for(article:topArticleList)
+        <li>
+            <a href="/article/detail/#(article.url == '' ? 'id-'+article.id:article.url)" class="fly-avatar">
+                <img src="#(configMap.imgServerName.value)#(article.user.avatar != null ? article.user.avatar : '/static/images/avatar/daimengshi.png')"
+                     alt="#(article.user.name)">
+            </a>
+            <h2>
+                <!--<a class="layui-badge">分享</a>-->
+                <a href="/article/detail/#(article.url == '' ? 'id-'+article.id:article.url)">#(article.title)</a>
+            </h2>
+
+
+            <div class="fly-list-info">
+                <a href="/user/home.html" link>
+                    <cite>#(article.user.name == null ? article.user.name : article.user.nike_name )</cite>
+                    <!--<i class="iconfont icon-renzheng" title="认证信息：XXX"></i>-->
+                    <!--<i class="layui-badge fly-badge-vip">VIP3</i>-->
+                </a>
+                <span>#date(article.create_time)</span>
+
+                <!--<span class="fly-list-kiss layui-hide-xs" title="悬赏飞吻"><i class="iconfont icon-kiss"></i> 60</span>-->
+                <!--<span class="layui-badge fly-badge-accept layui-hide-xs">已结</span>-->
+                <span class="fly-list-nums">
+                <!--<i class="iconfont icon-pinglun1" title="回答"></i> 66-->
+              </span>
+            </div>
+            <div class="fly-list-badge">
+                <span class="layui-badge layui-bg-black">置顶</span>
+                #if(article.is_quintessence ?? == 'on')
+                <span class="layui-badge layui-bg-red">精帖</span>
+                #end
+            </div>
+        </li>
+        #end
+
+
+
+    </ul>
+    #else
+    <div class="fly-none">没有置顶数据</div>
+    #end
+
+</div>
+
+<div class="fly-panel" style="margin-bottom: 0;">
+
+    <!--<div class="fly-panel-title fly-filter">-->
+        <!--<a href="" class="layui-this">综合</a>-->
+        <!--<span class="fly-mid"></span>-->
+        <!--<a href="">未结</a>-->
+        <!--<span class="fly-mid"></span>-->
+        <!--<a href="">已结</a>-->
+        <!--<span class="fly-mid"></span>-->
+        <!--<a href="">精华</a>-->
+        <!--<span class="fly-filter-right layui-hide-xs">-->
+            <!--<a href="" class="layui-this">按最新</a>-->
+            <!--<span class="fly-mid"></span>-->
+            <!--<a href="">按热议</a>-->
+          <!--</span>-->
+    <!--</div>-->
+
+    <ul class="fly-list">
+        #for(article:articlePage.list)
+        <li>
+            <a href="/article/detail/#(article.url == '' ? 'id-'+article.id:article.url)" class="fly-avatar">
+                <img src="#(configMap.imgServerName.value)#(article.user.avatar != null ? article.user.avatar : '/static/images/avatar/daimengshi.png')"
+                     alt="#(article.user.name)">
+            </a>
+            <h2>
+                <!--<a class="layui-badge">分享</a>-->
+                <a href="/article/detail/#(article.url == '' ? 'id-'+article.id:article.url)">#(article.title)</a>
+            </h2>
+            <div class="fly-list-info">
+                <a href="/user/home.html" link>
+                    <cite>#(article.user.name == null ? article.user.name : article.user.nike_name )</cite>
+                    <!--<i class="iconfont icon-renzheng" title="认证信息：XXX"></i>-->
+                    <!--<i class="layui-badge fly-badge-vip">VIP3</i>-->
+                </a>
+                <span>#date(article.create_time)</span>
+
+                <!--<span class="fly-list-kiss layui-hide-xs" title="悬赏飞吻"><i class="iconfont icon-kiss"></i> 60</span>-->
+                <!--<span class="layui-badge fly-badge-accept layui-hide-xs">已结</span>-->
+                <span class="fly-list-nums">
+                <!--<i class="iconfont icon-pinglun1" title="回答"></i> 66-->
+              </span>
+            </div>
+            <div class="fly-list-badge">
+                #if(article.is_quintessence ?? == 'on')
+                <span class="layui-badge layui-bg-red">精帖</span>
+                #end
+            </div>
+        </li>
+        #end
+    </ul>
+
+    <div style="text-align: center">
+        <div class="laypage-main">
+            <a href="/article" class="laypage-next">更多</a>
+        </div>
+    </div>
+
+</div>

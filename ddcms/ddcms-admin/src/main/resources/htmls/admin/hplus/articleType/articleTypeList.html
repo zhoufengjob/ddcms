@@ -1,0 +1,197 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-12">
+        <h2>文章类型列表</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="">内容管理</a>
+            </li>
+            <li>
+                <a href="">文章类型列表</a>
+            </li>
+        </ol>
+        <!--<hr>-->
+    </div>
+
+    <!--<div class="title-action">-->
+    <!--<a href="" class="btn btn-primary">预留</a>-->
+    <!--<a href="" class="btn btn-primary">预留</a>-->
+    <!--<a href="" class="btn btn-primary">预留</a>-->
+    <!--<a href="" class="btn btn-primary">预留</a>-->
+    <!--<a href="" class="btn btn-primary">预留</a>-->
+    <!--</div>-->
+    <!-- Example Events -->
+
+    <div id="tableEventsToolbar">
+        <div class="form-inline" role="form">
+            <div class="form-group">
+                <div class="btn-group hidden-xs" role="group">
+                    <button id="addBtn" type="button" class="btn btn-outline btn-default">
+                        <i class="glyphicon glyphicon-plus" aria-hidden="true"></i> 添加
+                    </button>
+                    <button id="deleteSelect" type="button" class="btn btn-outline btn-default">
+                        <i class="glyphicon glyphicon-trash" aria-hidden="true"></i> 删除
+                    </button>
+                </div>
+            </div>
+            <div class="form-group hidden">
+                <input style="width: 200px" placeholder="时间范围搜索" class="form-control layer-date" type="text"
+                       id="laydate">
+            </div>
+        </div>
+    </div>
+    <table id="tableEvents" data-height="400" data-mobile-responsive="true">
+    </table>
+</div>
+
+<script>
+    var table = $('#tableEvents'),
+        addBtn = $('#addBtn'),
+        deleteSelect = $('#deleteSelect');
+
+    //执行一个laydate实例
+    laydate.render({
+        elem: '#laydate', //指定元素
+        range: true,
+        value: '',
+        theme: '#393D49',
+        done: function (value, dateStart, dateEnd) {
+
+            table.bootstrapTable('refresh');
+        }
+    });
+
+    $(function () {
+
+        bootstrapTable("/admin/articleType/getList", [
+            {field: '', checkbox: true, align: 'center', valign: 'middle'},
+            {title: 'id', field: 'id', align: 'center', valign: 'middle', visible: false},
+            {title: '文章类型名称', field: 'name', align: 'center', valign: 'middle', sortable: true},
+            {title: '创建时间', field: 'create_time', align: 'center', valign: 'middle', sortable: true},
+            {
+                field: 'is_open',
+                title: '是否启用',
+                align: 'center',
+                sortable: true,
+                events: operateEvents,
+                formatter: isOpenFormatter
+            },
+            {field: 'operate', title: '操作', align: 'center', events: operateEvents, formatter: operateFormatter}]);
+
+        deleteSelect.click(function () {
+
+            var selectNum = table.bootstrapTable('getAllSelections').length;
+
+            if (selectNum <= 0) {
+                showToast("请选择删除项");
+                return;
+            }
+
+            swal({
+                icon: "warning",
+                title: "您确定要删除吗?",
+                text: "删除后将无法恢复，请谨慎操作！",
+                dangerMode: true,
+                closeOnConfirm: false,
+                buttons: ["取消", "删除"]
+            }).then(function (isConfirm) {
+                if (isConfirm === true) {
+                    //向服务端发送删除指令
+                    $.ajax({
+                        type: "post",
+                        contentType: "application/json; charset=utf-8",
+                        url: '/admin/articleType/postDeletes',
+                        data: JSON.stringify(table.bootstrapTable('getAllSelections')),
+                        success: function (data) {
+                            if (200 === data.code) {
+                                swal("操作成功", "您已经永久删除了" + selectNum + "条数据。", "success");
+                                table.bootstrapTable('refresh');
+                            } else {
+                                swal("操作失败", "错误信息:" + data.msg, "error");
+                            }
+                        },
+                        error: function (data, textStatus, errorThrown) {
+                            swal("操作失败", "请联系管理员", "error");
+                        }
+                    });
+                } else {
+                    // Esc, close button or outside click
+                    // isConfirm is undefined
+                }
+            });
+
+
+        });
+
+        //添加
+        addBtn.click(function () {
+            showPop('添加', '/admin/articleType/addView');
+        });
+
+    });
+
+
+    //控件事件
+    window.operateEvents = {
+        //当删除
+        'click .delete': function (e, value, row, index) {
+
+            swal({
+                icon: "warning",
+                title: "您确定要删除" + row.name + "吗?",
+                text: "删除后将无法恢复，请谨慎操作！",
+                dangerMode: true,
+                closeOnConfirm: false,
+                buttons: ["取消", "删除"]
+            }).then(function (isConfirm) {
+                if (isConfirm === true) {
+                    //向服务端发送删除指令
+                    $.ajax({
+                        type: "post",
+                        url: '/admin/articleType/postDelete',
+                        contentType: "application/json; charset=utf-8",
+                        data: JSON.stringify(row),
+                        success: function (data) {
+                            if (200 === data.code) {
+                                swal("操作成功", "您已经永久删除了" + row.name + "这条数据。", "success");
+                                table.bootstrapTable('refresh');
+                            } else {
+                                swal("操作失败", "错误信息:" + data.msg, "error");
+                            }
+                        },
+                        error: function (data, textStatus, errorThrown) {
+                            swal("操作失败！", "请联系管理员", "error");
+                        },
+                    });
+                } else {
+                    // Esc, close button or outside click
+                    // isConfirm is undefined
+                }
+            });
+        },
+
+        //编辑
+        'click .edit': function (e, value, row, index) {
+            //打开编辑弹窗
+            showPop('编辑文章类型', '/admin/articleType/editView?id=' + row.id);
+        }
+
+    };
+
+
+    //布局
+    function isOpenFormatter(value, row, index) {
+        return [
+            '<span class="badge ' + (row.is_open === "on" ? "badge-primary" : "badge-danger") + '">' + (row.is_open === "on" ? "启用" : "禁用") + '</span>'
+        ].join('');
+    }
+    //布局
+    function operateFormatter(value, row, index) {
+        return [
+            '<button type="button" class="edit btn btn-primary  btn-xs" >编辑</button>',
+            '<button type="button" class="delete btn btn-primary btn-warning btn-xs " style="margin-left:15px;">删除</button>',
+        ].join('');
+    }
+
+
+</script>
+

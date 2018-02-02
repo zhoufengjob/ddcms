@@ -1,0 +1,138 @@
+package com.daimengshi.ddcms.admin.controller;
+
+import com.alibaba.fastjson.JSON;
+import com.daimengshi.ddcms.admin.support.auth.AuthUtils;
+import com.daimengshi.ddcms.pub.HtmlView;
+import com.daimengshi.ddcms.rest.datatable.TablePage;
+import com.daimengshi.ddcms.service.api.#(tableMeta.modelName)Service;
+import com.daimengshi.ddcms.service.entity.model.#(tableMeta.modelName);
+import com.daimengshi.ddcms.utils.ServiceUtils;
+import com.daimengshi.ddcms.web.base.BaseController;
+import com.daimengshi.ddcms.web.base.ResponseData;
+import com.jfinal.plugin.activerecord.Page;
+import com.xiaoleilu.hutool.date.DateUtil;
+import com.xiaoleilu.hutool.util.StrUtil;
+
+import java.util.List;
+
+
+/**
+ * 功能:#(chinaName)控制器
+ * 作者:zhoufeng
+ */
+@RequestMapping("/admin/#(classNameSmall)")
+public class Admin#(upClassName)Controller extends BaseController{
+
+    private #(tableMeta.modelName)Service #(classNameSmall)Service;
+
+    public Admin#(upClassName)Controller() {
+        this.#(classNameSmall)Service = ServiceUtils.getService(#(tableMeta.modelName)Service.class);
+    }
+
+    /**
+     * 默认页(查询#(chinaName)列表页面)
+     */
+    @Override
+    public void index() {
+        HtmlView.adminPop(this, "#(chinaName)管理", "/#(classNameSmall)/#(classNameSmall)List.html");
+    }
+
+    /**
+     * 添加#(chinaName)界面
+     */
+    @Override
+    public void addView() {
+        HtmlView.adminPop(this, "添加#(chinaName)", "/#(classNameSmall)/#(classNameSmall)Add.html");
+    }
+
+    /**
+     * 编辑#(chinaName)界面
+     */
+    @Override
+    public void editView() {
+        String id = getPara("#(tableMeta.primaryKey)");
+        #(tableMeta.modelName) #(classNameSmall) = #(classNameSmall)Service.findById(id);
+        log.info(#(classNameSmall).toJson());
+
+        setAttr("#(classNameSmall)", #(classNameSmall));//当前模型
+
+        HtmlView.adminPop(this, "查看#(chinaName)详情", "/#(classNameSmall)/#(classNameSmall)Edit.html");
+    }
+
+    /**
+     * 获取#(chinaName)列表(用于ajax异步请求)
+     */
+    @Override
+    public void getList() {
+        Page pages = #(classNameSmall)Service.findPage(this, "#(classNameSmall).getPage", #(classNameSmall)Service);
+
+        renderJson(TablePage.dataTableFormat(pages));
+    }
+
+    /**
+     * 添加#(chinaName)(用于ajax异步请求)
+     */
+    @Override
+    public void postAdd() {
+        String json = getBodyString();
+        #(tableMeta.modelName) #(classNameSmall) = JSON.parseObject(json, #(tableMeta.modelName).class);
+
+        #(classNameSmall).setCreateTime(DateUtil.date());
+        #(classNameSmall).setLastUpdataTime(DateUtil.date());
+        #(classNameSmall).setLastUpdataAcct(AuthUtils.getLoginUser().getName());
+        #(classNameSmall)Service.save(#(classNameSmall));
+
+        renderJson(ResponseData.ok());
+    }
+
+    /**
+     * 编辑#(chinaName)(用于ajax异步请求)
+     */
+    @Override
+    public void postEdit() {
+        String json = getBodyString();
+        log.info(json);
+        #(tableMeta.modelName) #(classNameSmall) = JSON.parseObject(json, #(tableMeta.modelName).class);
+
+        if (StrUtil.isEmpty(#(classNameSmall).getIsOpen())) {
+            #(classNameSmall).setIsOpen("off");
+        }
+
+        #(classNameSmall).setLastUpdataTime(DateUtil.date());
+        #(classNameSmall).setLastUpdataAcct(AuthUtils.getLoginUser().getName());
+
+        #(classNameSmall)Service.saveOrUpdate(#(classNameSmall));
+
+        renderJson(ResponseData.ok());
+    }
+
+    /**
+     * 删除一个#(chinaName)(用于ajax异步请求)
+     */
+    @Override
+    public void postDelete() {
+        String json = getBodyString();
+        #(tableMeta.modelName) #(classNameSmall) = JSON.parseObject(json, #(tableMeta.modelName).class);
+        if (#(classNameSmall) == null) {
+            renderJson(ResponseData.apiError("id不能为空"));
+            return;
+        }
+        #(classNameSmall)Service.deleteById(#(classNameSmall).getId());
+        renderJson(ResponseData.ok());
+    }
+
+    /**
+     * 删除多个#(chinaName)(用于ajax异步请求)
+     */
+    @Override
+    public void postDeletes() {
+        String json = getBodyString();
+        List<#(tableMeta.modelName)> #(classNameSmall)List = JSON.parseArray(json, #(tableMeta.modelName).class);
+
+        for (#(tableMeta.modelName) #(classNameSmall) : #(classNameSmall)List) {
+            #(classNameSmall)Service.deleteById(#(classNameSmall).getId());
+        }
+
+        renderJson(ResponseData.ok());
+    }
+}

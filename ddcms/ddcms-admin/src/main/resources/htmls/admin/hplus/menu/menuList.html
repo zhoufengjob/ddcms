@@ -1,0 +1,222 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-12">
+        <h2>菜单列表</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="">系统管理</a>
+            </li>
+            <li>
+                <a href="">菜单列表</a>
+            </li>
+        </ol>
+        <!--<hr>-->
+    </div>
+
+    <!--<div class="title-action">-->
+    <!--<a href="" class="btn btn-primary">预留</a>-->
+    <!--<a href="" class="btn btn-primary">预留</a>-->
+    <!--<a href="" class="btn btn-primary">预留</a>-->
+    <!--<a href="" class="btn btn-primary">预留</a>-->
+    <!--<a href="" class="btn btn-primary">预留</a>-->
+    <!--</div>-->
+    <!-- Example Events -->
+
+    <div class="example-wrap">
+        <div class="example">
+            <div id="tableEventsToolbar">
+                <div class="form-inline" role="form">
+                    <div class="form-group">
+                        <div class="btn-group hidden-xs" role="group">
+                            <button id="addBtn" type="button" class="btn btn-outline btn-default">
+                                <i class="glyphicon glyphicon-plus" aria-hidden="true"></i> 添加
+                            </button>
+                            <!--<button id="deleteSelect" type="button" class="btn btn-outline btn-default">-->
+                                <!--<i class="glyphicon glyphicon-trash" aria-hidden="true"></i> 删除-->
+                            <!--</button>-->
+                        </div>
+                    </div>
+                    <div class="form-group hidden">
+                        <input style="width: 200px" placeholder="时间范围搜索" class="form-control layer-date"
+                               type="text"
+                               id="laydate">
+                    </div>
+                </div>
+            </div>
+            <table id="tableEvents"></table>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    var table = $('#tableEvents'),
+        addBtn = $('#addBtn'),
+        deleteSelect = $('#deleteSelect');
+
+    $(function () {
+
+        table.bootstrapTable({
+            url: '/admin/menu/getList',
+            height: 585,
+            // method: "post",
+            locale: 'zh-CN',//中文支持
+            search: false,
+            striped: true,      //是否显示行间隔色
+            queryParamsType: '', //默认值为 'limit' ,在默认情况下 传给服务端的参数为：offset,limit,sort  设置为 ''  在这种情况下传给服务器的参数为：pageSize,pageNumber
+            showToggle: false,   //是否显示 切换试图（table/card）按钮
+            showRefresh: true,     //是否显示刷新按钮
+//            showColumns: true,
+            toolbar: '#tableEventsToolbar',//工具按钮用哪个容器
+            minimumCountColumns: 2,    //最少允许的列数
+            iconSize: 'outline',
+            icons: {
+                refresh: 'glyphicon-repeat',
+                toggle: 'glyphicon-list-alt',
+                columns: 'glyphicon-list'
+            },
+
+            idField: 'id',
+            columns: [
+                {field: 'name', title: '菜单名'},
+                {field: 'url', title: 'URL地址', align: 'center', valign: 'middle'},
+                {field: 'create_time', title: '创建时间', align: 'center', valign: 'middle'},
+                {title: '是否启用', field: 'is_open', align: 'center', valign: 'middle', formatter: 'isOpenFormatter'},
+                {field: 'operate', title: '操作', align: 'center', events: operateEvents,formatter: 'operateFormatter'},
+
+            ],
+
+            treeShowField: 'name',
+            parentIdField: 'super_id',
+            onLoadSuccess: function (data) {
+                table.treegrid({
+//                    initialState: 'collapsed',//收缩
+                    treeColumn: 0,//指明第几列数据改为树形
+                    expanderExpandedClass: 'glyphicon glyphicon-triangle-bottom',
+                    expanderCollapsedClass: 'glyphicon glyphicon-triangle-right',
+                    onChange: function () {
+                        table.bootstrapTable('resetWidth');
+                    }
+                });
+            }
+        });
+
+
+        deleteSelect.click(function () {
+
+            var selectNum = table.bootstrapTable('getAllSelections').length;
+
+            if (selectNum <= 0) {
+                showToast("请选择删除项");
+                return;
+            }
+
+            swal({
+                icon: "warning",
+                title: "您确定要删除吗?",
+                text: "删除后将无法恢复，请谨慎操作！",
+                dangerMode: true,
+                closeOnConfirm: false,
+                buttons: ["取消", "删除"]
+            }).then(function (isConfirm) {
+                if (isConfirm === true) {
+                    //向服务端发送删除指令
+                    $.ajax({
+                        type: "post",
+                        contentType: "application/json; charset=utf-8",
+                        url: '/admin/menu/postDeletes',
+                        data: JSON.stringify(table.bootstrapTable('getAllSelections')),
+                        success: function (data) {
+                            if (200 === data.code) {
+                                swal("操作成功", "您已经永久删除了" + selectNum + "条数据。", "success");
+                                table.bootstrapTable('refresh');
+                            } else {
+                                swal("操作失败", "错误信息:" + data.msg, "error");
+                            }
+                        },
+                        error: function (data, textStatus, errorThrown) {
+                            swal("操作失败", "请联系管理员", "error");
+                        }
+                    });
+                } else {
+                    // Esc, close button or outside click
+                    // isConfirm is undefined
+                }
+            });
+
+
+        });
+
+        //添加
+        addBtn.click(function () {
+            showPop('添加', '/admin/menu/addView');
+        });
+    });
+
+
+    //控件事件
+    window.operateEvents = {
+        //当删除
+        'click .delete': function (e, value, row, index) {
+            console.log(row.id);
+
+            var obj = row;
+            swal({
+                icon: "warning",
+                title: "您确定要删除" + row.name + "吗?",
+                text: "删除后将无法恢复，请谨慎操作！",
+                dangerMode: true,
+//                closeOnConfirm: false,
+                buttons: ["取消", "删除"]
+            }).then(function (isConfirm) {
+                if (isConfirm === true) {
+                    //向服务端发送删除指令
+                    $.ajax({
+                        type: "post",
+                        url: '/admin/menu/postDelete',
+                        contentType: "application/json; charset=utf-8",
+                        data: '{"id":'+ row.id +'}',
+                        success: function (data) {
+                            if (200 === data.code) {
+                                swal("操作成功", "您已经永久删除了" + row.name + "条数据。", "success");
+                                table.bootstrapTable('refresh');
+                            } else {
+                                swal("操作失败", "错误信息:" + data.msg, "error");
+                            }
+                        },
+                        error: function (data, textStatus, errorThrown) {
+                            swal("操作失败！", "请联系管理员", "error");
+                        },
+                    });
+                } else {
+                    // Esc, close button or outside click
+                    // isConfirm is undefined
+                }
+            });
+        },
+
+        //编辑
+        'click .edit': function (e, value, row, index) {
+            //打开编辑弹窗
+            showPop('编辑', '/admin/menu/editView?id=' + row.id);
+        }
+
+    };
+
+    //布局
+    function isOpenFormatter(value, row, index) {
+        return [
+            '<span class="badge ' + (value === "on" ? "badge-primary" : "badge-danger") + '">' + (value === "on" ? "启用" : "禁用") + '</span>'
+        ].join('');
+    }
+
+    //布局
+    function operateFormatter(value, row, index) {
+        return [
+            '<button type="button" class="edit btn btn-primary  btn-xs" >编辑</button>',
+            '<button type="button" class="delete btn btn-primary btn-warning btn-xs " style="margin-left:15px;">删除</button>',
+        ].join('');
+    }
+
+
+</script>
+

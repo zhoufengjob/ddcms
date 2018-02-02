@@ -1,0 +1,204 @@
+<div class="ibox float-e-margins">
+    <div class="ibox-title">
+        <h5>基本信息
+            <small>当前编辑id:#(menu.id)</small>
+
+        </h5>
+    </div>
+    <div class="ibox-content">
+        <form id="ajaxForm" class="form-horizontal">
+            <div class="form-group">
+                <label class="col-sm-2 control-label">ID</label>
+
+                <div class="col-sm-10">
+                    <p name="id" class="form-control-static">#(menu.id)</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">创建时间</label>
+
+                <div class="col-sm-10">
+                    <p class="form-control-static"> #date(menu.create_time,'yyyy-MM-dd HH:mm:ss')</p>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-2 control-label">最后更新时间</label>
+
+                <div class="col-sm-10">
+                    <p class="form-control-static"> #date(menu.last_updata_time ??,'yyyy-MM-dd HH:mm:ss')</p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-2 control-label">最后更新用户名</label>
+
+                <div class="col-sm-10">
+                    <p name="id" class="form-control-static">#(menu.last_updata_acct ??)</p>
+                </div>
+            </div>
+
+            <div class="form-group hidden">
+                <div class="row">
+                    <label class="col-sm-2 control-label">ID</label>
+
+                    <div class="col-sm-4">
+                        <input name="id" type="text"  class="form-control" value='#(menu.id)'>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-sm-2 control-label">菜单名</label>
+
+                    <div class="col-sm-4">
+                        <input name="name" type="text" placeholder="菜单名" class="form-control" value='#(menu.name)'>
+                    </div>
+                    <span class="help-block m-b-none">请务必填写菜单名</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-sm-2 control-label">菜单url</label>
+
+                    <div class="col-sm-4">
+                        <input name="url" type="text" placeholder="菜单url" class="form-control" value='#(menu.url)'>
+                    </div>
+                    <span class="help-block m-b-none"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-sm-2 control-label">上级菜单</label>
+
+                    <div class="col-sm-4">
+                        <div class="filter-box">
+                            <div class="filter-text">
+                                <input id="selector_text" class="filter-title" type="text" readonly placeholder="请选择上级菜单"/>
+                                <i class="icon icon-filter-arrow"></i>
+                            </div>
+                            <select id="selector" name="super_id">
+                                #for(menu:menuList)
+                                    #if(menu.super_id == 0)
+                                        <option value="#(menu.id)">#(menu.name)</option>
+                                        #for(subMenu:menuList)
+                                            #if(menu.id == subMenu.super_id)
+                                            <option value="#(subMenu.id)">&nbsp;&nbsp;┖┄ #(subMenu.name)</option>
+                                            #end
+                                        #end
+                                    #end
+                                #end
+                            </select>
+                        </div>
+                    </div>
+                    <span class="help-block m-b-none">请选择一个用户权限组</span>
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-sm-2 control-label">备注</label>
+
+                    <div class="col-sm-4">
+                        <input name="desc" type="text" placeholder="备注" class="form-control" value='#(menu.desc)'>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="row">
+                    <label class="col-sm-2 control-label">是否启用</label>
+
+                    <div class="col-sm-4">
+
+                        #if("on".equals(menu.is_open))
+                        <input name="is_open" type="checkbox" class="js-switch" checked/>
+                        #else
+                        <input name="is_open" type="checkbox" class="js-switch"/>
+                        #end
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="hr-line-dashed"></div>
+            <div class="form-group">
+                <div class="col-sm-4 col-sm-offset-2">
+                    <button class="btn btn-primary" id="ajaxSubmit" type="button">保存内容</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+
+    $(function () {
+
+        //默认当前用户权限组
+        $("#selector  option[value='#(superMenu.id)'] ").attr("selected", true)
+
+        $("#ajaxSubmit").on("click", function () {
+            var form = $("#ajaxForm");
+            var formData = form.serializeObject();
+            console.log(JSON.stringify(formData));
+
+
+            $.ajax({
+                type: "POST",
+                url: "postEdit",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(formData),
+                dataType: "json",
+                success: function (data) {
+                    if (200 === data.code) {
+                        showToast("保存成功", function () {
+                            closePop();
+                        });
+                    } else {
+                        swal("操作失败", "错误信息:" + data.msg, "error");
+
+                    }
+                },
+                error: function (data) {
+                    $("#ajaxSubmit").html("提交数据失败！");
+                }
+            });
+
+        });
+
+
+        //自定义样式
+        $(document).ready(function () {
+            $('.i-checks').iCheck({
+                checkboxClass: 'icheckbox_square-green',
+                radioClass: 'iradio_square-green',
+            });
+        });
+
+        //仿IOS切换按钮
+        var elem = document.querySelector('.js-switch');
+        var switchery = new Switchery(elem, {
+            color: '#1AB394'
+        });
+
+        //这里是初始化下拉选择
+        $('.filter-box').selectFilter({
+            callBack: function (val) {
+                var opt=$("#selector_text").val();
+                var replaceStr = opt.replace("&nbsp;&nbsp;┖┄", "");
+                $("#selector_text").val(replaceStr);
+                //返回选择的值
+                console.log(val + '-是返回的值');
+
+            }
+        });
+
+
+    });
+
+</script>

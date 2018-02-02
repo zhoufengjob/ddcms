@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+#define layout()
+#--
+公用布局框架
+--#
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>#(title)</title>
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp"/>
+    #@css?()
+
+    #@js?()
+</head>
+
+<body>
+<div class="layui-layout layui-layout-admin">
+    #@topNav()
+    #@banner()
+    #@main(mainTP)
+    <div class="layui-container">
+        <div class="layui-row layui-col-space15">
+            <div class="layui-col-md8">
+                #@left(leftTP)
+            </div>
+            <div class="layui-col-md4">
+                #@right(rightTP)
+            </div>
+        </div>
+    </div>
+
+
+    #@foot()
+</div>
+</body>
+
+<script>
+
+    layui.use(['layer', 'laytpl', 'form', 'element', 'upload', 'util'], function(exports) {
+
+        var $ = layui.jquery
+            , layer = layui.layer
+            , laytpl = layui.laytpl
+            , form = layui.form
+            , element = layui.element
+            , upload = layui.upload
+            , util = layui.util
+            , device = layui.device()
+
+        //手机设备的简单适配
+        var treeMobile = $('.site-tree-mobile')
+            ,shadeMobile = $('.site-mobile-shade')
+
+        treeMobile.on('click', function(){
+            $('body').addClass('site-mobile');
+        });
+
+        shadeMobile.on('click', function(){
+            $('body').removeClass('site-mobile');
+        });
+
+
+        //固定Bar
+        util.fixbar({
+            bar1: '&#xe642;'
+            ,bgcolor: '#009688'
+            ,click: function(type){
+                if(type === 'bar1'){
+                    location.href = '/article/addView';
+                }
+            }
+        });
+
+        //搜索
+        $('.fly-search').on('click', function () {
+            layer.open({
+                type: 1
+                , title: false
+                , closeBtn: false
+                //,shade: [0.1, '#fff']
+                , shadeClose: true
+                , maxWidth: 10000
+                , skin: 'fly-layer-search'
+                , content: ['<form action="http://cn.bing.com/search">'
+                    , '<input autocomplete="off" placeholder="搜索内容，回车跳转" type="text" name="q">'
+                    , '</form>'].join('')
+                , success: function (layero) {
+                    var input = layero.find('input');
+                    input.focus();
+
+                    layero.find('form').submit(function () {
+                        var val = input.val();
+                        if (val.replace(/\s/g, '') === '') {
+                            return false;
+                        }
+                        input.val('site:daimengshi.com ' + input.val());
+                    });
+                }
+            })
+        });
+    });
+</script>
+</html>
+#end
