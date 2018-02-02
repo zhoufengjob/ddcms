@@ -1,7 +1,6 @@
 package com.daimengshi.ddcms.admin.config;
 
 import com.daimengshi.ddcms.admin.interceptor.AdminInterceptor;
-import com.daimengshi.ddcms.admin.support.auth.AuthInterceptor;
 import com.daimengshi.ddcms.admin.support.log.LogInterceptor;
 import com.daimengshi.ddcms.captcha.CaptchaCache;
 import com.daimengshi.ddcms.common.AppInfo;
@@ -58,7 +57,7 @@ public class JfinalConfigListener extends JbootAppListenerBase {
     public void onInterceptorConfig(Interceptors interceptors) {
         interceptors.add(new AdminInterceptor());
         interceptors.add(new LogInterceptor());
-        interceptors.add(new AuthInterceptor());
+//        interceptors.add(new AuthInterceptor());//还未实现
         interceptors.add(new NotNullParaInterceptor("/htmls/exception.html"));
         interceptors.add(new BusinessExceptionInterceptor("/htmls/exception.html"));
     }
